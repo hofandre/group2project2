@@ -1,6 +1,10 @@
 import { createStore } from 'redux';
 
 const initialState = {
+    setID: null,
+    setTitle: '',
+    
+    /*
     user: null,
     username: '',
     media: null,
@@ -8,12 +12,15 @@ const initialState = {
     addVideoGame: { title: '', developer: '', platform: '', rating: '', genre: '' },
     newMovie: {'title': '', 'director': '', 'genre': '', 'length': 0, 'rating': '', 'actors': []},
     book: {title: '', author: '', isbn:'', genre: '' }
+    */
 };
 
 function libraryReducer(state = initialState, action) {
     console.log(state);
     console.log(action);
     switch(action.type) {
+        /*
+        I left these here so that you guys would see how it worked before
         case 'login':
             return Object.assign({}, state, {username: '', user: action.user, media: null})
         case 'loadMedia':
@@ -28,8 +35,14 @@ function libraryReducer(state = initialState, action) {
             return Object.assign({}, state, {addVideoGame: action.media})
         case 'movieFieldUpdate':
             return Object.assign({}, state, {newMovie: action.newMovie})
+        */
+
+
+        //I'm not sure how this works
+
         case 'handleBookFieldChange':
-            return Object.assign({}, state, {book: action.book})
+            return Object.assign({}, state, {set: action.book})
+
         default:
             return state;
     }
