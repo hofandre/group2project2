@@ -1,0 +1,55 @@
+1 As a user I can log in
+    - POST to /users/username
+    - Server validates login, returns appropriate page based on user type
+2 As a voter I can vote on A vs B
+    - POST request to /sets/:set_id
+    - Server records the total voter accuracy for the set
+    - POST request to /users/username/votes
+    - Server records the total accuracy for the user across all sets
+3 As a voter I can see my accuracy
+    - GET request to /users/username/votes
+    - Server calculates voter's total accuracy across all sets
+4 As a voter I can comment
+    - POST request to /sets/:set_id/comments
+    - Server appends the comment to the list of comments
+5 As a voter I can submit a set
+    - POST request to /potential_sets
+    - Server stores the potential set in a separate collection
+6 As a moderator I can approve a Set
+    - GET request to /potential_sets
+    - Server sends the list of potential sets that have been submitted
+    - POST request to /sets
+    - Mod approves a set, and the Server adds it to the list of sets
+7 As a moderator I can remove comments
+    - DELETE request to /sets/:set_id/comments/:comment_id
+    - Server removes the comment from the list of comments
+8 As a moderator I can delete an account
+    - DELETE request to /users/username
+    - Server removes the user from the collection, AND frees up the username
+9 As a user I can register for an account
+    - POST request to /users
+    - Client collects appropriate data, validates it
+    - Server also validates, and ensures username uniqueness
+10 As the system I can serve a set
+    - GET request to /sets/:set_id
+    - Server queries database and returns the data for a chosen set
+11 As the system I can store user accuracy
+    - Server tracks total voter accuracy across a set
+    - Server tracks total set accuracy for each individual user
+12 As a moderator I can view aggregated statistics
+    - GET request to /statistics/:parameter
+    - Moderator chooses a statistics to view by, such as time of vote, age of voter, gender of voter, etc
+    - Server queries for a given set or group of sets, and returns the data
+13 As the system I keep track of accuracy of all users on a set
+    - Server keeps track of total votes and correct votes for all sets
+14 As the system I can display the set statistics 
+    - GET request to /statistics
+    - Returns raw accuracy numbers for each set in the system
+15 As a moderator I can create a "deck" of sets
+    - POST request to /sets/:set_id/decks for each set in the deck
+16 As the system I display sets sorted by keyword  
+    - GET request to /sets?keyword={KEYWORD}
+17 As an Admin I can create a moderator
+    - POST request to /users with a special flag in the body to indicate a moderator creation
+18 As an Admin I can delete sets
+    - DELETE request to /sets/:set_id

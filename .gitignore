@@ -1,0 +1,5 @@
+# lists all files that should not be tracked
+**/__pycache__/
+**/.vscode/
+**/*.log
+**/.vs/
