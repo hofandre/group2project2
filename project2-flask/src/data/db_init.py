@@ -1,4 +1,4 @@
-''' Modularization of Mongo Data Access. Currently functions and a global variable'''
+''' Initializes the Database. DO NOT USE UNINTENDED. IT DROPS ALL TABLES'''
 # External Imports
 import pymongo
 import os
@@ -12,21 +12,22 @@ _log = get_logger(__name__)
 
 try:
     _db = pymongo.MongoClient(os.environ.get('MONGO_DATABASE')).project2
-    #_db = pymongo.MongoClient(decouple.config('MONGO_DATABASE')).project2
 except pymongo.errors.PyMongoError:
     _log.exception('Mongo connection has failed')
     raise
-
-def get_sets():
-    ''' Gets all the sets from the collections'''
-    try:
-        set_list = _db.sets.find()
-    except pymongo.errors.PyMongoError:
-        _log.exception('get_sets has failed in the database')
-    return [Set.from_dict(each_set) for each_set in set_list]
 
 def _get_set_id():
     '''Retrieves the next id in the database and increments it.'''
     return _db.counter.find_one_and_update({'_id': 'SET_COUNT'},
                                             {'$inc': {'count': 1}},
                                             return_document=pymongo.ReturnDocument.AFTER)['count']
+
+if __name__ == '__main__':
+    _db.sets.drop()
+    _db.counter.drop()
+
+    _db.counter.insert_one({'_id': 'SET_COUNT', 'count': 0})
+
+    set_list = []
+    set_list.append(Set(_get_set_id(), 1, 'SAMPLE SET', ['PATH 1', 'PATH 2']).to_dict())
+    _db.sets.insert_one(set_list[0])
