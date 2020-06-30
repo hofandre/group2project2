@@ -59,7 +59,7 @@ class Login extends Component {
         this.renewService.getMedia(this.props.user.username).then(
             res => {
                 console.log(res)
-                this.props.dispatch({ type: 'loadMedia', media: res.data 
+                this.props.dispatch({ type: 'loadMedia', media: res.data
             })})
     }
 
@@ -68,7 +68,7 @@ class Login extends Component {
             <>
                 <ul className = 'nav'>
                     <li className = 'nav-item'>Username: <input type="text"
-                        value={this.props.username} 
+                        value={this.props.username}
                         onChange={ this.handleInput }
                         onKeyDown={ (e) => this.handleKeyDown(e) }></input></li>
                     <li className = 'nav-item'><button className='btn btn-primary'
