@@ -8,11 +8,12 @@ _log = get_logger(__name__)
 
 class Set:
     ''' Class definition for the Set model '''
-    def __init__(self, set_id=-1, correct_option=-1, title='', paths=None):
+    def __init__(self, set_id=-1, correct_option=-1, title='', paths=None, alt_texts=None):
         self._id = set_id
         self.correct_option = correct_option
         self.title = title
         self.paths = paths
+        self.alt_texts = alt_texts
         self.deck_tags = []
         self.keywords = []
     def set_id(self, _id):

@@ -29,5 +29,7 @@ if __name__ == '__main__':
     _db.counter.insert_one({'_id': 'SET_COUNT', 'count': 0})
 
     set_list = []
-    set_list.append(Set(_get_set_id(), 1, 'SAMPLE SET', ['PATH 1', 'PATH 2']).to_dict())
+    set_list.append(Set(_get_set_id(), 1, 
+    'Which scientist is known for developing the planetary model of the atom?',
+    ['bohr.jpg', 'rutherford.jpg']).to_dict())
     _db.sets.insert_one(set_list[0])

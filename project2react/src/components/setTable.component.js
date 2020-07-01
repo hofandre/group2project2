@@ -43,23 +43,29 @@ class SetTable extends React.Component {
         console.log(this.props)
         return (
             <>
-               <table className='table'>
-                   <thead>
-                       <tr>
-                           <th>Set ID</th>
-                           <th>Set Title</th>
-                       </tr>
-                   </thead>
-                   <tbody>
-                       {
-                           this.props.sets.map ?
-                           this.props.sets.map((eachSet) => {
-                               return <Set key={eachSet._id} set={eachSet}></Set>
-                           })
-                           : <tr></tr>
-                       }
-                   </tbody>
-               </table>
+                <div className='container'>
+                    <table className='table'>
+                        <thead>
+                            <tr>
+                                <th>Set Title</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                this.props.sets.map ?
+                                this.props.sets.map((eachSet) => {
+                                    return <Set key={eachSet._id} set={eachSet}></Set>
+                                })
+                                : <tr></tr>
+                            }
+                            <tr>
+                                <td>
+                                    Button goes here
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+               </div>
             </>
         )
     }
