@@ -2,13 +2,14 @@
 
 import os
 import pymongo
-from project2flask.data.logger import get_logger
+from src.data.logger import get_logger
+from src.users.model import User
 
 _log = get_logger(__name__)
 
 try:
     #TODO: CAN YOU CHANGE THIS SO THAT IT WORKS ON DIFFERENT COMPUTERS
-    _db = pymongo.MongoClient(os.environ.get("MONGO_URI"))
+    _db = pymongo.MongoClient(os.environ.get("MONGO_URI")).project2
     DB_ACCESS = True
     _log.info("Successfully connected to MongoDB")
 except Exception:
@@ -20,7 +21,8 @@ def login(username: str, password: str):
     '''checks the given username/password combination against the database.
     returns the username for now. Will discus and return either the user id or username'''
     query = {"username": username, "password": password}
-    if _db.users.find_one(query):
-        return username
-    else:
-        return None
+    response = _db.users.find_one(query)
+    if response:
+        return User.from_dict(response)
+    return None
+
