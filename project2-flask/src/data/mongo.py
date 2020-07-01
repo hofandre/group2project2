@@ -25,6 +25,15 @@ def get_sets():
         _log.exception('get_sets has failed in the database')
     return [Set.from_dict(each_set) for each_set in set_list]
 
+def get_set_by_id(_id):
+    ''' Gets the set with the given id '''
+    query = {'_id': _id}
+    try:
+        retrieved_set = _db.sets.find_one(query)
+    except pymongo.errors.PyMongoError:
+        _log.exception('get_sets has failed in the database')
+    return Set.from_dict(retrieved_set) if retrieved_set else None
+
 def _get_set_id():
     '''Retrieves the next id in the database and increments it.'''
     return _db.counter.find_one_and_update({'_id': 'SET_COUNT'},

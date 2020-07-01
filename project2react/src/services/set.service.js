@@ -8,6 +8,10 @@ class SetService {
     getSets() {
         return axios.get(this.URI);
     }
+
+    getSetByID(set_id) {
+        return axios.get(this.URI + '/' + set_id);
+    }
 }
 
 export default SetService;

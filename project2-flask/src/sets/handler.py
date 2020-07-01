@@ -15,3 +15,12 @@ set_page = Blueprint('set_page', __name__, static_folder='../static')
 def set_collection():
     # GET METHOD:
     return jsonify(db.get_sets()), 200
+
+@set_page.route('/sets/<int:setid>', methods=['GET'])
+def set_by_id(set_id):
+    # GET METHOD:
+    given_set = db.get_set_by_id(set_id)
+    if given_set:
+        return jsonify(given_set), 200
+    else:
+        return jsonify('Bad Request'), 400

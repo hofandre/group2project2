@@ -36,13 +36,23 @@ class SetTable extends React.Component {
         console.log('Updating Sets')
     }
 
+    search_bar() {
+        return (
+            <>
+                <label>Set Search</label>
+                <input type='text' className='form-control' name='setSearchTerm'></input>
+            </>
+        )
+    }
+
     /** renders the videogame component.
      * @return {JSX} Returns an HTML template for sets
      */
     render() {
         console.log(this.props)
         return (
-            <>
+            <>  
+                {this.search_bar}
                 <div className='container'>
                     <table className='table'>
                         <thead>
