@@ -8,10 +8,10 @@ class SetService {
     getSets() {
         return axios.get(this.URI);
     }
-    /*
-    addBook(book) {
-        return axios.post(this.URI, book);
-    }*/
+
+    getSetByID(set_id) {
+        return axios.get(this.URI + '/' + set_id);
+    }
 }
 
 export default SetService;
