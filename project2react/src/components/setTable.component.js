@@ -1,5 +1,6 @@
 import React from 'react'
 import Set from './set.component'
+import './settable.css'
 import { connect } from 'react-redux';
 import SetService from '../services/set.service'
 
@@ -74,17 +75,28 @@ class SetTable extends React.Component {
         console.log('Render called')
         return (
             <>  <div className='container'>
-                    <label htmlFor='setSearchTerm'>Set ID Search</label>
-                    <input type='text' className='form-control' name='setSearchTerm' 
-                        value={this.props.setSearchCriteria || ''}
-                        onChange={ this.handleInput }
-                    ></input>
+                    <h3>Set Search</h3>
+                    <div className='form-row' id='searchForm'>
+                        <input type='text' className='form-control' name='setSearchTerm' 
+                            value={this.props.setSearchCriteria || ''}
+                            onChange={ this.handleInput }
+                            id='setSearchBar'
+                        ></input>
+                        <select className='form-control' name='searchType'
+                            id='setSearchType'
+                        >
+                            <option selected value='id'>Set ID</option>
+                            <option value='keyword'>Keyword</option>
+                        </select>
+                    </div>
+                    
                     <button className='btn btn-primary'
                     onClick={ this.searchSets }>Search</button>
                     <button className='btn btn-primary'
                     onClick={ this.allSets }>View all sets</button>
                 </div>
                 <div className='container'>
+                    <br></br>
                     <table className='table'>
                         <tbody>
                             {
