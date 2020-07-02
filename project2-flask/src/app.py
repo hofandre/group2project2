@@ -18,4 +18,4 @@ app.register_blueprint(set_page)
 
 @app.route('/')
 def test_html():
-    return app.send_static_file('home.html'), 200
+    return app.send_static_file('Hello World'), 200

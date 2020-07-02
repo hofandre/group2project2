@@ -11,10 +11,11 @@ class Set extends React.Component {
     }
 
     render() {
+        console.log('rendering a set')
         return (
             <>
                 <tr>
-                    <td>{this.props.set.title}</td>
+                    <th>{this.props.set.title}</th>
                 </tr>
                 <tr>
                     <td>

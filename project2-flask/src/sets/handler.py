@@ -17,9 +17,9 @@ def set_collection():
     return jsonify(db.get_sets()), 200
 
 @set_page.route('/sets/<int:setid>', methods=['GET'])
-def set_by_id(set_id):
+def set_by_id(setid):
     # GET METHOD:
-    given_set = db.get_set_by_id(set_id)
+    given_set = db.get_set_by_id(setid)
     if given_set:
         return jsonify(given_set), 200
     else:

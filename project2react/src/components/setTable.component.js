@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import Set from './set.component'
 import { connect } from 'react-redux';
 import SetService from '../services/set.service'
@@ -10,56 +9,83 @@ class SetTable extends React.Component {
     setService = new SetService();
     constructor(props) {
         console.log('setTable constructor')
+        console.log(props)
         super(props);
+        this.handleInput = this.handleInput.bind(this);
+        this.searchSets = this.searchSets.bind(this);
+        this.allSets = this.allSets.bind(this);
     }
-    /** Props are instantiated to create a controlled object. */
-    // PropTypes = {
-    //     ID: PropTypes.number.isRequired,
-    //     correct_option: PropTypes.string.isRequired,
-    //     title: PropTypes.string.isRequired,
-    //     paths: PropTypes.array.isRequired,
-    //     deck_tags: PropTypes.array.isRequired,
-    //     keywords: PropTypes.array.isRequired
-    // }
 
     /** componentDidMount records when construction occurs. */
     componentDidMount() {
         console.log('setTable mounted')
-        this.setService.getSets().then(res => {
-            this.props.querySets(res.data);
-            console.log(res.data)
-        })
+        
     }
 
     /** componentDidUpdate records when update occurs. */
     componentDidUpdate() {
         console.log('Updating Sets')
+        console.log(this.props)
     }
 
-    search_bar() {
-        return (
-            <>
-                <label>Set Search</label>
-                <input type='text' className='form-control' name='setSearchTerm'></input>
-            </>
-        )
+
+    searchSets() {
+        this.setService.getSetByID(this.props.setSearchCriteria).then(res => {
+            console.log(res)
+            const set_list = [res.data]
+            this.props.querySets(set_list);
+        }).catch(res => {
+        
+            alert(`The set id you have entered is out of bounds, please try a smaller number.`)
+        
+        })
+    }
+
+    allSets() {
+        this.setService.getSets().then(res => {
+            this.props.querySets(res.data);
+        })
+    }
+
+    validate_id(set_id) {
+        if(isNaN(set_id)) {
+            return false
+        } else if (parseInt(set_id) < 1) {
+            return false
+        } else {
+            return true
+        }
+    }
+
+    handleInput(event) {
+        const search_term = event.target.value
+        if (this.validate_id(search_term))
+        {
+            this.props.setSearch(search_term)
+        } else {
+            alert(`The id you've entered is invalid.\nValid ids begin at 1`)
+        }
     }
 
     /** renders the videogame component.
      * @return {JSX} Returns an HTML template for sets
      */
     render() {
-        console.log(this.props)
+        console.log('Render called')
         return (
-            <>  
-                {this.search_bar}
+            <>  <div className='container'>
+                    <label htmlFor='setSearchTerm'>Set ID Search</label>
+                    <input type='text' className='form-control' name='setSearchTerm' 
+                        value={this.props.setSearchCriteria || ''}
+                        onChange={ this.handleInput }
+                    ></input>
+                    <button className='btn btn-primary'
+                    onClick={ this.searchSets }>Search</button>
+                    <button className='btn btn-primary'
+                    onClick={ this.allSets }>View all sets</button>
+                </div>
                 <div className='container'>
                     <table className='table'>
-                        <thead>
-                            <tr>
-                                <th>Set Title</th>
-                            </tr>
-                        </thead>
                         <tbody>
                             {
                                 this.props.sets.map ?
@@ -68,11 +94,6 @@ class SetTable extends React.Component {
                                 })
                                 : <tr></tr>
                             }
-                            <tr>
-                                <td>
-                                    Button goes here
-                                </td>
-                            </tr>
                         </tbody>
                     </table>
                </div>
@@ -82,12 +103,14 @@ class SetTable extends React.Component {
 }
 
 function mapStateToProps(state) {
-    const {displaySets} = state;
-    return { sets: displaySets}
+    const {displaySets, displaySetCriteria} = state;
+    return { sets: displaySets, 
+             setSearchCriteria: displaySetCriteria}
 }
 function mapDispatchToProps(dispatch) {
     return {
-        querySets: (sets) => dispatch({type: 'querySets', sets: sets})
+        querySets: (sets) => dispatch({type: 'querySets', sets: sets}),
+        setSearch: (setSearchCriteria) => dispatch({type: 'setSearch', setSearchCriteria: setSearchCriteria })
     }
 }
 

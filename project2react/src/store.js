@@ -2,7 +2,8 @@ import { createStore } from 'redux';
 
 const initialState = {
     user: null,
-    displaySets: {}
+    displaySets: {},
+    displaySetCriteria: 0
 };
 
 function truthReducer(state = initialState, action) {
@@ -11,6 +12,8 @@ function truthReducer(state = initialState, action) {
     switch(action.type) {
         case 'querySets':
             return Object.assign({}, state, {displaySets: action.sets})
+        case 'setSearch':
+            return Object.assign({}, state, {displaySetCriteria: action.setSearchCriteria})
         default:
             return state;
     }
