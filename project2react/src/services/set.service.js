@@ -5,7 +5,7 @@ class SetService {
         this.URI = 'http://localhost:5000/sets';
     }
 
-    getSetss() {
+    getSets() {
         return axios.get(this.URI);
     }
     /*
