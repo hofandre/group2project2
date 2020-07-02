@@ -5,7 +5,7 @@ import os
 # import decouple
 
 # Internal Imports
-#from src.sets.model import Set
+from src.sets.model import Set
 from src.data.logger import get_logger
 from src.users.model import User
 
@@ -22,11 +22,15 @@ except pymongo.errors.PyMongoError:
 def login(username: str, password: str):
     '''checks the given username/password combination against the database.
     returns the username for now. Will discus and return either the user id or username'''
-    query = {"username": username, "password": password}
+    # query = {"username": username, "password": password}
     response = _db.users.find_one({"username":"username"})
     if response:
          return User.from_dict(response)
     return None
+
+def get_user_by_id(db_id: int):
+    '''Returns a user by their id'''
+    return User.from_dict(_db.users.find_one({'_id': db_id}))
 
 def get_sets():
     ''' Gets all the sets from the collections'''

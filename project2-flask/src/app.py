@@ -5,33 +5,22 @@ from flask_cors import CORS
 
 # Internal Imports
 from src.data.logger import get_logger
-<<<<<<< HEAD
-#from src.sets.model import SetEncoder
-#from src.sets.handler import set_page
-import src.data.mongo as db
-=======
 from src.sets.model import SetEncoder
 from src.sets.handler import set_page
->>>>>>> 26c263bb7e8415b82ee8ce593490ac1c1b9f563f
+from src.users.model import User
+import src.data.mongo as db
 import werkzeug
 
 _log = get_logger(__name__)
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
-<<<<<<< HEAD
-
-#app.json_encoder = SetEncoder
-#app.register_blueprint(set_page)
-=======
 app.json_encoder = SetEncoder
 app.register_blueprint(set_page)
->>>>>>> 26c263bb7e8415b82ee8ce593490ac1c1b9f563f
 
 @app.route('/')
 def test_html():
     return app.send_static_file('Hello World'), 200
-<<<<<<< HEAD
 
 @app.route('/users/<username>', methods=['POST'])
 def login(username):
@@ -67,5 +56,3 @@ def logout():
             return jsonify(db.get_user_by_id(User.decode_auth_token(auth_token))), 200
         else:
             return {}, 401
-=======
->>>>>>> 26c263bb7e8415b82ee8ce593490ac1c1b9f563f

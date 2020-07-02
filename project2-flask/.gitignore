@@ -4,3 +4,4 @@
 pyvenv.cfg
 /venv/
 **/*.log
+.env

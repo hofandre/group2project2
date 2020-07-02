@@ -36,6 +36,16 @@ class User():
         user = User()
         user.__dict__.update(dictionary)
         return user
+    @staticmethod
+    def decode_auth_token(auth_token):
+        ''' Decode the auth token to receive the id of user '''
+        try:
+            payload = jwt.decode(auth_token, _secret_key)
+            return payload['sub']
+        except jwt.ExpiredSignatureError:
+            return 'Token expired. please login again.'
+        except jwt.InvalidTokenError:
+            return 'Token invalid. Please login.'
 
 class UserEncoder(json.JSONEncoder):
     ''' Allows us to serialize our objects as JSON '''
