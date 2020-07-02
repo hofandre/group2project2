@@ -31,7 +31,7 @@ class User extends React.Component {
 		console.log('User render(): '+this.props.user.name)
 		return (
 			<>
-				<h2>{User.username}</h2>
+				<h3>{User.username}</h3>
 				<h3>{User.role}</h3>
 			</>
 		)

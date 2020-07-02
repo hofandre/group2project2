@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from './logo.svg';
+import JoinForm from './components/joinform.component.js';
 import './App.css';
 import Routing from './components/routing.component'
 

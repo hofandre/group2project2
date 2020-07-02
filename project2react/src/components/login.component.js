@@ -42,7 +42,7 @@ class Login extends Component {
 	}
 
 	checkLogin() {
-		constructor.log(this.props)
+		console.log(this.props)
 		this.userService.checkLogin(this.props).then(
 
 		)
