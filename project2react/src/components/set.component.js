@@ -11,12 +11,33 @@ class Set extends React.Component {
     }
 
     render() {
-        console.log('Book Render: '+this.props.set.id)
+        console.log('rendering a set')
         return (
             <>
                 <tr>
-                    <td>{this.props.set.id}</td>
-                    <td>{this.props.set.title}</td>
+                    <th>{this.props.set.title}</th>
+                </tr>
+                <tr>
+                    <td>
+                        <table className='table'>
+                            <thead>
+                                <tr>
+                                    <td>Option A</td>
+                                    <td>Option B</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><img src={require(`../img/${this.props.set.paths[0]}`)} 
+                                            alt={this.props.set.alt_texts[0]}></img>
+                                    </td>
+                                    <td><img src={require(`../img/${this.props.set.paths[1]}`)} 
+                                            alt={this.props.set.alt_texts[1]}></img>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
                 </tr>
             </>
         )

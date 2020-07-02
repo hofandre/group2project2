@@ -5,10 +5,12 @@ const initialState = {
     username: '',
     password: '',
     role: '',
-    register: {username: '', password: '', role: ''}
+    register: {username: '', password: '', role: ''},
+    displaySets: {},
+    displaySetCriteria: 0
 };
 
-function libraryReducer(state = initialState, action) {
+function truthReducer(state = initialState, action) {
     console.log(state);
     console.log(action);
     switch(action.type) {
@@ -16,11 +18,15 @@ function libraryReducer(state = initialState, action) {
             return Object.assign({}, state, {username: '', user: action.user, media: null})
         case 'register':
             return Object.assign({}, state, {username: '', password: '', role: ''})
+        case 'querySets':
+            return Object.assign({}, state, {displaySets: action.sets})
+        case 'setSearch':
+            return Object.assign({}, state, {displaySetCriteria: action.setSearchCriteria})
         default:
             return state;
     }
 }
 
-let store = createStore(libraryReducer);
+let store = createStore(truthReducer);
 
 export default store;
