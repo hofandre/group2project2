@@ -3,3 +3,5 @@
 /Scripts/
 pyvenv.cfg
 /venv/
+**/*.log
+.env
