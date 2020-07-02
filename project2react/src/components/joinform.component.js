@@ -17,16 +17,22 @@ class JoinForm extends Component {
   emailChanged = this.fieldStateChanged('email');
   fullnameChanged = this.fieldStateChanged('fullname');
   passwordChanged = this.fieldStateChanged('password');
+  confirmChanged = this.fieldStateChanged('password');
 
   render() {
-    const { fullname, email, password } = this.state;
-    const formValidated = fullname && email && password;
+    const { fullname, email, password, confirm } = this.state;
+    const formValidated = fullname && email && password && confirm;
 
     // validation function for the fullname
     // ensures that fullname contains at least two names separated with a space
     const validateFullname = value => {
       const regex = /^[a-z]{2,}(\s[a-z]{2,})+$/i;
       if (!regex.test(value)) throw new Error('Fullname is invalid');
+    };
+
+    const validateMatchingPasswords = state => {
+      const password = this.state.password
+      const confirm = this.state.confirm
     };
 
     return (
@@ -48,6 +54,9 @@ class JoinForm extends Component {
 
             {/** Render the password field component using thresholdLength of 7 and minStrength of 3 **/}
             <PasswordField fieldId="password" label="Password" placeholder="Enter Password" onStateChanged={this.passwordChanged} thresholdLength={7} minStrength={3} required />
+
+            {/** Render the confirm password field component using thresholdLength of 7 and minStrength of 3 */}
+            <PasswordField fieldId="password" label="Password" placeholder="Confirm Password" onStateChanged={this.passwordChanged} thresholdLength={7} minStrength={3} required />
           </div>
 
         </form>

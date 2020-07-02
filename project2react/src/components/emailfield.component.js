@@ -1,30 +1,77 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { validate } from 'isemail';
 
-import FormField from './formfield.component.js';
+class EmailField extends React.component {
 
-const EmailField = props => {
+  /**
+		Creates props for handling user input, keydown event, and
+    input validation.
+		@param {dict} props contains the EmailField state.
+	*/
 
-  // prevent passing type and validator props from this component to the rendered form field component
-  const { type, validator, ...restProps } = props;
+  constructor(props) {
+    super(props);
+    this.componentDidMount = this.componentDidMount.bind(this);
+    this.componentDidUpdate = this.componentDidUpdate.bind(this);
+    this.handleInput = this.handleInput.bind(this);
+		this.handleKeyDown = this.handleKeyDown.bind(this);
+    this.validateEmail = this.validateEmail.bind(this);
+  }
 
-  // validateEmail function using the validate() method of the isemail package
-  const validateEmail = value => {
-    if (!validate(value)) throw new Error('Email is invalid');
-  };
+  /** componentDidMount() records when mounting occurs.*/
+  componentDidMount() {
+    // console.log('Mounting EmailField');
+  }
 
-  // pass the validateEmail to the validator prop
-  return <FormField type="text" validator={validateEmail} {...restProps} />
-};
+  /** componentDidUpdate records when update occurs. */
+  componentDidUpdate() {
+    // console.log('Updating EmailField.');
+  }
 
-EmailField.propTypes = {
-  label: PropTypes.string.isRequired,
-  fieldId: PropTypes.string.isRequired,
-  placeholder: PropTypes.string.isRequired,
-  required: PropTypes.bool,
-  children: PropTypes.node,
-  onStateChanged: PropTypes.func
-};
+  /** handleInput triggers on every input event. */
+  handleInput(e) {
+    // console.log('Handling user input.')
+    this.props.dispatch( { type: 'handleUser', user: e.target.value } )
+  }
 
-export default EmailField;
+  /** handleKeyDown triggers on every key down event and fires on Enter key. */
+  handleKeyDown(e) {
+    // console.log('Handle Enter key input.')
+    if (e.key === 'Enter') {
+      this.submit();
+    }
+  }
+
+  validateEmail(value) {
+    return (if(!validate(value)) throw new Error('Email is invalid.'));
+  }
+
+  render() {
+      return (
+        <EmailField type="email" {...this.props} />;
+      )
+  }
+}
+
+function mapStateToProps(state) {
+	const {label, fieldId, placeholder, required, children, onStateChanged} = state;
+	return {
+
+    label: PropTypes.string.isRequired,
+    fieldId: PropTypes.string.isRequired,
+    placeholder: PropTypes.string.isRequired,
+    required: PropTypes.bool,
+    children: PropTypes.node,
+    onStateChanged: PropTypes.func
+	};
+}
+
+function mapDispatchToProps(dispatch) {
+  return (
+
+  )
+}
+
+export default connect(mapStateToProps)(EmailField);
