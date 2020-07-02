@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import UserService from '../services/user.service'
 import { connect } from 'react-redux';
-import RenewService from '../services/renew.service';
-
 /** The Login class handles user login. */
 class Login extends Component {
 
@@ -11,6 +9,7 @@ class Login extends Component {
         super(props);
         this.handleInput = this.handleInput.bind(this);
         this.handleKeyDown = this.handleKeyDown.bind(this);
+        this.register = this.register.bind(this);
         this.login = this.login.bind(this);
         this.logout = this.logout.bind(this);
     }
@@ -20,7 +19,6 @@ class Login extends Component {
         this.userService.checkLogin().then(
             (resp) => {
                 this.props.dispatch( { type: 'login', user: resp.data })
-                this.loadMedia();
             }
         )
     }
@@ -31,12 +29,22 @@ class Login extends Component {
         }
     }
 
+    register() {
+      console.log(this.props);
+      this.userService.register(this.props.username, this.props.password, this.props.role).then(
+        (resp) => {
+          this.props.dispatch( { type: 'register', user: resp.data } );
+          this.login();
+        }
+      )
+    }
+
     login() {
         console.log(this.props)
-        this.userService.login(this.props.username).then(
+        this.userService.login(this.props.username, this.props.password).then(
             (resp) => {
-                this.props.dispatch( { type: 'login', user: resp.data })
-                this.loadMedia();
+                this.props.dispatch( { type: 'login', user: resp.data });
+                this.loadSet();
             }
         )
     }
