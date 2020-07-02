@@ -1,12 +1,17 @@
 import React from 'react';
-import logo from './logo.svg';
+import JoinForm from './components/joinform.component.js';
 import './App.css';
+<<<<<<< HEAD
 //import Routing from "./components/routing.component"
 import Login from './components/login.component'
+=======
+import Routing from './components/routing.component'
+>>>>>>> 26c263bb7e8415b82ee8ce593490ac1c1b9f563f
 
 function App() {
   return (
     <div className="App">
+<<<<<<< HEAD
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
@@ -23,6 +28,9 @@ function App() {
         <Login></Login>
        
       </header>
+=======
+      <Routing></Routing>
+>>>>>>> 26c263bb7e8415b82ee8ce593490ac1c1b9f563f
     </div>
   );
 }

@@ -5,13 +5,13 @@ class SetService {
         this.URI = 'http://localhost:5000/sets';
     }
 
-    getSetss() {
+    getSets() {
         return axios.get(this.URI);
     }
-    /*
-    addBook(book) {
-        return axios.post(this.URI, book);
-    }*/
+
+    getSetByID(set_id) {
+        return axios.get(this.URI + '/' + set_id);
+    }
 }
 
 export default SetService;
