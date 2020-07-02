@@ -1,28 +1,52 @@
-'''will handle all data access and modification'''
-
-import os
+''' Modularization of Mongo Data Access. Currently functions and a global variable'''
+# External Imports
 import pymongo
+import os
+# import decouple
+
+# Internal Imports
+#from src.sets.model import Set
 from src.data.logger import get_logger
 from src.users.model import User
 
 _log = get_logger(__name__)
 
+
 try:
-    #TODO: CAN YOU CHANGE THIS SO THAT IT WORKS ON DIFFERENT COMPUTERS
-    _db = pymongo.MongoClient(os.environ.get("MONGO_URI")).project2
-    DB_ACCESS = True
-    _log.info("Successfully connected to MongoDB")
-except Exception:
-    _log.error("Could not connect to MongoDB")
-    #TODO: what level of logging should this be?
-    DB_ACCESS = False
+    _db = pymongo.MongoClient(os.environ.get('MONGO_DATABASE')).project2
+    _log.debug("Connected to DB")
+except pymongo.errors.PyMongoError:
+    _log.exception('Mongo connection has failed')
+    raise
 
 def login(username: str, password: str):
     '''checks the given username/password combination against the database.
     returns the username for now. Will discus and return either the user id or username'''
     query = {"username": username, "password": password}
-    response = _db.users.find_one(query)
+    response = _db.users.find_one({"username":"username"})
     if response:
-        return User.from_dict(response)
+         return User.from_dict(response)
     return None
 
+def get_sets():
+    ''' Gets all the sets from the collections'''
+    try:
+        set_list = _db.sets.find()
+    except pymongo.errors.PyMongoError:
+        _log.exception('get_sets has failed in the database')
+    return [Set.from_dict(each_set) for each_set in set_list]
+
+def get_set_by_id(_id):
+    ''' Gets the set with the given id '''
+    query = {'_id': _id}
+    try:
+        retrieved_set = _db.sets.find_one(query)
+    except pymongo.errors.PyMongoError:
+        _log.exception('get_sets has failed in the database')
+    return Set.from_dict(retrieved_set) if retrieved_set else None
+
+def _get_set_id():
+    '''Retrieves the next id in the database and increments it.'''
+    return _db.counter.find_one_and_update({'_id': 'SET_COUNT'},
+                                            {'$inc': {'count': 1}},
+                                            return_document=pymongo.ReturnDocument.AFTER)['count']

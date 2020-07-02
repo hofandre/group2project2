@@ -3,6 +3,7 @@ import { createStore } from 'redux';
 const initialState = {
     user: null,
     username: '',
+    password:'',
     media: null,
     displayMedia: [],
     addVideoGame: { title: '', developer: '', platform: '', rating: '', genre: '' },
@@ -15,13 +16,15 @@ function libraryReducer(state = initialState, action) {
     console.log(action);
     switch(action.type) {
         case 'login':
-            return Object.assign({}, state, {username: '', user: action.user, media: null})
+            return Object.assign({}, state, {username: '', password:'', user: action.user, media: null})
         case 'loadMedia':
             return Object.assign({}, state, {media: action.media})
         case 'handleFieldChange':
             return Object.assign({}, state, {addVideoGame: action.media})
         case 'handleUsername':
             return Object.assign({}, state, {username: action.username})
+        case 'handlePassword':
+            return Object.assign({}, state, {password: action.password})
         case 'queryMedia':
             return Object.assign({}, state, {displayMedia: action.media})
         case 'addVideoGame':

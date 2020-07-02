@@ -1,6 +1,8 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+//import Routing from "./components/routing.component"
+import Login from './components/login.component'
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
         >
           Learn React
         </a>
+        <Login></Login>
+       
       </header>
     </div>
   );
