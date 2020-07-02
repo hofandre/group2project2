@@ -1,11 +1,111 @@
 import React, { Component } from 'react';
 import UserService from '../services/user.service'
 import { connect } from 'react-redux';
-import RenewService from '../services/renew.service';
 
-/** The Login class handles user login. */
 class Login extends Component {
 
+<<<<<<< HEAD
+    constructor(props) {
+        super(props);
+        this.handleInput = this.handleInput.bind(this);
+        this.handleKeyDown = this.handleKeyDown.bind(this);
+        this.login = this.login.bind(this);
+        this.logout = this.logout.bind(this);
+    }
+    userService = new UserService();
+    
+
+    componentDidMount() {
+         this.userService.checkLogin().then(
+             (resp) => {
+                 this.props.dispatch( { type: 'login', user: resp.data })
+                 //this.loadMedia();
+             }
+         )
+    }
+
+    login() {
+        this.userService.login(this.props.username, this.props.password).then(
+            (resp) => {
+                console.log(resp)
+                this.props.dispatch( { type: 'login', user: resp.data })
+            }
+        )
+    }
+
+    logout(){
+        this.userService.logout().then(
+            () => {
+                console.log('Logging out.')
+                this.props.dispatch( { type: 'login', user: null, username:'', password:''} )
+            }
+        )
+    }
+
+    handleKeyDown(e) {
+        if (e.key === 'Enter') {
+            this.login();
+        }
+    }
+
+
+    handleInput(e) {
+        console.log(this.props)
+        if (e.target.id === "username"){
+        this.props.dispatch( {
+                type: 'handleUsername',
+                username: e.target.value,
+            } ) 
+        } else if (e.target.id === "password") {
+            this.props.dispatch( {
+                type: 'handlePassword',
+                password: e.target.value,
+            } )
+        }
+    }
+
+    getLoginForm() {
+        return (
+            <>
+                <ul className = 'nav'>
+                    <li className = 'nav-item'>Username: <input type="text"
+                        id="username"
+                        value={this.props.username} 
+                        onChange={ this.handleInput } ></input></li>
+                    <li className = 'nav-item'>Password: <input type="password"
+                        id="password"
+                        value={this.props.password} 
+                        onChange={ this.handleInput } ></input></li>
+                    <li className = 'nav-item'><button className='btn btn-primary'
+                        onClick={ this.login }>Login</button></li>
+                </ul>
+            </>
+        )
+    }
+
+    displayUser() {
+        return (
+            <>
+                <ul className = 'nav'>
+                    <li className = 'nav-item'>
+                        Welcome {this.props.user.role}: {this.props.user.username}
+                    </li>
+                    <li className = 'nav-item'><button className='btn btn-danger'
+                        onClick={ this.logout }>Logout</button></li>
+                </ul>
+            </>
+        )
+    }
+
+    render() {
+        console.log('rendering login')
+        if (this.props.user) {
+            return this.displayUser()
+        } else {
+            return this.getLoginForm()
+        }
+    }
+=======
 	/**
 		Creates props for handling user input, keydown event, login,
 		and logout function.
@@ -151,22 +251,14 @@ class Login extends Component {
 			return this.getLoginForm()
 		}
 	}
+>>>>>>> 26c263bb7e8415b82ee8ce593490ac1c1b9f563f
 }
-
-/**
-	mapStateToProps maps values in the store to props in the login component.
-	There is only one store, and it contains all of the data for the application.
-*/
 
 function mapStateToProps(state) {
-	const {user, username, password, role} = state;
-	return {
-		user: user,
-		username: username,
-		password: passsword,
-		role: role
-	}
+    const {user, username, password} = state;
+    return {user: user,
+            username: username,
+            password: password}
 }
 
-/** Connects the Login class to the store. */
 export default connect(mapStateToProps)(Login);
