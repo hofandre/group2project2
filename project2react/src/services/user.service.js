@@ -1,3 +1,5 @@
+import store from '../store';
+
 const {default:axios} = require('axios')
 
 /** UserService handles http requests related to the User component class.*/
@@ -22,8 +24,9 @@ class UserService {
 		@param {User} This is a React component user.
 		@return {HTTP POST Request} A request to the server with the user requiring credentials.
 	*/
-	login(user) {
-		return axios.post(this.URI+'/'+user.username, user, {withCredentials: true})
+	login(username, password) {
+		console.log("user.service")
+		return axios.post(this.URI + "/" + username, {'password':password}, {withCredentials: true})
 	}
 
 	/**
@@ -31,7 +34,7 @@ class UserService {
 		@return {HTTP DELETE Request} A request to the server to delete the user requiring credentials.
 	*/
 	logout() {
-		return axios.delete(this.URI, {withCredentials: true})
+		return axios.delete(this.URI , {withCredentials: true})
 	}
 }
 

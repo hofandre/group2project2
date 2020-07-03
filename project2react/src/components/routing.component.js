@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Route, BrowserRouter as Router, Link } from 'react-router-dom';
+import Login from './login.component'
 
 import { Navbar, Nav } from 'react-bootstrap';
 import SetForm from './setTable.component';
@@ -18,6 +19,7 @@ class Routing extends Component {
                             <Link to='/sets'>Sets</Link>
                         </Nav>
                     </Navbar.Collapse>
+                    <Login></Login>
                 </Navbar>
                 <Route path='/sets' component={SetForm}/>
             </div>

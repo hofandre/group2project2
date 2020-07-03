@@ -15,7 +15,13 @@ function truthReducer(state = initialState, action) {
     console.log(action);
     switch(action.type) {
         case 'login':
-            return Object.assign({}, state, {username: '', user: action.user, media: null})
+            return Object.assign({}, state, {username: '', password:'', user: action.user, media: null})
+        case 'handleFieldChange':
+            return Object.assign({}, state, {addVideoGame: action.media})
+        case 'handleUsername':
+            return Object.assign({}, state, {username: action.username})
+        case 'handlePassword':
+            return Object.assign({}, state, {password: action.password})
         case 'register':
             return Object.assign({}, state, {username: '', password: '', role: ''})
         case 'querySets':

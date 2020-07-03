@@ -19,7 +19,7 @@ class JoinForm extends Component {
 
   render() {
     const { fullname, password, confirm } = this.state;
-    const formValidated = fullname  && password && confirm;
+    const formValidated = fullname && password && confirm;
 
     // validation function for the fullname
     // ensures that fullname contains at least two names separated with a space
