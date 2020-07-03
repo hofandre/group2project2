@@ -73,18 +73,14 @@ def update_voting_record(username: str, set_id: int, correct: bool):
         _db.users.update_one(query, {'$inc': {'correct_votes': 1}})
     user = _db.users.find(query)
     #obtain the number of sets voted on
-    voted_sets = []
+    a_dict = []
     for i in user:
-        voted_sets.append(i)
-    voted_sets = voted_sets[0]
-    voted_sets = voted_sets['voted_sets']
+        a_dict.append(i)
+    a_dict = a_dict[0]
+    voted_sets = a_dict['voted_sets']
     votes = len(voted_sets)
     #obtain the number of sets voted on correctly
-    correct_votes = []
-    for i in user:
-        correct_votes.append(i)
-    correct_votes = correct_votes[0]
-    correct_votes = correct_votes['correct_votes']
+    correct_votes = a_dict['correct_votes']
     #calculate and set accuracy
     accuracy = correct_votes / votes
     _db.users.update_one(query, {'$set': {'accuracy': accuracy}})

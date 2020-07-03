@@ -77,7 +77,15 @@ class Set extends React.Component {
     }
 }
 function mapStateToProps(state) {
-    const {user, set} = state;
+    console.log(state)
+    const {user} = state;
+    console.log({user})
+    console.log(user.username)
     return { username: user.username}
 }
-export default connect(mapStateToProps)(Set);
+function mapDispatchToProps(dispatch) {
+    return {
+        vote: () => dispatch({type: 'vote'})
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Set);

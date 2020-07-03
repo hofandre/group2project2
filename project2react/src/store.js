@@ -28,6 +28,9 @@ function truthReducer(state = initialState, action) {
             return Object.assign({}, state, {displaySets: action.sets})
         case 'setSearch':
             return Object.assign({}, state, {displaySetCriteria: action.setSearchCriteria})
+        case 'vote':
+            console.log('made it here')
+            return Object.assign({}, state, {})
         default:
             return state;
     }

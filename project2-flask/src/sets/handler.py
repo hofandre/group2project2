@@ -24,4 +24,11 @@ def set_by_id(setid):
         return jsonify(given_set), 200
     else:
         return jsonify('Bad Request'), 400
+
+@set_page.route('/sets/<int:setid>/<username>', methods=['POST'])
+def update_user_accuracy(setid, username):
+    _log.debug(request.get_json())
+    verification = db.check_answer(setid, request.get_json()['vote'])
+    db.update_voting_record(username, setid, verification)
+    return jsonify(verification), 201
         

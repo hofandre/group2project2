@@ -13,8 +13,8 @@ class SetService {
         return axios.get(this.URI + '/' + set_id);
     }
     
-    vote(username, setId, vote){
-		return axios.post(this.URI + "/" + username, {'setId':setId, 'vote': vote}, {withCredentials: true})
+    vote(username, set_id, vote){
+		return axios.post(this.URI + "/" + set_id + "/" + username, {'vote': vote}, {withCredentials: true})
     }
 }
 
