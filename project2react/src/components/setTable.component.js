@@ -54,6 +54,7 @@ class SetTable extends React.Component {
             alert(`The id you've entered is invalid.\nValid ids begin at 1`)
         }
     }
+
     /** renders the videogame component.
      * @return {JSX} Returns an HTML template for sets
      */
@@ -81,6 +82,7 @@ class SetTable extends React.Component {
                                 })
                                 : <tr></tr>
                             }
+
                         </tbody>
                     </table>
                </div>
