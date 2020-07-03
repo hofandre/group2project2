@@ -2,8 +2,6 @@ import React from 'react'
 import Set from './set.component'
 import { connect } from 'react-redux';
 import SetService from '../services/set.service'
-
-
 /** Movie class to handle movie components. */
 class SetTable extends React.Component {
     setService = new SetService();
@@ -15,38 +13,29 @@ class SetTable extends React.Component {
         this.searchSets = this.searchSets.bind(this);
         this.allSets = this.allSets.bind(this);
     }
-
     /** componentDidMount records when construction occurs. */
     componentDidMount() {
         console.log('setTable mounted')
-        
     }
-
     /** componentDidUpdate records when update occurs. */
     componentDidUpdate() {
         console.log('Updating Sets')
         console.log(this.props)
     }
-
-
     searchSets() {
         this.setService.getSetByID(this.props.setSearchCriteria).then(res => {
             console.log(res)
             const set_list = [res.data]
             this.props.querySets(set_list);
         }).catch(res => {
-        
             alert(`The set id you have entered is out of bounds, please try a smaller number.`)
-        
         })
     }
-
     allSets() {
         this.setService.getSets().then(res => {
             this.props.querySets(res.data);
         })
     }
-
     validate_id(set_id) {
         if(isNaN(set_id)) {
             return false
@@ -56,7 +45,6 @@ class SetTable extends React.Component {
             return true
         }
     }
-
     handleInput(event) {
         const search_term = event.target.value
         if (this.validate_id(search_term))
@@ -66,7 +54,6 @@ class SetTable extends React.Component {
             alert(`The id you've entered is invalid.\nValid ids begin at 1`)
         }
     }
-
     /** renders the videogame component.
      * @return {JSX} Returns an HTML template for sets
      */
@@ -75,7 +62,7 @@ class SetTable extends React.Component {
         return (
             <>  <div className='container'>
                     <label htmlFor='setSearchTerm'>Set ID Search</label>
-                    <input type='text' className='form-control' name='setSearchTerm' 
+                    <input type='text' className='form-control' name='setSearchTerm'
                         value={this.props.setSearchCriteria || ''}
                         onChange={ this.handleInput }
                     ></input>
@@ -101,10 +88,9 @@ class SetTable extends React.Component {
         )
     }
 }
-
 function mapStateToProps(state) {
     const {displaySets, displaySetCriteria} = state;
-    return { sets: displaySets, 
+    return { sets: displaySets,
              setSearchCriteria: displaySetCriteria}
 }
 function mapDispatchToProps(dispatch) {
@@ -113,5 +99,4 @@ function mapDispatchToProps(dispatch) {
         setSearch: (setSearchCriteria) => dispatch({type: 'setSearch', setSearchCriteria: setSearchCriteria })
     }
 }
-
 export default connect(mapStateToProps, mapDispatchToProps)(SetTable);

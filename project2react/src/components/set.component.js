@@ -35,6 +35,7 @@ class Set extends React.Component {
                                             alt={this.props.set.alt_texts[1]}></img>
                                     </td>
                                 </tr>
+                                
                             </tbody>
                         </table>
                     </td>

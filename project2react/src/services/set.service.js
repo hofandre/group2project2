@@ -12,6 +12,11 @@ class SetService {
     getSetByID(set_id) {
         return axios.get(this.URI + '/' + set_id);
     }
+    
+    voteAorB(username, setId, abString){
+        let uri = `${this.URI} + '/' + ${username}`;
+        return axios.post(uri, { setId: setId, vote: abString}, {withCredentials:true});
+    }
 }
 
 export default SetService;
