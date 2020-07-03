@@ -1,15 +1,33 @@
-import React from 'react'
-import SetService from '../services/set.service'
+import React from 'react';
+import SetService from '../services/set.service';
+import { connect } from 'react-redux';
 
 class Set extends React.Component {
     setService = new SetService();
     constructor(props){
         super(props);
-        this.vote = this.vote.bind(this);
+        console.log('setComponent constructor')
+        console.log(props)
+        this.voteA = this.voteA.bind(this);
+        this.voteB = this.voteB.bind(this);
 
     }
-    vote(abString){
-        this.setService.voteAorB(this.props.username, this.props.setId, abString)
+
+    voteA(){
+        console.log('voteOne was clicked');
+        this.setService.vote(this.props.username, this.props.set._id, 1).then( res => {
+            console.log('post was succesful');
+            console.log(res);
+        })
+        
+    }
+    voteB(){
+        console.log('voteTwo was clicked');
+        this.setService.vote(this.props.username, this.props.set._id, 2).then( res => {
+            console.log('post was succesful');
+            console.log(res);
+        })
+        
     }
     componentDidMount() {
         console.log('Mounting Set')
@@ -46,9 +64,9 @@ class Set extends React.Component {
                                 </tr>
                                 <tr>
                                     <td><button className='btn btn-primary'
-                                        onClick={ this.vote('a') }>Vote a</button></td>
+                                        onClick={ this.voteA }>Vote a</button></td>
                                     <td><button className='btn btn-primary'
-                                        onClick={ this.vote('b') }>Vote b</button></td>
+                                        onClick={ this.voteB }>Vote b</button></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -58,5 +76,8 @@ class Set extends React.Component {
         )
     }
 }
-
-export default Set;
+function mapStateToProps(state) {
+    const {user, set} = state;
+    return { username: user.username}
+}
+export default connect(mapStateToProps)(Set);
