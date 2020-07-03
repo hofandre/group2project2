@@ -12,7 +12,6 @@ class SetTable extends React.Component {
         this.handleInput = this.handleInput.bind(this);
         this.searchSets = this.searchSets.bind(this);
         this.allSets = this.allSets.bind(this);
-        this.vote = this.vote.bind(this);
     }
     /** componentDidMount records when construction occurs. */
     componentDidMount() {
@@ -55,9 +54,7 @@ class SetTable extends React.Component {
             alert(`The id you've entered is invalid.\nValid ids begin at 1`)
         }
     }
-    vote(abString){
-        this.setService.voteAorB(this.props.username, this.props.setId, abString)
-    }
+
     /** renders the videogame component.
      * @return {JSX} Returns an HTML template for sets
      */
@@ -85,12 +82,7 @@ class SetTable extends React.Component {
                                 })
                                 : <tr></tr>
                             }
-                              <tr>
-                                    <td><button> className = 'nav-item'><button className='btn btn-primary'
-                                        onClick={ this.vote('a') }>Vote a</button></button></td>
-                                    <td><button className = 'nav-item'><button className='btn btn-primary'
-                                        onClick={ this.vote('b') }>Vote b</button></button></td>
-                                </tr>
+
                         </tbody>
                     </table>
                </div>
