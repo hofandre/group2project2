@@ -51,7 +51,7 @@ def get_set_by_id(_id):
 
 def get_sets_by_keyword(keyword):
     ''' Gets all sets with the given keyword '''
-    query = {'keywords': keyword}
+    query = {'keywords': keyword.lower()}
     set_list = None
     try:
         set_list = _db.sets.find(query)

@@ -12,6 +12,7 @@ class Set extends React.Component {
 
     render() {
         console.log('rendering a set')
+        console.log(this.props.set)
         return (
             <>
                 <tr>
