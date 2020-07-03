@@ -1,9 +1,17 @@
 import React from 'react'
+import SetService from '../services/set.service'
 
 class Set extends React.Component {
-
+    setService = new SetService();
+    constructor(props){
+        super(props)
+    }
     componentDidMount() {
         console.log('Mounting Set')
+    }
+
+    vote(abString){
+        this.setService.voteAorB(this.props.username, this.props.setId, abString)
     }
 
     componentDidUpdate() {
@@ -34,6 +42,12 @@ class Set extends React.Component {
                                     <td><img src={require(`../img/${this.props.set.paths[1]}`)} 
                                             alt={this.props.set.alt_texts[1]}></img>
                                     </td>
+                                </tr>
+                                <tr>
+                                    <td><button> className = 'nav-item'><button className='btn btn-primary'
+                                        onClick={ this.vote('a') }>Vote a</button></button></td>
+                                    <td><button className = 'nav-item'><button className='btn btn-primary'
+                                        onClick={ this.vote('b') }>Vote b</button></button></td>
                                 </tr>
                                 
                             </tbody>
