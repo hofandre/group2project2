@@ -21,7 +21,7 @@ def login(username: str, password: str):
     '''checks the given username/password combination against the database.
     returns the username for now. Will discus and return either the user id or username'''
     # query = {"username": username, "password": password}
-    response = _db.users.find_one({"username": username})
+    response = _db.users.find_one({'username': username})
     if response:
          return User.from_dict(response)
     return None
@@ -47,10 +47,25 @@ def get_set_by_id(_id: int):
         _log.exception('get_sets has failed in the database')
     return Set.from_dict(retrieved_set) if retrieved_set else None
 
+def check_answer(set_id: int, choice: int):
+    '''takes the set id and the number of the button pressed on the front-end to query the
+       sets collection and verify the answer and then returns a boolean'''
+    query = {'_id': set_id}
+    img_set = _db.sets.find(query)
+    correct_option = []
+    for i in img_set:
+        correct_option.append(i)
+    correct_option = correct_option[0]
+    correct_option = correct_option['correct_option']
+    if choice == correct_option:
+        return True
+    else:
+        return False
+
 def update_voting_record(username: str, set_id: int, correct: bool):
     '''updates a users voting record by appending the set voted on to an array,
        incrementing a correct counter if they voted correctly, and computing the accuracy'''
-    query = {"username": username}
+    query = {'username': username}
     #adds set_id to the sets a user has voted on
     _db.users.update_one(query, {'$push': {'voted_sets': set_id}})
     #if correct, increments the number of correct votes by one

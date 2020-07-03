@@ -44,12 +44,12 @@ class Set extends React.Component {
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td><button> className = 'nav-item'><button className='btn btn-primary'
+                                    <td><button className = 'nav-item'><button className='btn btn-primary'
                                         onClick={ this.vote('a') }>Vote a</button></button></td>
                                     <td><button className = 'nav-item'><button className='btn btn-primary'
                                         onClick={ this.vote('b') }>Vote b</button></button></td>
                                 </tr>
-                                
+
                             </tbody>
                         </table>
                     </td>
