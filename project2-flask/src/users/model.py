@@ -14,6 +14,7 @@ class User():
         self.username = username
         self.password = password
         self.usertype = usertype
+        self.accuracy = 1
     def to_dict(self):
         '''returns a dict representation of the object'''
         return self.__dict__
@@ -46,11 +47,6 @@ class User():
             return 'Token expired. please login again.'
         except jwt.InvalidTokenError:
             return 'Token invalid. Please login.'
-    
-class Voter(User):
-    def __init__(self, db_id='', username='', password='', usertype=''):
-        super().__init__(db_id, username, password, usertype)
-        self.accuracy = 1
 
 class UserEncoder(json.JSONEncoder):
     ''' Allows us to serialize our objects as JSON '''

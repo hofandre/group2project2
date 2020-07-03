@@ -67,3 +67,4 @@ class SetEncoder(json.JSONEncoder):
     ''' Serializes the sets into json format'''
     def default(self, o):
         return o.to_dict()
+        

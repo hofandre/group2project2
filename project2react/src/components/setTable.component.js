@@ -2,7 +2,7 @@ import React from 'react'
 import Set from './set.component'
 import { connect } from 'react-redux';
 import SetService from '../services/set.service'
-/** Movie class to handle movie components. */
+
 class SetTable extends React.Component {
     setService = new SetService();
     constructor(props) {
