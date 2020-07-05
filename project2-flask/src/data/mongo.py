@@ -57,7 +57,7 @@ def get_sets_by_keyword(keyword):
         set_list = _db.sets.find(query)
     except pymongo.errors.PyMongoError:
         _log.exception('get_sets_by_keyword has failed in the database for keyword %s', keyword)
-    return [Set.from_dict(each_set) for each_set in set_list]
+    return [Set.from_dict(each_set) for each_set in set_list] if set_list else None
 
 def _get_set_id():
     '''Retrieves the next id in the database and increments it.'''

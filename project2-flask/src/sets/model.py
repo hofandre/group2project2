@@ -48,7 +48,7 @@ class Set:
         return self.deck_tags
     def add_keyword(self, keyword):
         ''' Adds the given keyword to the list of keywords '''
-        self.keywords.append(keyword)
+        self.keywords.append(keyword.lower())
     def get_keywords(self):
         ''' Returns the list of keywords'''
         return self.keywords

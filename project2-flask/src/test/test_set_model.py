@@ -54,11 +54,11 @@ class SetTestSuite(unittest.TestCase):
     def test_add_keywords(self):
         ''' Tests add_keyword method '''
         SetTestSuite.set.add_keyword('KEYWORD 1')
-        self.assertEqual(SetTestSuite.set.keywords[0], 'KEYWORD 1')
+        self.assertEqual(SetTestSuite.set.keywords[0], 'keyword 1')
     def test_get_keywords(self):
         ''' Tests get_keyword method '''
         SetTestSuite.set.keywords.append('KEYWORD 2')
-        self.assertEqual(SetTestSuite.set.get_keywords(), ['KEYWORD 2'])
+        self.assertEqual(SetTestSuite.set.get_keywords(), ['keyword 2'])
     def test_to_dict(self):
         ''' Tests the to_dict function '''
         set_dict = SetTestSuite.set.to_dict()
@@ -69,13 +69,13 @@ class SetTestSuite(unittest.TestCase):
     def test_from_dict(self):
         ''' Tests the from_dict method '''
         input_dict = {'_id': -2, 'correct_option': 1, 'title': 'TEST TITLE 3', 'paths': ['ONE',
-                      'TWO'], 'deck_tags': ['deck2', 'deck5'], 'keywords': ['Autumn']}
+                      'TWO'], 'deck_tags': ['deck2', 'deck5'], 'keywords': ['autumn']}
         new_set = Set.from_dict(input_dict)
         self.assertEqual(new_set.correct_option, 1)
         self.assertEqual(new_set.title, 'TEST TITLE 3')
         self.assertEqual(new_set.paths, ['ONE', 'TWO'])
         self.assertEqual(new_set.deck_tags, ['deck2', 'deck5'])
-        self.assertEqual(new_set.keywords, ['Autumn'])
+        self.assertEqual(new_set.keywords, ['autumn'])
         self.assertEqual(new_set._id, -2)
 
 class SetEncoderTestSuite(unittest.TestCase):
