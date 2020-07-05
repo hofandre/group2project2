@@ -25,7 +25,7 @@ def _get_set_id():
 
 if __name__ == '__main__':
     _db.sets.drop()
-    # _db.users.drop()
+    _db.users.drop()
     _db.counter.drop()
 
     _db.counter.insert_one({'_id': 'SET_COUNT', 'count': 0})
@@ -36,8 +36,8 @@ if __name__ == '__main__':
     ['bohr.jpg', 'rutherford.jpg']).to_dict())
     _db.sets.insert_one(set_list[0])
 
-    # user_list = []
-    # user_list.append(User(_get_set_id(), 'username', 'password', 'voter').to_dict())
-    # user_list.append(User(_get_set_id(), 'jotaro', 'star_platinum', 'voter').to_dict())
-    # user_list.append(User(_get_set_id(), 'diavolo', 'king_crimson', 'moderator').to_dict())
-    # _db.users.insert_many(user_list)
+    user_list = []
+    user_list.append(User(_get_set_id(), 'username', 'password', 'voter').to_dict())
+    user_list.append(User(_get_set_id(), 'jotaro', 'star_platinum', 'voter').to_dict())
+    user_list.append(User(_get_set_id(), 'diavolo', 'king_crimson', 'moderator').to_dict())
+    _db.users.insert_many(user_list)
