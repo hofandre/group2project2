@@ -48,10 +48,10 @@ class Set:
         return self.deck_tags
     def add_keyword(self, keyword):
         ''' Adds the given keyword to the list of keywords '''
-        self.keywords.append(keyword)
+        self.keywords.append(keyword.lower())
     def get_keywords(self):
         ''' Returns the list of keywords'''
-        return self.keywords
+        return [keyword.lower() for keyword in self.keywords]
     def to_dict(self):
         ''' Returns a dictionary representation of itself'''
         dict_rep = dict(self.__dict__)

@@ -2,6 +2,7 @@
 # External Imports
 import pymongo
 import os
+from decouple import config
 
 # Internal Imports
 from src.sets.model import Set
@@ -11,8 +12,8 @@ from src.users.model import User
 _log = get_logger(__name__)
 
 try:
-    _db = pymongo.MongoClient(os.environ.get('MONGO_DATABASE')).project2
-    _log.debug("Connected to DB")
+    #_db = pymongo.MongoClient(os.environ.get('MONGO_DATABASE')).project2
+    _db = pymongo.MongoClient(config('MONGO_DATABASE')).project2
 except pymongo.errors.PyMongoError:
     _log.exception('Mongo connection has failed')
     raise
@@ -46,6 +47,16 @@ def get_set_by_id(_id: int):
     except pymongo.errors.PyMongoError:
         _log.exception('get_sets has failed in the database')
     return Set.from_dict(retrieved_set) if retrieved_set else None
+
+def get_sets_by_keyword(keyword):
+    ''' Gets all sets with the given keyword '''
+    query = {'keywords': keyword.lower()}
+    set_list = None
+    try:
+        set_list = _db.sets.find(query)
+    except pymongo.errors.PyMongoError:
+        _log.exception('get_sets_by_keyword has failed in the database for keyword %s', keyword)
+    return [Set.from_dict(each_set) for each_set in set_list] if set_list else None
 
 def check_answer(set_id: int, choice: int):
     '''takes the set id and the number of the button pressed on the front-end to query the

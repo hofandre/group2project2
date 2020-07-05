@@ -39,6 +39,7 @@ class Set extends React.Component {
 
     render() {
         console.log('rendering a set')
+        console.log(this.props.set)
         return (
             <>
                 <tr>
@@ -83,9 +84,9 @@ function mapStateToProps(state) {
     console.log(user.username)
     return { username: user.username}
 }
-function mapDispatchToProps(dispatch) {
-    return {
-        vote: () => dispatch({type: 'vote'})
-    }
-}
+// function mapDispatchToProps(dispatch) {
+//     return {
+//         vote: () => dispatch({type: 'vote'})
+//     }
+// }
 export default connect(mapStateToProps, mapDispatchToProps)(Set);

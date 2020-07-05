@@ -1,0 +1,10 @@
+#setSearchBar {
+    margin-left: 25%;
+    max-width: 35%;
+}
+#setSearchType {
+    max-width: 15%;
+}
+#searchForm {
+    text-align: center;
+}
