@@ -12,6 +12,10 @@ class SetService {
     getSetByID(set_id) {
         return axios.get(this.URI + '/' + set_id);
     }
+
+    getSetsByKeyword(keyword) {
+        return axios.get(this.URI + '?keyword=' + keyword);
+    }
 }
 
 export default SetService;
