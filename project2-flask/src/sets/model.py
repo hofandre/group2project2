@@ -51,7 +51,7 @@ class Set:
         self.keywords.append(keyword.lower())
     def get_keywords(self):
         ''' Returns the list of keywords'''
-        return self.keywords
+        return [keyword.lower() for keyword in self.keywords]
     def to_dict(self):
         ''' Returns a dictionary representation of itself'''
         dict_rep = dict(self.__dict__)
