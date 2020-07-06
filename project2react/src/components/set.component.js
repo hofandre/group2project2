@@ -41,8 +41,31 @@ class Set extends React.Component {
         this.setService.getSetAccuracy(setID).then(res => {
             console.log(res)
             console.log(res.data['accuracy'])
-            return (res.data['accuracy'])
         })
+    }
+
+    displayAccuracy(setID) {
+        const accuracy = this.setAccuracy(setID)
+        console.log(accuracy)
+        if (accuracy < .35) {
+            return (
+                <div className='alert alert-danger'>
+                    Hard Difficulty
+                </div>
+            )
+        } else if ((accuracy < .65) && (accuracy >= .35)) {
+            return (
+                <div className='alert alert-warning'>
+                    Medium Difficulty 
+                </div>
+            )
+        } else {
+            return (
+                <div className='alert alert-success'>
+                    Easy Difficulty
+                </div>
+            )
+        }
     }
 
     render() {
@@ -55,11 +78,9 @@ class Set extends React.Component {
                 </tr>
                 <tr>
                     <td>
-                    Global User Accuracy
-                    <input className='form-control'
-                    readOnly
-                    value={console.log(this.setAccuracy(this.props.set._id))}></input>
-                        
+                    {
+                        this.displayAccuracy(this.props.set._id)
+                    }                        
                     </td>
                 </tr>
                 <tr>
@@ -95,12 +116,10 @@ class Set extends React.Component {
     }
 }
 function mapStateToProps(state) {
-    console.log(state)
-    const {user} = state;
-    console.log({user})
-    console.log(user.username)
-    return { username: user.username}
+    const {username} = state;
+    return { username: username}
 }
+
 function mapDispatchToProps(dispatch) {
     return {
         vote: () => dispatch({type: 'vote'})
