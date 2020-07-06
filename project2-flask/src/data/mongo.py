@@ -102,3 +102,14 @@ def _get_set_id():
                                             {'$inc': {'count': 1}},
                                             return_document=pymongo.ReturnDocument.AFTER)['count']
                                             
+def get_user_by_username(username: str):
+    '''Returns a user by their id'''
+    user = {}
+    db_user = _db.users.find_one({'username': username})
+    if db_user :
+        user = User.from_dict(db_user)
+    return user
+
+def update_usertype(_id: int, usertype: str):
+    '''finds and updates a user's usertype'''
+    return _db.users.find_one_and_update({"_id":_id}, {"$set" : {"usertype":usertype}})
