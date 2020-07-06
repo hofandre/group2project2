@@ -2,7 +2,7 @@
 # External Imports
 import pymongo
 import os
-from decouple import config
+# from decouple import config
 
 # Internal Imports
 from src.sets.model import Set
@@ -12,8 +12,8 @@ from src.users.model import User
 _log = get_logger(__name__)
 
 try:
-    #_db = pymongo.MongoClient(os.environ.get('MONGO_DATABASE')).project2
-    _db = pymongo.MongoClient(config('MONGO_DATABASE')).project2
+    _db = pymongo.MongoClient(os.environ.get('MONGO_DATABASE')).project2
+    # _db = pymongo.MongoClient(config('MONGO_DATABASE')).project2
 except pymongo.errors.PyMongoError:
     _log.exception('Mongo connection has failed')
     raise

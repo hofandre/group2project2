@@ -24,8 +24,6 @@ class SetTable extends React.Component {
         console.log('Updating Sets')
         console.log(this.props)
     }
-
-
     idSearch() {
         if (this.validate_id(this.props.setSearchCriteria)) {
             this.setService.getSetByID(this.props.setSearchCriteria).then(res => {

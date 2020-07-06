@@ -10,7 +10,7 @@ class Set extends React.Component {
         console.log(props)
         this.voteA = this.voteA.bind(this);
         this.voteB = this.voteB.bind(this);
-
+        this.comment = this.comment.bind(this);
     }
 
     voteA(){
@@ -28,6 +28,9 @@ class Set extends React.Component {
             console.log(res);
         })
         
+    }
+    comment() {
+        console.log('comment button clicked')
     }
     componentDidMount() {
         console.log('Mounting Set')
@@ -69,6 +72,16 @@ class Set extends React.Component {
                                     <td><button className='btn btn-primary'
                                         onClick={ this.voteB }>Vote b</button></td>
                                 </tr>
+                                <tr>
+                                    <td colSpan='2'>
+                                        <textarea rows='5' cols='100'></textarea>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colSpan='2'>
+                                        <button className='btn btn-dark' onClick={ this.comment }>Comment</button>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </td>
@@ -80,8 +93,6 @@ class Set extends React.Component {
 function mapStateToProps(state) {
     console.log(state)
     const {user} = state;
-    console.log({user})
-    console.log(user.username)
     return { username: user.username}
 }
 // function mapDispatchToProps(dispatch) {
@@ -89,4 +100,4 @@ function mapStateToProps(state) {
 //         vote: () => dispatch({type: 'vote'})
 //     }
 // }
-export default connect(mapStateToProps, mapDispatchToProps)(Set);
+export default connect(mapStateToProps)(Set);
