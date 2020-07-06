@@ -1,7 +1,34 @@
-import React from 'react'
+import React from 'react';
+import SetService from '../services/set.service';
+import { connect } from 'react-redux';
 
 class Set extends React.Component {
+    setService = new SetService();
+    constructor(props){
+        super(props);
+        console.log('setComponent constructor')
+        console.log(props)
+        this.voteA = this.voteA.bind(this);
+        this.voteB = this.voteB.bind(this);
 
+    }
+
+    voteA(){
+        console.log('voteOne was clicked');
+        this.setService.vote(this.props.username, this.props.set._id, 1).then( res => {
+            console.log('post was succesful');
+            console.log(res);
+        })
+        
+    }
+    voteB(){
+        console.log('voteTwo was clicked');
+        this.setService.vote(this.props.username, this.props.set._id, 2).then( res => {
+            console.log('post was succesful');
+            console.log(res);
+        })
+        
+    }
     componentDidMount() {
         console.log('Mounting Set')
     }
@@ -36,6 +63,12 @@ class Set extends React.Component {
                                             alt={this.props.set.alt_texts[1]}></img>
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td><button className='btn btn-primary'
+                                        onClick={ this.voteA }>Vote a</button></td>
+                                    <td><button className='btn btn-primary'
+                                        onClick={ this.voteB }>Vote b</button></td>
+                                </tr>
                             </tbody>
                         </table>
                     </td>
@@ -44,5 +77,16 @@ class Set extends React.Component {
         )
     }
 }
-
-export default Set;
+function mapStateToProps(state) {
+    console.log(state)
+    const {user} = state;
+    console.log({user})
+    console.log(user.username)
+    return { username: user.username}
+}
+// function mapDispatchToProps(dispatch) {
+//     return {
+//         vote: () => dispatch({type: 'vote'})
+//     }
+// }
+export default connect(mapStateToProps, mapDispatchToProps)(Set);

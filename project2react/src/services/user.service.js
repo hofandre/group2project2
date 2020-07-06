@@ -36,6 +36,7 @@ class UserService {
 	logout() {
 		return axios.delete(this.URI , {withCredentials: true})
 	}
+
 }
 
 export default UserService;

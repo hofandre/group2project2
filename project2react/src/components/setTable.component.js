@@ -4,8 +4,6 @@ import './settable.css'
 import { connect } from 'react-redux';
 import SetService from '../services/set.service'
 
-
-/** Movie class to handle movie components. */
 class SetTable extends React.Component {
     setService = new SetService();
     constructor(props) {
@@ -17,13 +15,10 @@ class SetTable extends React.Component {
         this.allSets = this.allSets.bind(this);
         this.handleTermChange = this.handleTermChange.bind(this);
     }
-
     /** componentDidMount records when construction occurs. */
     componentDidMount() {
         console.log('setTable mounted')
-        
     }
-
     /** componentDidUpdate records when update occurs. */
     componentDidUpdate() {
         console.log('Updating Sets')
@@ -78,13 +73,11 @@ class SetTable extends React.Component {
         }
         
     }
-
     allSets() {
         this.setService.getSets().then(res => {
             this.props.querySets(res.data);
         })
     }
-
     validate_id(set_id) {
         if(isNaN(set_id)) {
             return false
@@ -147,6 +140,7 @@ class SetTable extends React.Component {
                                 })
                                 : <tr></tr>
                             }
+
                         </tbody>
                     </table>
                </div>
@@ -154,7 +148,6 @@ class SetTable extends React.Component {
         )
     }
 }
-
 function mapStateToProps(state) {
     const {displaySets, displaySetCriteria, displaySearchTerm} = state;
     return { sets: displaySets, 
@@ -168,5 +161,4 @@ function mapDispatchToProps(dispatch) {
         setTerm: (searchTerm) => dispatch({type: 'searchTerm', setSearchTerm: searchTerm})
     }
 }
-
 export default connect(mapStateToProps, mapDispatchToProps)(SetTable);

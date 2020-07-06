@@ -20,7 +20,7 @@ app.register_blueprint(set_page)
 
 @app.route('/')
 def test_html():
-    return app.send_static_file('Hello World'), 200
+    return 'Hello World', 200
 
 @app.route('/users/<username>', methods=['POST'])
 def login(username):

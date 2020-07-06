@@ -9,11 +9,12 @@ _secret_key = '10101567unique'
 
 class User():
     '''parent class for all users'''
-    def __init__(self, _id="", username="", password="", usertype="voter"):
+    def __init__(self, _id=-1, username='', password='', usertype=''):
         self._id = _id
         self.username = username
         self.password = password
         self.usertype = usertype
+        self.accuracy = 1
     def to_dict(self):
         '''returns a dict representation of the object'''
         return self.__dict__
@@ -51,4 +52,3 @@ class UserEncoder(json.JSONEncoder):
     ''' Allows us to serialize our objects as JSON '''
     def default(self, o):
         return o.to_dict()
-
