@@ -3,6 +3,7 @@
 from flask import Flask, jsonify, Blueprint, request
 # Internal Imports
 from src.sets.model import Set
+import src.statistics.operations as stats
 import src.data.mongo as db
 from src.data.logger import get_logger
 from os import path
@@ -42,4 +43,19 @@ def update_user_accuracy(setid, username):
     verification = db.check_answer(setid, request.get_json()['vote'])
     db.update_voting_record(username, setid, verification)
     return jsonify(verification), 201
-        
+
+
+@set_page.route('/sets/<int:setid>/accuracy', methods=['GET'])
+def get_set_accuracy(setid):
+    # Steps:
+    # 1. For each user, check if they have voted on a set/
+    # 2. IF user has voted, how many times, and how many times correctly
+    # 3. Calculate total votes, and total correct votes
+    # 4. Return set accuracy 
+    user_list = db.get_users_by_set(setid)
+    if not user_list:
+        return jsonify('0'), 200
+    else:
+        set_accuracy = stats.calculate_set_accuracy(user_list, setid)
+    results = {'accuracy': round(set_accuracy, 3)}
+    return jsonify(results), 200    

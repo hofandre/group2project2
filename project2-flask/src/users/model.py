@@ -15,6 +15,8 @@ class User():
         self.password = password
         self.usertype = usertype
         self.accuracy = 1
+        self.votes = []
+        self.voted_sets = []
     def to_dict(self):
         '''returns a dict representation of the object'''
         return self.__dict__

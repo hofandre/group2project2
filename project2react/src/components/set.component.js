@@ -37,6 +37,14 @@ class Set extends React.Component {
         console.log('Updating Set')
     }
 
+    setAccuracy(setID) {
+        this.setService.getSetAccuracy(setID).then(res => {
+            console.log(res)
+            console.log(res.data['accuracy'])
+            return (res.data['accuracy'])
+        })
+    }
+
     render() {
         console.log('rendering a set')
         console.log(this.props.set)
@@ -44,6 +52,15 @@ class Set extends React.Component {
             <>
                 <tr>
                     <th>{this.props.set.title}</th>
+                </tr>
+                <tr>
+                    <td>
+                    Global User Accuracy
+                    <input className='form-control'
+                    readOnly
+                    value={console.log(this.setAccuracy(this.props.set._id))}></input>
+                        
+                    </td>
                 </tr>
                 <tr>
                     <td>
