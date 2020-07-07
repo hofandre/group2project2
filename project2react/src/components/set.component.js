@@ -8,6 +8,7 @@ class Set extends React.Component {
         super(props);
         console.log('setComponent constructor')
         console.log(props)
+        this.handleInput = this.handleInput.bind(this);
         this.voteA = this.voteA.bind(this);
         this.voteB = this.voteB.bind(this);
         this.comment = this.comment.bind(this);
@@ -43,9 +44,20 @@ class Set extends React.Component {
         })
         
     }
+
+    handleInput(e) {
+        console.log(e.target.value)
+        console.log(this.props)
+        this.props.dispatch( {
+            type: 'handleComment',
+            comment: e.target.value
+        } )
+    }
     comment() {
         console.log('comment button clicked')
+        this.setService.comment(this.props.user.username, this.props.set._id)
     }
+
     componentDidMount() {
         console.log('Mounting Set')
     }
@@ -81,25 +93,27 @@ class Set extends React.Component {
                                     </td>
                                 </tr>
                                 {this.props.user ?
-                                    <tr>
-                                        <td><button className='btn btn-primary'
-                                            onClick={ this.voteA }>Vote a</button></td>
-                                        <td><button className='btn btn-primary'
-                                            onClick={ this.voteB }>Vote b</button></td>
-                                    </tr>
-
-                                : <tr></tr>
+                                    <>
+                                        <tr>
+                                            <td><button className='btn btn-primary'
+                                                onClick={ this.voteA }>Vote a</button></td>
+                                            <td><button className='btn btn-primary'
+                                                onClick={ this.voteB }>Vote b</button></td>
+                                        </tr>
+                                        <tr>
+                                        <td colSpan='2'>
+                                            <textarea rows='5' cols='100' value={this.props.comment} onChange={ this.handleInput }></textarea>
+                                        </td>
+                                        </tr>
+                                        <tr>
+                                            <td colSpan='2'>
+                                                <button className='btn btn-dark' onClick={ this.comment }>Comment</button>
+                                            </td>
+                                        </tr>
+                                    </>
+                                    : <tr></tr>
                                 }
-                                <tr>
-                                    <td colSpan='2'>
-                                        <textarea rows='5' cols='100'></textarea>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colSpan='2'>
-                                        <button className='btn btn-dark' onClick={ this.comment }>Comment</button>
-                                    </td>
-                                </tr>
+
                             </tbody>
                         </table>
                     </td>
@@ -111,7 +125,8 @@ class Set extends React.Component {
 function mapStateToProps(state) {
     console.log(state)
     const {user} = state;
-    return { username: user.username}
+    console.log(user)
+    return { user: user }
 }
 // function mapDispatchToProps(dispatch) {
 //     return {
