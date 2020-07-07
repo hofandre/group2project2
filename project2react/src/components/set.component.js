@@ -92,7 +92,8 @@ class Set extends React.Component {
                                             alt={this.props.set.alt_texts[1]}></img>
                                     </td>
                                 </tr>
-                                {this.props.user ?
+                                {
+                                    this.props.user ?
                                     <>
                                         <tr>
                                             <td><button className='btn btn-primary'
@@ -101,8 +102,13 @@ class Set extends React.Component {
                                                 onClick={ this.voteB }>Vote b</button></td>
                                         </tr>
                                         <tr>
+                                            <td colSpan='2'>
+                                                <button className='btn btn-light' >View comments</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
                                         <td colSpan='2'>
-                                            <textarea rows='5' cols='100' id='comment' value={this.props.comment} onChange={ this.handleInput }></textarea>
+                                            <textarea rows='3' cols='100' id='comment' value={this.props.comment} onChange={ this.handleInput }></textarea>
                                         </td>
                                         </tr>
                                         <tr>
