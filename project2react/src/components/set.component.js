@@ -50,10 +50,7 @@ class Set extends React.Component {
 
     handleInput(e) {
         console.log(this.props)
-        this.props.dispatch( {
-            type: 'handleComment',
-            comment: e.target.value
-        } )
+        this.props.makeComment(e.target.value)
     }
     comment() {
         console.log('comment button clicked')
@@ -63,7 +60,6 @@ class Set extends React.Component {
     viewComments() {
         console.log('show the comments')
         console.log(this.props.set.comments)
-        
     }
 
     componentDidMount() {
@@ -73,8 +69,6 @@ class Set extends React.Component {
     componentDidUpdate() {
         console.log('Updating Set')
     }
-
-
 
     displayAccuracy() {
         const accuracy = this.props.set.accuracy
@@ -180,7 +174,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        updateAccuracy: (accuracy) => dispatch({type: 'updateAccuracy', accuracy: accuracy})
+        updateAccuracy: (accuracy) => dispatch({type: 'updateAccuracy', accuracy: accuracy}),
+        makeComment: (comment) => dispatch({type: 'handleComment', comment: comment})
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Set);

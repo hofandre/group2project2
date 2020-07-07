@@ -53,8 +53,6 @@ def make_a_comment(setid, username):
     db.append_comment_to_set(username, setid, request.get_json()['comment'])
     return jsonify('comment made it to the server'), 201
     
-
-
 # @set_page.route('/sets/<int:setid>/accuracy', methods=['GET'])
 # def get_set_accuracy(setid):
 #     # Steps:
