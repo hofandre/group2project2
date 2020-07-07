@@ -44,8 +44,8 @@ def set_by_id(setid):
 def update_user_accuracy(setid, username):
     _log.debug(request.get_json())
     verification = db.check_answer(setid, request.get_json()['vote'])
-    db.update_voting_record(username, setid, verification)
-    return jsonify(verification), 201
+    accuracy = db.update_voting_record(username, setid, verification)
+    return jsonify(accuracy), 201
 
 
 # @set_page.route('/sets/<int:setid>/accuracy', methods=['GET'])
@@ -62,3 +62,7 @@ def update_user_accuracy(setid, username):
 #         set_accuracy = stats.calculate_set_accuracy(user_list, setid)
 #     results = {'accuracy': round(set_accuracy, 3)}
 #     return jsonify(results), 200    
+    #returns accuracy
+    # accuracy = db.update_voting_record(username, setid, verification)
+    # return jsonify(accuracy), 201
+        

@@ -17,6 +17,7 @@ class User():
         self.accuracy = 1
         self.votes = []
         self.voted_sets = []
+        self.correct_votes = 0
     def to_dict(self):
         '''returns a dict representation of the object'''
         return self.__dict__

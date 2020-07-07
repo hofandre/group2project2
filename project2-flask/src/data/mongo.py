@@ -27,6 +27,19 @@ def login(username: str, password: str):
          return User.from_dict(response)
     return None
 
+def register(username: str, password: str, role: str):
+    ''' Creates a new user.'''
+    _id = _db.counter.find_one_and_update({'_id': 'USER_COUNT'},
+                                          {'$inc': {'count': 1}},
+                                          return_document=pymongo.ReturnDocument.AFTER)['count']
+    _log.debug(_id)
+    query = {"_id": _id, "username": username, "password": password, "role": role}
+    user = User(_id, username, password, role)
+    _log.debug(query)
+    _db.users.insert_one(user.to_dict())
+    return User.from_dict(_db.users.find_one({'_id': _id}))
+
+
 def get_user_by_id(db_id: int):
     '''Returns a user by their id'''
     return User.from_dict(_db.users.find_one({'_id': db_id}))
@@ -98,13 +111,13 @@ def update_voting_record(username: str, set_id: int, correct: bool):
     #calculate and set accuracy
     accuracy = correct_votes / votes
     _db.users.update_one(query, {'$set': {'accuracy': accuracy}})
+    return accuracy
 
 def _get_set_id():
     '''Retrieves the next id in the database and increments it.'''
     return _db.counter.find_one_and_update({'_id': 'SET_COUNT'},
                                             {'$inc': {'count': 1}},
                                             return_document=pymongo.ReturnDocument.AFTER)['count']
-
 
 def get_users_by_set(setid):
     ''' Returns a list of all users that have voted on a particular set'''

@@ -8,7 +8,6 @@ class SetTable extends React.Component {
     setService = new SetService();
     constructor(props) {
         console.log('setTable constructor')
-        console.log(props)
         super(props);
         this.handleInput = this.handleInput.bind(this);
         this.searchSets = this.searchSets.bind(this);
@@ -22,25 +21,23 @@ class SetTable extends React.Component {
     /** componentDidUpdate records when update occurs. */
     componentDidUpdate() {
         console.log('Updating Sets')
-        console.log(this.props)
     }
 
 
     idSearch() {
         if (this.validate_id(this.props.setSearchCriteria)) {
             this.setService.getSetByID(this.props.setSearchCriteria).then(res => {
-                console.log(res)
                 const set_list = [res.data]
                 this.props.querySets(set_list);
             }).catch(res => {
-            
+
                 alert(`The set id you have entered is out of bounds, please try a smaller number.`)
-            
+
             })
         } else {
             alert(`The id you've entered is invalid.\nValid ids begin at 1`)
         }
-        
+
     }
 
     keywordSearch() {
@@ -53,17 +50,17 @@ class SetTable extends React.Component {
                 }
                 else {
                     const set_list = [res.data]
-                    this.props.querySets(set_list)
-                }  
+                    this.props.querySets(set_list);
+                }
             }).catch(res => {
-            
+
                 alert(`The keyword you've entered does not match any sets.`)
-            
+
             })
         } else {
             alert(`Keywords cannot be empty, please try again.`)
         }
-        
+
     }
 
     searchSets() {
@@ -72,7 +69,7 @@ class SetTable extends React.Component {
         } else if (this.props.setSearchTerm === 'keyword') {
             this.keywordSearch()
         }
-        
+
     }
     allSets() {
         this.setService.getSets().then(res => {
@@ -96,7 +93,7 @@ class SetTable extends React.Component {
     }
 
     handleInput(event) {
-        this.props.setSearch(event.target.value)        
+        this.props.setSearch(event.target.value)
     }
 
     handleTermChange (event) {
@@ -107,12 +104,11 @@ class SetTable extends React.Component {
      * @return {JSX} Returns an HTML template for sets
      */
     render() {
-        console.log('Render called')
         return (
             <>  <div className='container'>
                     <h3>Set Search</h3>
                     <div className='form-row' id='searchForm'>
-                        <input type='text' className='form-control' name='setSearchTerm' 
+                        <input type='text' className='form-control' name='setSearchTerm'
                             value={this.props.setSearchCriteria || ''}
                             onChange={ this.handleInput }
                             id='setSearchBar'
@@ -153,7 +149,7 @@ class SetTable extends React.Component {
 }
 function mapStateToProps(state) {
     const {displaySets, displaySetCriteria, displaySearchTerm} = state;
-    return { sets: displaySets, 
+    return { sets: displaySets,
              setSearchCriteria: displaySetCriteria,
              setSearchTerm: displaySearchTerm}
 }
