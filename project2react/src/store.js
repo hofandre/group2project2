@@ -13,6 +13,7 @@ const initialState = {
     error: '',
     register: {username: '', password: '', role: ''},
     displaySets: {},
+    accuracy: 0.0,
     displaySetCriteria: 0,
     displaySearchTerm: 'id'
 };
@@ -43,6 +44,8 @@ function truthReducer(state = initialState, action) {
             return Object.assign({}, state, {username: '', password: '', role: ''})
         case 'querySets':
             return Object.assign({}, state, {displaySets: action.sets})
+        case 'updateAccuracy':
+                return Object.assign({}, state, {accuracy: action.accuracy})
         case 'setSearch':
             return Object.assign({}, state, {displaySetCriteria: action.setSearchCriteria})
         case 'searchTerm':
