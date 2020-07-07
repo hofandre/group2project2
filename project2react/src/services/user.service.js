@@ -37,7 +37,7 @@ class UserService {
 		return axios.delete(this.URI , {withCredentials: true})
 	}
 	get_users() {
-		console.log("Getting users from flask")
+		//console.log("Getting users from flask")
 		return axios.get(this.URI + "/all",  {withCredentials: true})
 	}
 	change_usertype(username, new_usertype) {

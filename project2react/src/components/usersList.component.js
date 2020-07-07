@@ -6,12 +6,13 @@ import UserRow from '../components/userRow.component'
 class UserTable extends React.Component{
     userService = new UserService();
     constructor(props) {
-        console.log("mounting user table")
+        //console.log("mounting user table")
         super(props)
     }
 
     userTable(users){
-        console.log("rendering user table")
+        //console.log("rendering user table")
+
         return (
             <>
             <div className='container'>
@@ -38,6 +39,7 @@ class UserTable extends React.Component{
     }
 
     render() {
+    
         return this.userTable(this.props.users)
     }
 
@@ -47,12 +49,10 @@ class UserTable extends React.Component{
         })
     }
     componentDidUpdate() {
-        this.userService.get_users().then(res => {
-            this.props.queryUsers(res.data)
-        })
+
     }
 
-    
+
 }
 function mapStateToProps(state) {
     const { displayUsers } = state;

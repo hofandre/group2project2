@@ -21,12 +21,19 @@ class UserRow extends React.Component {
     }
 
     promoteModerator() {
-        console.log("promote moderator button pressed")
-        this.userService.change_usertype(this.props.user.username, "moderator").then(console.log("usertype changed"))  
+//        console.log("promote moderator button pressed")
+        this.userService.change_usertype(this.props.user.username, "moderator").then(() => {
+            this.userService.get_users().then(res => {
+                this.props.queryUsers(res.data)
+            })})  
     }
 
     demoteModerator() {
-        this.userService.change_usertype(this.props.user.username, "voter")
+//        console.log("demote moderator button pressed")
+        this.userService.change_usertype(this.props.user.username, "voter").then(() => {
+            this.userService.get_users().then(res => {
+                this.props.queryUsers(res.data)
+            })})  
     }
 
 
@@ -37,7 +44,7 @@ class UserRow extends React.Component {
 
     /** componentDidUpdate records when update occurs. */
     componentDidUpdate() {
-        
+
     }
 
     decorateRow() {
@@ -54,7 +61,6 @@ class UserRow extends React.Component {
         console.log('User Render: '+ this.props.user.username)
         return (
             <>
-            
                 <tr className={this.decorateRow()}>
                     <td>{this.props.user.username}</td>
                     <td>{this.props.user.usertype}</td>
@@ -62,10 +68,9 @@ class UserRow extends React.Component {
                         {
                             this.props.user.usertype !== "admin"?
                                 this.props.user.usertype === "voter" || this.props.user.usertype ==='' ?
-                                <button onClick={this.promoteModerator}>PromoteModerator</button>
+                                <button  className='btn btn-primary' onClick={this.promoteModerator}>Promote Moderator</button>
                                 :
-                                <button onClick={this.demoteModerator}>Demote Moderator</button>
-                            
+                                <button className='btn btn-warning' onClick={this.demoteModerator}>Demote Moderator</button>
                             :
                             null
                         }
@@ -81,4 +86,11 @@ function mapStateToProps(state) {
     const {role, displayUsers} = state;
     return {active_user_role: role, users: displayUsers}
 }
-export default connect(mapStateToProps)(UserRow);
+
+function mapDispatchToProps(dispatch) {
+    return {
+        queryUsers: (users) => dispatch({type: 'queryUsers', users: users})
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserRow);

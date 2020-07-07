@@ -18,6 +18,7 @@ class Routing extends Component {
                     <Navbar.Collapse id='basic-navbar-nav'>
                         <Nav className='mr-auto'>
                             <Link to='/sets'>Sets</Link>
+                            <Link to='/users'>Users</Link>
                         </Nav>
                     </Navbar.Collapse>
                     <Login></Login>
