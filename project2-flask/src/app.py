@@ -56,3 +56,16 @@ def logout():
             return jsonify(db.get_user_by_id(User.decode_auth_token(auth_token))), 200
         else:
             return {}, 401
+
+@app.route('/register', methods=['POST'])
+def register_user():
+    if request.method == "POST":
+        username = request.get_json()['username']
+        _log.debug(username)
+        password = request.get_json()['password']
+        _log.debug(password)
+        role = 'voter'
+        newUser = db.register(username, password, role)
+    else:
+        return {}, 400
+    return jsonify(newUser), 201

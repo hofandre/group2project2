@@ -27,6 +27,18 @@ def login(username: str, password: str):
          return User.from_dict(response)
     return None
 
+def register(username: str, password: str, role: str):
+    ''' Creates a new user.'''
+    _id = _db.counter.find_one_and_update({'_id': 'USER_COUNT'},
+                                          {'$inc': {'count': 1}},
+                                          return_document=pymongo.ReturnDocument.AFTER)['count']
+    _log.debug(_id)
+    query = {"_id": _id, "username": username, "password": password, "role": role}
+    _log.debug(query)
+    _db.users.insert_one(query)
+    return User.from_dict(_db.users.find_one({'_id': _id}))
+
+
 def get_user_by_id(db_id: int):
     '''Returns a user by their id'''
     return User.from_dict(_db.users.find_one({'_id': db_id}))
@@ -95,6 +107,7 @@ def update_voting_record(username: str, set_id: int, correct: bool):
     #calculate and set accuracy
     accuracy = correct_votes / votes
     _db.users.update_one(query, {'$set': {'accuracy': accuracy}})
+    return accuracy
 
 def append_comment_to_set(username: str, set_id: int, comment: str):
     _log.debug('going to add comment to database')
@@ -106,4 +119,3 @@ def _get_set_id():
     return _db.counter.find_one_and_update({'_id': 'SET_COUNT'},
                                             {'$inc': {'count': 1}},
                                             return_document=pymongo.ReturnDocument.AFTER)['count']
-                                            

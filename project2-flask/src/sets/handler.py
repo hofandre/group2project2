@@ -40,11 +40,13 @@ def set_by_id(setid):
 def update_user_accuracy(setid, username):
     _log.debug(request.get_json())
     verification = db.check_answer(setid, request.get_json()['vote'])
-    db.update_voting_record(username, setid, verification)
-    return jsonify(verification), 201
+    #returns accuracy
+    accuracy = db.update_voting_record(username, setid, verification)
+    return jsonify(accuracy), 201
         
 @set_page.route('/sets/<int:setid>/<username>/comment', methods=['POST'])
 def make_a_comment(setid, username):
     _log.debug(request.get_json())
     db.append_comment_to_set(username, setid, request.get_json()['comment'])
     return jsonify('comment made it to the server'), 201
+    

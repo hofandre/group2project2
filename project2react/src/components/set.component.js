@@ -19,6 +19,7 @@ class Set extends React.Component {
         this.setService.vote(this.props.user.username, this.props.set._id, 1).then( res => {
             console.log('post was succesful');
             console.log(res);
+            this.props.updateAccuracy(res.data);
             if(this.props.set.correct_option === 1)
             {
                 alert('Your vote was right');
@@ -34,6 +35,7 @@ class Set extends React.Component {
         this.setService.vote(this.props.user.username, this.props.set._id, 2).then( res => {
             console.log('post was succesful');
             console.log(res);
+            this.props.updateAccuracy(res.data);
             if(this.props.set.correct_option === 2)
             {
                 alert('Your vote was right');
@@ -130,14 +132,15 @@ class Set extends React.Component {
 }
 function mapStateToProps(state) {
     console.log(state)
-    const {user, comment} = state;
+    const {user, comment, accuracy} = state;
     console.log(user)
     return { user: user,
-             comment: comment }
+             comment: comment,
+             accuracy: accuracy }
 }
-// function mapDispatchToProps(dispatch) {
-//     return {
-//         vote: () => dispatch({type: 'vote'})
-//     }
-// }
-export default connect(mapStateToProps)(Set);
+function mapDispatchToProps(dispatch) {
+    return {
+        updateAccuracy: (accuracy) => dispatch({type: 'updateAccuracy', accuracy: accuracy})
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Set);

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Route, BrowserRouter as Router, Link } from 'react-router-dom';
 import Login from './login.component'
+import Register from './register.component'
 
 import { Navbar, Nav } from 'react-bootstrap';
 import SetForm from './setTable.component';
@@ -17,11 +18,13 @@ class Routing extends Component {
                     <Navbar.Collapse id='basic-navbar-nav'>
                         <Nav className='mr-auto'>
                             <Link to='/sets'>Sets</Link>
+                            <Link to='/register'>Register</Link>
                         </Nav>
                     </Navbar.Collapse>
                     <Login></Login>
                 </Navbar>
                 <Route path='/sets' component={SetForm}/>
+                <Route path='/register' component={Register}/>
             </div>
         </Router>
     }
