@@ -49,10 +49,11 @@ class SetTable extends React.Component {
                 if (Array.isArray(res.data))
                 {
                     this.props.querySets(res.data);
+
                 }
                 else {
                     const set_list = [res.data]
-                    this.props.querySets(set_list);
+                    this.props.querySets(set_list)
                 }  
             }).catch(res => {
             
@@ -75,7 +76,9 @@ class SetTable extends React.Component {
     }
     allSets() {
         this.setService.getSets().then(res => {
+            // this.updateAccuracies(res.data)
             this.props.querySets(res.data);
+
         })
     }
     validate_id(set_id) {

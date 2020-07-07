@@ -4,8 +4,11 @@ import unittest
 from unittest.mock import patch
 # Internal Imports
 from src.users.model import User
-from src.statistics.operations import calculate_set_accuracy
+from src.statistics.operations import calculate_set_accuracy, set_accuracy_helper
 from src.data.logger import get_logger
+import src.data.mongo
+from src.sets.model import Set
+
 
 _log = get_logger(__name__)
 
@@ -27,8 +30,27 @@ class TestSetAccuracy(unittest.TestCase):
         user_4.votes =      [1,0,0]
         user_list = [user_1, user_2, user_3, user_4]
         ret_accuracy = calculate_set_accuracy(user_list, 1)
-        expected_accuracy = (3/9)
+        expected_accuracy = (2/4)
         self.assertEqual(ret_accuracy, expected_accuracy)
+    @patch('src.data.mongo._db.get_users_by_set')
+    @patch('src.statistics.operations.calculate_set_accuracy')
+    def test_acc_helper(self, mock_calc, mock_db):
+        ''' tests the accuracy helper'''
+        set1 = Set(1, 1, 'test 1', ['test', 'test2'], ['test', 'test2'])
+        set2 = Set(2, 2, 'test 1', ['test', 'test2'], ['test', 'test2'])
+        set_list = [set1, set2]
+        user_1 = User(1, 'test', 'test', 'voter')
+        user_2 = User(2, 'test', 'test', 'voter')
+        user_3 = User(3, 'test', 'test', 'voter')
+        user_4 = User(4, 'test', 'test', 'voter')
+        user_list = [user_1, user_2, user_3, user_4]
+        mock_db.return_value = user_list
+        mock_calc.return_value = .67
+        ret_list = set_accuracy_helper(set_list)
+        _log.debug(mock_db)
+        _log.debug(mock_calc)
+        self.assertEqual(ret_list[0].accuracy, .67)
+        self.assertEqual(ret_list[1].accuracy, .67)
 
 if __name__ == '__main__':
     unittest.main()

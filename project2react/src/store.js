@@ -8,7 +8,8 @@ const initialState = {
     register: {username: '', password: '', role: ''},
     displaySets: {},
     displaySetCriteria: 0,
-    displaySearchTerm: 'id'
+    displaySearchTerm: 'id',
+    displaySetAccuracy: {}
 };
 
 function truthReducer(state = initialState, action) {

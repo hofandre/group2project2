@@ -37,32 +37,33 @@ class Set extends React.Component {
         console.log('Updating Set')
     }
 
-    setAccuracy(setID) {
-        this.setService.getSetAccuracy(setID).then(res => {
-            console.log(res)
-            console.log(res.data['accuracy'])
-        })
-    }
 
-    displayAccuracy(setID) {
-        const accuracy = this.setAccuracy(setID)
+
+    displayAccuracy() {
+        const accuracy = this.props.set.accuracy
+        console.log(this.props.set)
         console.log(accuracy)
+        console.log('where are my logs at?')
+        console.log((accuracy < .35))
+        console.log(((accuracy < .65) && (accuracy >= .35)))
+        console.log((accuracy >= .65))
+        const outputString = `Global First Time User Accuracy: ${this.props.set.accuracy*100}%`
         if (accuracy < .35) {
             return (
                 <div className='alert alert-danger'>
-                    Hard Difficulty
+                    {outputString}
                 </div>
             )
         } else if ((accuracy < .65) && (accuracy >= .35)) {
             return (
                 <div className='alert alert-warning'>
-                    Medium Difficulty 
+                    {outputString} 
                 </div>
             )
-        } else {
+        } else if (accuracy >= .65){
             return (
                 <div className='alert alert-success'>
-                    Easy Difficulty
+                    {outputString}
                 </div>
             )
         }
@@ -79,7 +80,7 @@ class Set extends React.Component {
                 <tr>
                     <td>
                     {
-                        this.displayAccuracy(this.props.set._id)
+                        this.displayAccuracy()
                     }                        
                     </td>
                 </tr>

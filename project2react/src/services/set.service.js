@@ -19,10 +19,6 @@ class SetService {
     getSetsByKeyword(keyword) {
         return axios.get(this.URI + '?keyword=' + keyword);
     }
-
-    getSetAccuracy(setid) {
-        return axios.get(this.URI + '/' + setid + '/accuracy');
-    }
 }
 
 export default SetService;
