@@ -40,6 +40,7 @@ def set_by_id(setid):
 def update_user_accuracy(setid, username):
     _log.debug(request.get_json())
     verification = db.check_answer(setid, request.get_json()['vote'])
-    db.update_voting_record(username, setid, verification)
-    return jsonify(verification), 201
+    #returns accuracy
+    accuracy = db.update_voting_record(username, setid, verification)
+    return jsonify(accuracy), 201
         

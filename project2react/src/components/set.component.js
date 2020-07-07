@@ -6,11 +6,10 @@ class Set extends React.Component {
     setService = new SetService();
     constructor(props){
         super(props);
-        console.log('setComponent constructor')
-        console.log(props)
+        console.log('setComponent constructor');
+        console.log(props);
         this.voteA = this.voteA.bind(this);
         this.voteB = this.voteB.bind(this);
-
     }
 
     voteA(){
@@ -18,6 +17,7 @@ class Set extends React.Component {
         this.setService.vote(this.props.user.username, this.props.set._id, 1).then( res => {
             console.log('post was succesful');
             console.log(res);
+            this.props.updateAccuracy(res.data);
             if(this.props.set.correct_option === 1)
             {
                 alert('Your vote was right');
@@ -33,6 +33,7 @@ class Set extends React.Component {
         this.setService.vote(this.props.user.username, this.props.set._id, 2).then( res => {
             console.log('post was succesful');
             console.log(res);
+            this.props.updateAccuracy(res.data);
             if(this.props.set.correct_option === 2)
             {
                 alert('Your vote was right');
@@ -99,12 +100,13 @@ class Set extends React.Component {
 }
 function mapStateToProps(state) {
     console.log(state)
-    const {user} = state;
-    return { user: user}
+    const {user, accuracy} = state;
+    return { user: user,
+            accuracy: accuracy}
 }
 function mapDispatchToProps(dispatch) {
     return {
-        vote: () => dispatch({type: 'vote'})
+        updateAccuracy: (accuracy) => dispatch({type: 'updateAccuracy', accuracy: accuracy})
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Set);
