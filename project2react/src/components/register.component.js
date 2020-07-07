@@ -24,9 +24,9 @@ class Register extends React.Component {
     console.log(this.props);
     this.registerService.register(this.props.username, this.props.password, this.props.role).then(
       (resp) => {
-        this.props.register(this.props.username, this.props.password, this.props.role)
-      }
-    )
+        // this.props.register(this.props.username, this.props.password, this.props.role)
+        alert('Registration Successful')
+      })
   }
 
   render() {
