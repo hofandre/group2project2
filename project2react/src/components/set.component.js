@@ -74,6 +74,32 @@ class Set extends React.Component {
         console.log('Updating Set')
     }
 
+
+
+    displayAccuracy() {
+        const accuracy = this.props.set.accuracy
+        const outputString = `Global First Time User Accuracy: ${this.props.set.accuracy*100}%`
+        if (accuracy < .35) {
+            return (
+                <div className='alert alert-danger'>
+                    {outputString}
+                </div>
+            )
+        } else if ((accuracy < .65) && (accuracy >= .35)) {
+            return (
+                <div className='alert alert-warning'>
+                    {outputString} 
+                </div>
+            )
+        } else if (accuracy >= .65){
+            return (
+                <div className='alert alert-success'>
+                    {outputString}
+                </div>
+            )
+        }
+    }
+
     render() {
         console.log('rendering a set')
         console.log(this.props.set)
@@ -81,6 +107,13 @@ class Set extends React.Component {
             <>
                 <tr>
                     <th>{this.props.set.title}</th>
+                </tr>
+                <tr>
+                    <td>
+                    {
+                        this.displayAccuracy()
+                    }                        
+                    </td>
                 </tr>
                 <tr>
                     <td>
@@ -144,6 +177,7 @@ function mapStateToProps(state) {
              comment: comment,
              accuracy: accuracy }
 }
+
 function mapDispatchToProps(dispatch) {
     return {
         updateAccuracy: (accuracy) => dispatch({type: 'updateAccuracy', accuracy: accuracy})
