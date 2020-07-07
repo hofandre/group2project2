@@ -46,7 +46,6 @@ class Set extends React.Component {
     }
 
     handleInput(e) {
-        console.log(e.target.value)
         console.log(this.props)
         this.props.dispatch( {
             type: 'handleComment',
@@ -55,7 +54,8 @@ class Set extends React.Component {
     }
     comment() {
         console.log('comment button clicked')
-        this.setService.comment(this.props.user.username, this.props.set._id)
+        console.log(this.props.comment)
+        this.setService.comment(this.props.user.username, this.props.set._id, this.props.comment)
     }
 
     componentDidMount() {
@@ -102,7 +102,7 @@ class Set extends React.Component {
                                         </tr>
                                         <tr>
                                         <td colSpan='2'>
-                                            <textarea rows='5' cols='100' value={this.props.comment} onChange={ this.handleInput }></textarea>
+                                            <textarea rows='5' cols='100' id='comment' value={this.props.comment} onChange={ this.handleInput }></textarea>
                                         </td>
                                         </tr>
                                         <tr>
@@ -124,9 +124,10 @@ class Set extends React.Component {
 }
 function mapStateToProps(state) {
     console.log(state)
-    const {user} = state;
+    const {user, comment} = state;
     console.log(user)
-    return { user: user }
+    return { user: user,
+             comment: comment }
 }
 // function mapDispatchToProps(dispatch) {
 //     return {

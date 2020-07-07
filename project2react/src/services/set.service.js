@@ -14,15 +14,16 @@ class SetService {
     }
     
     vote(username, set_id, vote){
-		return axios.post(this.URI + "/" + set_id + "/" + username, {'vote': vote}, {withCredentials: true})
+		return axios.post(this.URI + "/" + set_id + "/" + username + '/vote', {'vote': vote}, {withCredentials: true})
     }
     
     getSetsByKeyword(keyword) {
         return axios.get(this.URI + '?keyword=' + keyword);
     }
 
-    comment() {
+    comment(username, set_id, comment) {
         console.log('going to send an http request')
+        return axios.post(this.URI + "/" + set_id + "/" + username + '/comment', {'comment': comment}, {withCredentials: true})
     }
 }
 

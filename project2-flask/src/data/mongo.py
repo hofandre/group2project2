@@ -96,6 +96,11 @@ def update_voting_record(username: str, set_id: int, correct: bool):
     accuracy = correct_votes / votes
     _db.users.update_one(query, {'$set': {'accuracy': accuracy}})
 
+def append_comment_to_set(username: str, set_id: int, comment: str):
+    _log.debug('going to add comment to database')
+    query = {'_id': set_id}
+    _db.sets.update_one(query, {'$push': {'comments': {username: comment}}})
+
 def _get_set_id():
     '''Retrieves the next id in the database and increments it.'''
     return _db.counter.find_one_and_update({'_id': 'SET_COUNT'},
