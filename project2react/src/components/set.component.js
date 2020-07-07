@@ -15,17 +15,31 @@ class Set extends React.Component {
 
     voteA(){
         console.log('voteOne was clicked');
-        this.setService.vote(this.props.username, this.props.set._id, 1).then( res => {
+        this.setService.vote(this.props.user.username, this.props.set._id, 1).then( res => {
             console.log('post was succesful');
             console.log(res);
+            if(this.props.set.correct_option === 1)
+            {
+                alert('Your vote was right');
+            }
+            else{
+                alert('Your vote was wrong');
+            }
         })
         
     }
     voteB(){
         console.log('voteTwo was clicked');
-        this.setService.vote(this.props.username, this.props.set._id, 2).then( res => {
+        this.setService.vote(this.props.user.username, this.props.set._id, 2).then( res => {
             console.log('post was succesful');
             console.log(res);
+            if(this.props.set.correct_option === 2)
+            {
+                alert('Your vote was right');
+            }
+            else{
+                alert('Your vote was wrong');
+            }
         })
         
     }
@@ -102,12 +116,18 @@ class Set extends React.Component {
                                             alt={this.props.set.alt_texts[1]}></img>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td><button className='btn btn-primary'
-                                        onClick={ this.voteA }>Vote a</button></td>
-                                    <td><button className='btn btn-primary'
-                                        onClick={ this.voteB }>Vote b</button></td>
-                                </tr>
+                                {
+                                this.props.user.username ?
+                                    <tr>
+                                        <td><button className='btn btn-primary'
+                                            onClick={ this.voteA }>Vote a</button></td>
+                                        <td><button className='btn btn-primary'
+                                            onClick={ this.voteB }>Vote b</button></td>
+                                    </tr>
+
+                                : <tr></tr>
+                                }
+                                
                             </tbody>
                         </table>
                     </td>
@@ -117,8 +137,9 @@ class Set extends React.Component {
     }
 }
 function mapStateToProps(state) {
-    const {username} = state;
-    return { username: username}
+    console.log(state)
+    const {user} = state;
+    return { user: user}
 }
 
 function mapDispatchToProps(dispatch) {
