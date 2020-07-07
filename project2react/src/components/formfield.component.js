@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import zxcvbn from 'zxcvbn';
 
 class FormField extends Component {
 
@@ -8,28 +9,39 @@ class FormField extends Component {
     super(props);
     // bind store update functions
     this.hasChanged = this.hasChanged.bind(this);
+    this.passwordsMatch = this.passwordsMatch.bind(this);
+  }
+
+  passwordsMatch() {
+    const password = document.getElementById('password');
+    const confirm = document.getElementById('confirm');
+    if(password !== confirm) {
+
+    }
   }
 
   // state change watch functions for each field
   hasChanged(e) {
+    e.preventDefault();
     const value = e.target.value;
     const field = e.target.id;
-    console.log(value);
-    console.log(field);
-    e.preventDefault();
     switch(field) {
       case 'username': {
-        const regex = /^[a-z]+$/;
-        if (!regex.test(value)) throw new Error('Username is invalid');
-        console.log(value);
+        const regex = /^[!-z]+$/;
+        if (!regex.test(value)) this.props.updateError('Username is invalid');
         this.props.setUsername(value);
         break;
       }
       case 'password': {
+        if (!zxcvbn(value)) this.props.updateError('Password is invalid');
         this.props.setPassword(value);
         break;
       }
       case 'confirm': {
+        const password = document.getElementById('password');
+        const confirm = document.getElementById('confirm');
+        if (!zxcvbn(value)) this.props.updateError('Password is invalid');
+        if (password !== confirm) this.props.updateError('Passwords do not match.');
         this.props.setConfirm(value);
         break;
       }
@@ -41,33 +53,12 @@ class FormField extends Component {
         break;
       }
     }
-    // // destructure props - assign default dummy functions to validator and onStateChanged props
-    // const { label, required = false, validator = f => f, onStateChanged = f => f } = this.props;
-    // const isEmpty = value.length === 0;
-    // const requiredMissing = this.state.dirty && required && isEmpty;
-    //
-    // let errors = [];
-    //
-    // if (requiredMissing) {
-    //   // if required and is empty, add required error to state
-    //   errors = [ ...errors, `${label} is required` ];
-    // } else if ('function' === typeof validator) {
-    //   try {
-    //     validator(value);
-    //   } catch (e) {
-    //     // if validator throws error, add validation error to state
-    //     errors = [ ...errors, e.message ];
-    //   }
-    // }
   }
 
   render() {
     const { value } = this.props;
     const { type, label, fieldId, placeholder, children } = this.props;
-
-    // const hasErrors = errors.length > 0;
-    // const controlClass = ['form-control', dirty ? hasErrors ? 'is-invalid' : 'is-valid' : '' ].join(' ').trim();
-
+    const { error } = this.props;
     return (
       <Fragment>
         <div className="form-group px-3 pb-2">
@@ -76,7 +67,7 @@ class FormField extends Component {
           </div>
           {/** Render the children nodes passed to component **/}
           {children}
-          <input type={type} id={fieldId} placeholder={placeholder} value={value} onChange={this.hasChanged} />
+          <span><input type={type} id={fieldId} placeholder={placeholder} value={value} onChange={this.hasChanged} />{error}</span>
         </div>
       </Fragment>
     );
@@ -84,10 +75,11 @@ class FormField extends Component {
 }
 
 FormField.propTypes = {
-  type: PropTypes.oneOf(["text", "password"]).isRequired,
+  type: PropTypes.oneOf(["text", "password", "select"]).isRequired,
   label: PropTypes.string.isRequired,
-  fieldId: PropTypes.string.isRequired,
+  fieldid: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
+  error: PropTypes.string,
   required: PropTypes.bool,
   children: PropTypes.node,
   validator: PropTypes.func,
@@ -109,7 +101,8 @@ function mapDispatchToProps(dispatch) {
     setUsername: (username) => dispatch({type: 'updateUsername', username: username }),
     setPassword: (password) => dispatch({type: 'updatePassword', password: password}),
     setConfirm: (confirm) => dispatch({type: 'updateConfirm', confirm: confirm }),
-    setRole: (role) => dispatch({type: 'updateRole', role: role})
+    setRole: (role) => dispatch({type: 'updateRole', role: role}),
+    setError: (error) => dispatch({type: 'updateError', error: error})
   }
 }
 
