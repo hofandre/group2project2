@@ -64,7 +64,8 @@ def register_user():
         _log.debug(username)
         password = request.get_json()['password']
         _log.debug(password)
-        role = 'voter'
+        role = request.get_json()['role']
+        _log.debug(role)
         newUser = db.register(username, password, role)
     else:
         return {}, 400
