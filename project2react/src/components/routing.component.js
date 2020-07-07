@@ -4,6 +4,7 @@ import Login from './login.component'
 
 import { Navbar, Nav } from 'react-bootstrap';
 import SetForm from './setTable.component';
+import UserTable from './usersList.component'
 
 
 
@@ -22,6 +23,7 @@ class Routing extends Component {
                     <Login></Login>
                 </Navbar>
                 <Route path='/sets' component={SetForm}/>
+                <Route path='/users' component={UserTable}/>
             </div>
         </Router>
     }

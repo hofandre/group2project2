@@ -113,3 +113,10 @@ def get_user_by_username(username: str):
 def update_usertype(_id: int, usertype: str):
     '''finds and updates a user's usertype'''
     return _db.users.find_one_and_update({"_id":_id}, {"$set" : {"usertype":usertype}})
+
+def get_users():
+    try:
+        user_list = _db.users.find()
+    except pymongo.errors.PyMongoError:
+        _log.exception('get_users has failed in the database')
+    return [User.from_dict(user) for user in user_list]

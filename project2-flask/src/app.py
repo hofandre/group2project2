@@ -74,3 +74,11 @@ def update_usertype(username):
             return "Only an Admin can edit usertype", 401
         return {}, 400
     return {}, 501
+
+@app.route("/users/all", methods=["GET"])
+def get_users():
+    if request.method == "GET":
+        if db.get_users():
+            return jsonify(db.get_users()), 200
+        return {}, 400
+    return {}, 501
