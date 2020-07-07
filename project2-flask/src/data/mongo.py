@@ -34,8 +34,9 @@ def register(username: str, password: str, role: str):
                                           return_document=pymongo.ReturnDocument.AFTER)['count']
     _log.debug(_id)
     query = {"_id": _id, "username": username, "password": password, "role": role}
+    user = User(_id, username, password, role)
     _log.debug(query)
-    _db.users.insert_one(query)
+    _db.users.insert_one(user.to_dict())
     return User.from_dict(_db.users.find_one({'_id': _id}))
 
 
@@ -94,6 +95,9 @@ def update_voting_record(username: str, set_id: int, correct: bool):
     #if correct, increments the number of correct votes by one
     if correct:
         _db.users.update_one(query, {'$inc': {'correct_votes': 1}})
+        _db.users.update_one(query, {'$push': {'votes': 1}})
+    else:
+        _db.users.update_one(query, {'$push': {'votes': 0}})
     user = _db.users.find(query)
     #obtain the number of sets voted on
     a_dict = []
@@ -114,3 +118,13 @@ def _get_set_id():
     return _db.counter.find_one_and_update({'_id': 'SET_COUNT'},
                                             {'$inc': {'count': 1}},
                                             return_document=pymongo.ReturnDocument.AFTER)['count']
+
+def get_users_by_set(setid):
+    ''' Returns a list of all users that have voted on a particular set'''
+    query = {'voted_sets': setid}
+    user_list = None
+    try:
+        user_list = _db.users.find(query)
+    except pymongo.errors.PyMongoError:
+        _log.exception('get_users_by_set has failed on set_id %d', setid)
+    return [User.from_dict(user) for user in user_list] if user_list else None

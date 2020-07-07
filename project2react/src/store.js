@@ -1,7 +1,7 @@
 import { createStore } from 'redux';
 
 const initialState = {
-    user: null,
+    user: {username:'', password:'', role:''},
     username: '',
     registerUser: '',
     password: '',
@@ -14,7 +14,8 @@ const initialState = {
     displaySets: {},
     accuracy: 0.0,
     displaySetCriteria: 0,
-    displaySearchTerm: 'id'
+    displaySearchTerm: 'id',
+    displaySetAccuracy: {}
 };
 
 function truthReducer(state = initialState, action) {

@@ -8,7 +8,6 @@ class SetTable extends React.Component {
     setService = new SetService();
     constructor(props) {
         console.log('setTable constructor')
-        console.log(props)
         super(props);
         this.handleInput = this.handleInput.bind(this);
         this.searchSets = this.searchSets.bind(this);
@@ -22,14 +21,12 @@ class SetTable extends React.Component {
     /** componentDidUpdate records when update occurs. */
     componentDidUpdate() {
         console.log('Updating Sets')
-        console.log(this.props)
     }
 
 
     idSearch() {
         if (this.validate_id(this.props.setSearchCriteria)) {
             this.setService.getSetByID(this.props.setSearchCriteria).then(res => {
-                console.log(res)
                 const set_list = [res.data]
                 this.props.querySets(set_list);
             }).catch(res => {
@@ -49,6 +46,7 @@ class SetTable extends React.Component {
                 if (Array.isArray(res.data))
                 {
                     this.props.querySets(res.data);
+
                 }
                 else {
                     const set_list = [res.data]
@@ -75,7 +73,9 @@ class SetTable extends React.Component {
     }
     allSets() {
         this.setService.getSets().then(res => {
+            // this.updateAccuracies(res.data)
             this.props.querySets(res.data);
+
         })
     }
     validate_id(set_id) {
@@ -104,7 +104,6 @@ class SetTable extends React.Component {
      * @return {JSX} Returns an HTML template for sets
      */
     render() {
-        console.log('Render called')
         return (
             <>  <div className='container'>
                     <h3>Set Search</h3>
