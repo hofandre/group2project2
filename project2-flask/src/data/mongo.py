@@ -107,6 +107,7 @@ def update_voting_record(username: str, set_id: int, correct: bool):
     #calculate and set accuracy
     accuracy = correct_votes / votes
     _db.users.update_one(query, {'$set': {'accuracy': accuracy}})
+    return accuracy
 
 def _get_set_id():
     '''Retrieves the next id in the database and increments it.'''
