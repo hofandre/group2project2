@@ -12,6 +12,7 @@ class Set extends React.Component {
         this.voteA = this.voteA.bind(this);
         this.voteB = this.voteB.bind(this);
         this.comment = this.comment.bind(this);
+        this.viewComments = this.viewComments.bind(this);
     }
 
     voteA(){
@@ -59,6 +60,11 @@ class Set extends React.Component {
         console.log(this.props.comment)
         this.setService.comment(this.props.user.username, this.props.set._id, this.props.comment)
     }
+    viewComments() {
+        console.log('show the comments')
+        console.log(this.props.set.comments)
+        
+    }
 
     componentDidMount() {
         console.log('Mounting Set')
@@ -105,7 +111,7 @@ class Set extends React.Component {
                                         </tr>
                                         <tr>
                                             <td colSpan='2'>
-                                                <button className='btn btn-light' >View comments</button>
+                                                <button className='btn btn-light' onClick={ this.viewComments }>View comments</button>
                                             </td>
                                         </tr>
                                         <tr>
