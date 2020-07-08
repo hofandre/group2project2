@@ -123,6 +123,25 @@ def _get_set_id():
     return _db.counter.find_one_and_update({'_id': 'SET_COUNT'},
                                             {'$inc': {'count': 1}},
                                             return_document=pymongo.ReturnDocument.AFTER)['count']
+                                            
+def get_user_by_username(username: str):
+    '''Returns a user by their id'''
+    user = {}
+    db_user = _db.users.find_one({'username': username})
+    if db_user :
+        user = User.from_dict(db_user)
+    return user
+
+def update_usertype(_id: int, usertype: str):
+    '''finds and updates a user's usertype'''
+    return _db.users.find_one_and_update({"_id":_id}, {"$set" : {"usertype":usertype}})
+
+def get_users():
+    try:
+        user_list = _db.users.find()
+    except pymongo.errors.PyMongoError:
+        _log.exception('get_users has failed in the database')
+    return [User.from_dict(user) for user in user_list]
 
 def get_users_by_set(setid):
     ''' Returns a list of all users that have voted on a particular set'''

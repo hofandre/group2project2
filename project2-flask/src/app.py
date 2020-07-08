@@ -25,7 +25,7 @@ def test_html():
 @app.route('/users/<username>', methods=['POST'])
 def login(username):
     '''handles requests to login and sets the cookies'''
-    _log.debug("is it calling login")
+    _log.debug("%s is logging in", username)
     if request.method == "POST":
         _log.debug(request.get_json())
         _log.debug(request.path)
@@ -57,6 +57,32 @@ def logout():
         else:
             return {}, 401
 
+@app.route("/users/<username>/usertype", methods=["POST"])
+def update_usertype(username):
+    if request.method == "POST":
+        _log.debug("Updating user:%s usertype", username)
+        user = db.get_user_by_username(username)
+        if user:
+            auth_token = request.cookies.get("authorization")
+            #sender = db.get_user_by_id(User.decode_auth_token(auth_token))
+            _log.debug(user._id)
+            _log.debug(request.get_json())
+            sender = db.get_user_by_username("admin")
+            if sender and sender.usertype == "admin":
+                db.update_usertype(user._id, request.get_json()["usertype"])
+                return "Usertype updated", 200
+            return "Only an Admin can edit usertype", 401
+        return {}, 400
+    return {}, 501
+
+@app.route("/users/all", methods=["GET"])
+def get_users():
+    if request.method == "GET":
+        if db.get_users():
+            return jsonify(db.get_users()), 200
+        return {}, 400
+    return {}, 501
+    
 @app.route('/register', methods=['POST'])
 def register_user():
     if request.method == "POST":
