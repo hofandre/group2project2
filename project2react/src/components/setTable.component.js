@@ -33,8 +33,10 @@ class SetTable extends React.Component {
             this.setService.deleteSetByID(setID).then( res => {
                 this.reloadSets()
                 return
-            }).catch(() => {
+            }).catch((res) => {
+                
                 console.log('delete set catch called')
+                console.log(res)
                 alert('Set has failed to delete, please check the database')
             }   
             )
@@ -43,16 +45,17 @@ class SetTable extends React.Component {
 
     reloadSets() {
         console.log('reload sets called')
+        console.log(this.props.lastSearch)
         if (this.props.lastSearch.type === 'ALL') {
             return this.allSets()
         } else if (this.props.lastSearch.type === 'id') {
             this.props.setTerm('id')
             this.props.setSearch(this.props.lastSearch.param)
-            return this.props.idSearch()
-        } else if (this.props.lastSearch.type === 'id') {
+            return this.idSearch()
+        } else if (this.props.lastSearch.type === 'keyword') {
             this.props.setTerm('keyword')
             this.props.setSearch(this.props.lastSearch.param)
-            return this.props.keywordSearch()
+            return this.keywordSearch()
         }
     }
 
@@ -63,7 +66,7 @@ class SetTable extends React.Component {
                 this.props.querySets(set_list);
                 this.props.updateLastSearch({type: 'id', param: this.props.setSearchCriteria})
             }).catch(res => {
-
+                this.props.querySets({});
                 alert(`The set id you have entered is out of bounds, please try a smaller number.`)
 
             })
@@ -74,6 +77,8 @@ class SetTable extends React.Component {
     }
 
     keywordSearch() {
+        console.log('keyword search called')
+        console.log(this.props.setSearchCriteria)
         if (this.validate_keyword(this.props.setSearchCriteria)) {
             this.setService.getSetsByKeyword(this.props.setSearchCriteria).then(res => {
                 if (Array.isArray(res.data))
@@ -87,7 +92,7 @@ class SetTable extends React.Component {
                 }
                 this.props.updateLastSearch({type: 'keyword', param: this.props.setSearchCriteria})
             }).catch(res => {
-
+                this.props.querySets({});
                 alert(`The keyword you've entered does not match any sets.`)
 
             })

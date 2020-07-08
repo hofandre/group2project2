@@ -43,10 +43,10 @@ def set_by_id(setid):
             return jsonify('Bad Request'), 400
     elif request.method == 'DELETE':
         # Get the user credentials from the request body:
-        # auth_token = request.cookies.get('authorization')
-        # user = db.get_user_by_id(User.decode_auth_token(auth_token))
-        # if not user.usertype == 'admin':
-        #     return jsonify('Forbidden'), 403
+        auth_token = request.cookies.get('authorization')
+        user = db.get_user_by_id(User.decode_auth_token(auth_token))
+        if not user.usertype == 'admin':
+            return jsonify('Forbidden'), 403
         success = db.delete_set_by_id(setid)
         if success:
             return jsonify('No Content'), 204

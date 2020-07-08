@@ -20,7 +20,7 @@ class SetService {
         return axios.get(this.URI + '?keyword=' + keyword);
     }
     deleteSetByID(setID) {
-        return axios.delete(this.URI + '/' + setID)
+        return axios.delete(this.URI + '/' + setID, {withCredentials: true})
     }
 }
 
