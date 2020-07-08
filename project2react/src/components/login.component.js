@@ -26,8 +26,9 @@ class Login extends Component {
     login() {
         this.userService.login(this.props.username, this.props.password).then(
             (resp) => {
-                console.log(resp)
-                this.props.dispatch( { type: 'login', user: resp.data })
+                console.log(resp);
+                this.props.dispatch( { type: 'login', user: resp.data });
+                this.props.dispatch({type: 'updateAccuracy', accuracy: this.props.user.accuracy });
             }
         )
     }
@@ -36,7 +37,7 @@ class Login extends Component {
         this.userService.logout().then(
             () => {
                 console.log('Logging out.')
-                this.props.dispatch( { type: 'login', user: null, username:'', password:''} )
+                this.props.dispatch( { type: 'login', user: {username:'', password:'', role:''}, username:'', password:''} )
             }
         )
     }
@@ -83,11 +84,17 @@ class Login extends Component {
     }
 
     displayUser() {
+        console.log(this.props.accuracy)
         return (
             <>
                 <ul className = 'nav'>
                     <li className = 'nav-item'>
                         Welcome {this.props.user.role}: {this.props.user.username}
+                    </li>
+                    <br></br>
+                    <li className = 'nav-item' 
+                        id='accuracyElement'>
+                        | Accuracy: {this.props.accuracy.toFixed(2)}
                     </li>
                     <li className = 'nav-item'><button className='btn btn-danger'
                         onClick={ this.logout }>Logout</button></li>
@@ -98,7 +105,7 @@ class Login extends Component {
 
     render() {
         console.log('rendering login')
-        if (this.props.user) {
+        if (this.props.user.role !== '') {
             return this.displayUser()
         } else {
             return this.getLoginForm()
@@ -107,10 +114,11 @@ class Login extends Component {
 }
 
 function mapStateToProps(state) {
-    const {user, username, password} = state;
+    const {user, username, password, accuracy} = state;
     return {user: user,
             username: username,
-            password: password}
+            password: password,
+            accuracy: accuracy}
 }
 
 export default connect(mapStateToProps)(Login);

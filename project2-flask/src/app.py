@@ -82,3 +82,16 @@ def get_users():
             return jsonify(db.get_users()), 200
         return {}, 400
     return {}, 501
+    
+@app.route('/register', methods=['POST'])
+def register_user():
+    if request.method == "POST":
+        username = request.get_json()['username']
+        _log.debug(username)
+        password = request.get_json()['password']
+        _log.debug(password)
+        role = 'voter'
+        newUser = db.register(username, password, role)
+    else:
+        return {}, 400
+    return jsonify(newUser), 201

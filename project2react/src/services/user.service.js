@@ -1,5 +1,3 @@
-import store from '../store';
-
 const {default:axios} = require('axios')
 
 /** UserService handles http requests related to the User component class.*/
@@ -10,8 +8,8 @@ class UserService {
 		this.URI = 'http://localhost:5000/users';
 	}
 
-	/** 
-		checkLogin function sends an axios request to the URI requiring credentials 
+	/**
+		checkLogin function sends an axios request to the URI requiring credentials
 		and will use whatever is stored in the cookies.
 		@return {HTTP GET Request} A request to the server to check if the jwt token has expired.
 	*/
