@@ -14,6 +14,7 @@ class Set extends React.Component {
         this.voteB = this.voteB.bind(this);
         this.comment = this.comment.bind(this);
         this.allComments = this.allComments.bind(this);
+        this.makeComment = this.makeComment.bind(this);
     }
 
     voteA(){
@@ -62,7 +63,12 @@ class Set extends React.Component {
         console.log(this)
         this.setService.getComments(this.props.set._id).then(res => {
             this.props.queryComments(res.data);
+            console.log(res.data)
         })
+    }
+    makeComment() {
+        this.comment();
+        this.allComments();
     }
 
     componentDidMount() {
@@ -158,7 +164,7 @@ class Set extends React.Component {
                                         </tr>
                                         <tr>
                                             <td colSpan='2'>
-                                                <button className='btn btn-dark' onClick={ this.comment }>Comment</button>
+                                                <button className='btn btn-dark' onClick={ this.makeComment }>Comment</button>
                                             </td>
                                         </tr>
                                     </>
