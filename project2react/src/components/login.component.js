@@ -18,7 +18,6 @@ class Login extends Component {
          this.userService.checkLogin().then(
              (resp) => {
                  this.props.dispatch( { type: 'login', user: resp.data })
-                 //this.loadMedia();
              }
          )
     }
@@ -26,6 +25,7 @@ class Login extends Component {
     login() {
         this.userService.login(this.props.username, this.props.password).then(
             (resp) => {
+                console.log("logging in")
                 console.log(resp);
                 this.props.dispatch( { type: 'login', user: resp.data });
                 this.props.dispatch({type: 'updateAccuracy', accuracy: this.props.user.accuracy });

@@ -12,6 +12,7 @@ const initialState = {
     role: '',
     register: {username: '', password: '', usertype: ''},
     displaySets: {},
+    displayUsers: {},
     accuracy: 0.0,
     displaySetCriteria: 0,
     displaySearchTerm: 'id',
@@ -51,6 +52,8 @@ function truthReducer(state = initialState, action) {
             return Object.assign({}, state, {displaySearchTerm: action.setSearchTerm})
         case 'updateSearch':
             return Object.assign({}, state, {lastSearchMade: action.searchMade})
+        case 'queryUsers':
+            return Object.assign({}, state, {displayUsers: action.users})
         default:
             return state;
     }

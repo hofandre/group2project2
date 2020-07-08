@@ -5,7 +5,7 @@ import Register from './register.component'
 
 import { Navbar, Nav } from 'react-bootstrap';
 import SetForm from './setTable.component';
-
+import UserTable from './usersList.component'
 
 
 
@@ -19,12 +19,14 @@ class Routing extends Component {
                         <Nav className='mr-auto'>
                             <Link to='/sets'>Sets</Link>
                             <Link to='/register'>Register</Link>
+                            <Link to='/users'>Users</Link>
                         </Nav>
                     </Navbar.Collapse>
                     <Login></Login>
                 </Navbar>
                 <Route path='/sets' component={SetForm}/>
                 <Route path='/register' component={Register}/>
+                <Route path='/users' component={UserTable}/>
             </div>
         </Router>
     }
