@@ -42,6 +42,10 @@ class UserService {
 		return axios.post(this.URI + "/" + username + "/usertype", {'usertype':new_usertype}, {withCredentials: true}) 
 	}
 
+	deleteUser(username) {
+		return axios.delete(this.URI + "/" + username, {withCredentials:true})
+	}
+
 }
 
 export default UserService;

@@ -22,7 +22,7 @@ app.register_blueprint(set_page)
 def test_html():
     return 'Hello World', 200
 
-@app.route('/users/<username>', methods=['POST'])
+@app.route('/users/<username>', methods=['POST', "DELETE"])
 def login(username):
     '''handles requests to login and sets the cookies'''
     _log.debug("%s is logging in", username)
@@ -38,6 +38,17 @@ def login(username):
             response = make_response(jsonify(user_dict))
             response.set_cookie('authorization', auth_token.decode())
             return response, 200
+        return {}, 400
+    if request.method == "DELETE":
+        _log.debug("Deleting user: %s", username)
+        user = db.get_user_by_username(username)
+        if user:
+            auth_token = request.cookies.get("authorization")
+            sender = db.get_user_by_id(User.decode_auth_token(auth_token))
+            if sender and (sender.usertype == "admin" or sender.usertype == "moderator"):
+                db.delete_user_by_id(user._id)
+                return "User Deleted", 200
+            return "Only an Admin or Moderator can delete a user", 401
         return {}, 400
     else:
         return {}, 501
@@ -64,11 +75,11 @@ def update_usertype(username):
         user = db.get_user_by_username(username)
         if user:
             auth_token = request.cookies.get("authorization")
-            #sender = db.get_user_by_id(User.decode_auth_token(auth_token))
+            sender = db.get_user_by_id(User.decode_auth_token(auth_token))
             _log.debug(user._id)
             _log.debug(request.get_json())
-            sender = db.get_user_by_username("admin")
-            if sender and sender.usertype == "admin":
+            #sender = db.get_user_by_username("admin")
+            if sender and (sender.usertype == "admin" or sender.usertype == "moderator"):
                 db.update_usertype(user._id, request.get_json()["usertype"])
                 return "Usertype updated", 200
             return "Only an Admin can edit usertype", 401

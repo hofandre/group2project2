@@ -18,6 +18,7 @@ class UserRow extends React.Component {
         super(props)
         this.promoteModerator = this.promoteModerator.bind(this)
         this.demoteModerator = this.demoteModerator.bind(this)
+        this.deleteUser = this.deleteUser.bind(this)
     }
 
     promoteModerator() {
@@ -31,6 +32,13 @@ class UserRow extends React.Component {
     demoteModerator() {
 //        console.log("demote moderator button pressed")
         this.userService.change_usertype(this.props.user.username, "voter").then(() => {
+            this.userService.get_users().then(res => {
+                this.props.queryUsers(res.data)
+            })})  
+    }
+
+    deleteUser() {
+        this.userService.deleteUser(this.props.user.username).then(() => {
             this.userService.get_users().then(res => {
                 this.props.queryUsers(res.data)
             })})  
@@ -68,7 +76,7 @@ class UserRow extends React.Component {
                     <td>
                         {   
                         this.props.active_user.usertype ==='admin'?
-                            this.props.user.usertype !== "admin"?
+                            this.props.user.usertype !== "admin" && this.props.user.username !== this.props.active_user.username?
                                 this.props.user.usertype !== 'moderator'?
                                 <button  className='btn btn-primary' onClick={this.promoteModerator}>Promote Moderator</button>
                                 :
@@ -79,7 +87,18 @@ class UserRow extends React.Component {
                         null
                         }
                     </td>
-                    <td></td>
+                    <td>
+                        {
+                            this.props.active_user.usertype === 'moderator' || this.props.active_user.usertype === 'admin' ?
+                                this.props.user.usertype !== this.props.active_user.usertype?
+                                    <button className='btn btn-danger' onClick={this.deleteUser}>Delete User</button>
+                                :
+                                    null
+                                    
+                            :
+                                null
+                        }
+                    </td>
 
                 </tr>
             </>
