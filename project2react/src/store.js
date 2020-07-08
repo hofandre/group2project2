@@ -1,7 +1,7 @@
 import { createStore } from 'redux';
 
 const initialState = {
-    user: {username:'', password:'', role:''},
+    user: {username:'', password:'', usertype:''},
     username: '',
     registerUser: '',
     password: '',
@@ -10,13 +10,14 @@ const initialState = {
     minLength: 7,
     confirm: '',
     role: '',
-    register: {username: '', password: '', role: ''},
+    register: {username: '', password: '', usertype: ''},
     displaySets: {},
     displayUsers: {},
     accuracy: 0.0,
     displaySetCriteria: 0,
     displaySearchTerm: 'id',
-    displaySetAccuracy: {}
+    displaySetAccuracy: {},
+    lastSearchMade: {type: '', param: ''}
 };
 
 function truthReducer(state = initialState, action) {
@@ -44,11 +45,13 @@ function truthReducer(state = initialState, action) {
         case 'querySets':
             return Object.assign({}, state, {displaySets: action.sets})
         case 'updateAccuracy':
-                return Object.assign({}, state, {accuracy: action.accuracy})
+            return Object.assign({}, state, {accuracy: action.accuracy})
         case 'setSearch':
             return Object.assign({}, state, {displaySetCriteria: action.setSearchCriteria})
         case 'searchTerm':
             return Object.assign({}, state, {displaySearchTerm: action.setSearchTerm})
+        case 'updateSearch':
+            return Object.assign({}, state, {lastSearchMade: action.searchMade})
         case 'queryUsers':
             return Object.assign({}, state, {displayUsers: action.users})
         default:

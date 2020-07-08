@@ -152,3 +152,12 @@ def delete_user_by_id(_id: int):
     query = {"_id":_id}
     _db.users.find_one_and_delete(query)
     return _db.users.find_one(query)
+    
+def delete_set_by_id(set_id):
+    ''' Deletes the set with the given set_id'''
+    query = {'_id': set_id}
+    try:
+        result = _db.sets.delete_one(query)
+    except:
+        _log.exception('delete_set_by_id has failed to delete set with id %d', set_id)
+    return result.deleted_count == 1
