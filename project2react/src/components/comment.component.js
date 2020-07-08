@@ -1,19 +1,22 @@
 import React from 'react';
-import { connect } from 'react-redux';
 
 class Comment extends React.Component {
     constructor(props) {
         super(props)
     }
     render() {
+        console.log(this.props.comment)
         return(
-            <td>
-                Hello There
-            </td>
+            <tr>
+                <td style={{width: '10%'}}>
+                    { this.props.comment.user }
+                </td>
+                <td style={{width: '90%'}}>
+                    { this.props.comment.comment }
+                </td>
+            </tr>
         )
     }
 }
-function mapStatetoProps(state) {
-    
-}
-export default connect(mapStatetoProps)(Comment);
+
+export default (Comment);

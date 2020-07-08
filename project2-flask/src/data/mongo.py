@@ -116,7 +116,7 @@ def update_voting_record(username: str, set_id: int, correct: bool):
 def append_comment_to_set(username: str, set_id: int, comment: str):
     _log.debug('going to add comment to database')
     query = {'_id': set_id}
-    _db.sets.update_one(query, {'$push': {'comments': {username: comment}}})
+    _db.sets.update_one(query, {'$push': {'comments': {'user': username, 'comment': comment}}})
 
 def _get_set_id():
     '''Retrieves the next id in the database and increments it.'''

@@ -7,8 +7,8 @@ class Set extends React.Component {
     setService = new SetService();
     constructor(props){
         super(props);
-        console.log('setComponent constructor')
-        console.log(props)
+        console.log('setComponent constructor');
+        console.log(props);
         this.handleInput = this.handleInput.bind(this);
         this.voteA = this.voteA.bind(this);
         this.voteB = this.voteB.bind(this);
@@ -51,24 +51,25 @@ class Set extends React.Component {
     }
 
     handleInput(e) {
-        console.log(this.props)
-        this.props.makeComment(e.target.value)
+        console.log(this.props);
+        this.props.makeComment(e.target.value);
     }
     comment() {
-        console.log('comment button clicked')
-        console.log(this.props.comment)
-        this.setService.comment(this.props.user.username, this.props.set._id, this.props.comment)
+        console.log('comment button clicked');
+        console.log(this.props.comment);
+        this.setService.comment(this.props.user.username, this.props.set._id, this.props.comment).then(() => {
+            this.allComments();
+        });
     }
     allComments() {
-        console.log(this)
+        console.log(this.flag);
         this.setService.getComments(this.props.set._id).then(res => {
             this.props.queryComments(res.data);
-            console.log(res.data)
+            console.log(res.data);
         })
     }
     makeComment() {
-        this.comment();
-        this.allComments();
+        this.comment()
     }
 
     componentDidMount() {
@@ -150,13 +151,19 @@ class Set extends React.Component {
                                                 <button className='btn btn-light' onClick={ this.allComments }>View comments</button>
                                             </td>
                                         </tr>
-                                        {
-                                            // this.props.sets.comments.map ?
-                                            // this.props.sets.comments.map((eachComment) => {
-                                            //     return <Comment key={eachComment._id} comment={eachComment}></Comment>
-                                            // })
-                                            // : <tr></tr>
-                                        }
+                                        <td colSpan='2'>
+                                            <table width='100%'>
+                                                {
+                                                    // add a condition that if set.id === comment.id
+                                                    this.props.comments.map ?
+                                                    this.props.comments.map((eachComment) => {
+                                                        console.log(eachComment)
+                                                        return <Comment comment={eachComment}></Comment>
+                                                    })
+                                                    : <tr></tr>
+                                                }
+                                            </table>
+                                        </td>
                                         <tr>
                                             <td colSpan='2'>
                                                 <textarea rows='3' cols='100' id='comment' value={this.props.comment} onChange={ this.handleInput }></textarea>
