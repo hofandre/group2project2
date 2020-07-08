@@ -28,6 +28,10 @@ class SetService {
     getComments(set_id) {
         return axios.get(this.URI + '/' + set_id + '/comments');
     }
+    
+    deleteSetByID(setID) {
+        return axios.delete(this.URI + '/' + setID, {withCredentials: true})
+    }
 }
 
 export default SetService;
