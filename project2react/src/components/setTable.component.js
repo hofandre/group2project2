@@ -13,6 +13,7 @@ class SetTable extends React.Component {
         this.searchSets = this.searchSets.bind(this);
         this.allSets = this.allSets.bind(this);
         this.handleTermChange = this.handleTermChange.bind(this);
+        this.deleteSet = this.deleteSet.bind(this);
     }
     /** componentDidMount records when construction occurs. */
     componentDidMount() {
@@ -23,14 +24,49 @@ class SetTable extends React.Component {
         console.log('Updating Sets')
     }
 
+    deleteSet(event) {
+        const setID = event.target.id.split('_')[1]
+        console.log(setID)
+        let choice = window.confirm('Are you sure you want to delete a set? This cannot be undone.')
+        console.log(choice)
+        if (choice) {
+            this.setService.deleteSetByID(setID).then( res => {
+                this.reloadSets()
+                return
+            }).catch((res) => {
+                
+                console.log('delete set catch called')
+                console.log(res)
+                alert('Set has failed to delete, please check the database')
+            }   
+            )
+        }
+    }
+
+    reloadSets() {
+        console.log('reload sets called')
+        console.log(this.props.lastSearch)
+        if (this.props.lastSearch.type === 'ALL') {
+            return this.allSets()
+        } else if (this.props.lastSearch.type === 'id') {
+            this.props.setTerm('id')
+            this.props.setSearch(this.props.lastSearch.param)
+            return this.idSearch()
+        } else if (this.props.lastSearch.type === 'keyword') {
+            this.props.setTerm('keyword')
+            this.props.setSearch(this.props.lastSearch.param)
+            return this.keywordSearch()
+        }
+    }
 
     idSearch() {
         if (this.validate_id(this.props.setSearchCriteria)) {
             this.setService.getSetByID(this.props.setSearchCriteria).then(res => {
                 const set_list = [res.data]
                 this.props.querySets(set_list);
+                this.props.updateLastSearch({type: 'id', param: this.props.setSearchCriteria})
             }).catch(res => {
-
+                this.props.querySets({});
                 alert(`The set id you have entered is out of bounds, please try a smaller number.`)
 
             })
@@ -41,6 +77,8 @@ class SetTable extends React.Component {
     }
 
     keywordSearch() {
+        console.log('keyword search called')
+        console.log(this.props.setSearchCriteria)
         if (this.validate_keyword(this.props.setSearchCriteria)) {
             this.setService.getSetsByKeyword(this.props.setSearchCriteria).then(res => {
                 if (Array.isArray(res.data))
@@ -52,8 +90,9 @@ class SetTable extends React.Component {
                     const set_list = [res.data]
                     this.props.querySets(set_list);
                 }
+                this.props.updateLastSearch({type: 'keyword', param: this.props.setSearchCriteria})
             }).catch(res => {
-
+                this.props.querySets({});
                 alert(`The keyword you've entered does not match any sets.`)
 
             })
@@ -75,6 +114,7 @@ class SetTable extends React.Component {
         this.setService.getSets().then(res => {
             // this.updateAccuracies(res.data)
             this.props.querySets(res.data);
+            this.props.updateLastSearch({type: 'ALL', param: ''})
 
         })
     }
@@ -135,7 +175,21 @@ class SetTable extends React.Component {
                             {
                                 this.props.sets.map ?
                                 this.props.sets.map((eachSet) => {
-                                    return <Set key={eachSet._id} set={eachSet}></Set>
+                                    return (
+                                    this.props.user.usertype === 'admin' ?
+                                    <tr>
+                                        <td>
+                                            <button className='btn btn-danger' 
+                                            id={'del_'+eachSet._id}
+                                            onClick={this.deleteSet }>Delete this set</button>
+                                        </td>
+                                        <td>
+                                            <Set key={eachSet._id} set={eachSet}></Set>
+                                        </td>
+                                    </tr>
+                                    : <Set key={eachSet._id} set={eachSet}></Set>
+                                    
+                                    )
                                 })
                                 : <tr></tr>
                             }
@@ -148,16 +202,19 @@ class SetTable extends React.Component {
     }
 }
 function mapStateToProps(state) {
-    const {displaySets, displaySetCriteria, displaySearchTerm} = state;
+    const {displaySets, displaySetCriteria, displaySearchTerm, user, lastSearchMade} = state;
     return { sets: displaySets,
              setSearchCriteria: displaySetCriteria,
-             setSearchTerm: displaySearchTerm}
+             setSearchTerm: displaySearchTerm,
+             user: user,
+             lastSearch: lastSearchMade}
 }
 function mapDispatchToProps(dispatch) {
     return {
         querySets: (sets) => dispatch({type: 'querySets', sets: sets}),
         setSearch: (setSearchCriteria) => dispatch({type: 'setSearch', setSearchCriteria: setSearchCriteria }),
-        setTerm: (searchTerm) => dispatch({type: 'searchTerm', setSearchTerm: searchTerm})
+        setTerm: (searchTerm) => dispatch({type: 'searchTerm', setSearchTerm: searchTerm}),
+        updateLastSearch: (searchDetails) => dispatch({type: 'updateSearch', searchMade: searchDetails})
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(SetTable);
