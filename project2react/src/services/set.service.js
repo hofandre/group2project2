@@ -19,6 +19,9 @@ class SetService {
     getSetsByKeyword(keyword) {
         return axios.get(this.URI + '?keyword=' + keyword);
     }
+    deleteSetByID(setID) {
+        return axios.delete(this.URI + '/' + setID)
+    }
 }
 
 export default SetService;

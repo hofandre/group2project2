@@ -37,7 +37,7 @@ class Login extends Component {
         this.userService.logout().then(
             () => {
                 console.log('Logging out.')
-                this.props.dispatch( { type: 'login', user: {username:'', password:'', role:''}, username:'', password:''} )
+                this.props.dispatch( { type: 'login', user: {username:'', password:'', usertype:''}, username:'', password:''} )
             }
         )
     }
@@ -105,7 +105,7 @@ class Login extends Component {
 
     render() {
         console.log('rendering login')
-        if (this.props.user.role !== '') {
+        if (this.props.user.usertype !== '') {
             return this.displayUser()
         } else {
             return this.getLoginForm()

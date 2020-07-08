@@ -9,7 +9,7 @@ _secret_key = '10101567unique'
 
 class User():
     '''parent class for all users'''
-    def __init__(self, _id=-1, username='', password='', usertype=''):
+    def __init__(self, _id=-1, username='', password='', usertype='voter'):
         self._id = _id
         self.username = username
         self.password = password

@@ -3,6 +3,7 @@
 from flask import Flask, jsonify, Blueprint, request
 # Internal Imports
 from src.sets.model import Set
+from src.users.model import User
 import src.statistics.operations as stats
 import src.data.mongo as db
 from src.data.logger import get_logger
@@ -30,15 +31,30 @@ def set_collection():
             set_list = stats.set_accuracy_helper(db.get_sets())
             return jsonify(set_list), 200
 
-@set_page.route('/sets/<int:setid>', methods=['GET'])
+@set_page.route('/sets/<int:setid>', methods=['GET', 'DELETE'])
 def set_by_id(setid):
     # GET METHOD:
-    given_set = db.get_set_by_id(setid)
-    if given_set:
-        given_set = stats.set_accuracy_helper([given_set])[0]
-        return jsonify(given_set), 200
+    if request.method == 'GET':
+        given_set = db.get_set_by_id(setid)
+        if given_set:
+            given_set = stats.set_accuracy_helper([given_set])[0]
+            return jsonify(given_set), 200
+        else:
+            return jsonify('Bad Request'), 400
+    elif request.method == 'DELETE':
+        # Get the user credentials from the request body:
+        # auth_token = request.cookies.get('authorization')
+        # user = db.get_user_by_id(User.decode_auth_token(auth_token))
+        # if not user.usertype == 'admin':
+        #     return jsonify('Forbidden'), 403
+        success = db.delete_set_by_id(setid)
+        if success:
+            return jsonify('No Content'), 204
+        else:
+            return jsonify('Bad Request'), 400
     else:
         return jsonify('Bad Request'), 400
+
 
 @set_page.route('/sets/<int:setid>/<username>', methods=['POST'])
 def update_user_accuracy(setid, username):
@@ -48,21 +64,3 @@ def update_user_accuracy(setid, username):
     return jsonify(accuracy), 201
 
 
-# @set_page.route('/sets/<int:setid>/accuracy', methods=['GET'])
-# def get_set_accuracy(setid):
-#     # Steps:
-#     # 1. For each user, check if they have voted on a set/
-#     # 2. IF user has voted, how many times, and how many times correctly
-#     # 3. Calculate total votes, and total correct votes
-#     # 4. Return set accuracy 
-#     user_list = db.get_users_by_set(setid)
-#     if not user_list:
-#         return jsonify('0'), 200
-#     else:
-#         set_accuracy = stats.calculate_set_accuracy(user_list, setid)
-#     results = {'accuracy': round(set_accuracy, 3)}
-#     return jsonify(results), 200    
-    #returns accuracy
-    # accuracy = db.update_voting_record(username, setid, verification)
-    # return jsonify(accuracy), 201
-        
