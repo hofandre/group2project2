@@ -25,6 +25,9 @@ class SetService {
         console.log('going to send an http request')
         return axios.post(this.URI + "/" + set_id + "/" + username + '/comment', {'comment': comment}, {withCredentials: true})
     }
+    getComments(set_id) {
+        return axios.get(this.URI + '/' + set_id + '/comments');
+    }
 }
 
 export default SetService;

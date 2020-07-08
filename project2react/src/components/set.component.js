@@ -1,5 +1,6 @@
 import React from 'react';
 import SetService from '../services/set.service';
+import Comment from './comment.component'
 import { connect } from 'react-redux';
 
 class Set extends React.Component {
@@ -12,7 +13,7 @@ class Set extends React.Component {
         this.voteA = this.voteA.bind(this);
         this.voteB = this.voteB.bind(this);
         this.comment = this.comment.bind(this);
-        this.viewComments = this.viewComments.bind(this);
+        this.allComments = this.allComments.bind(this);
     }
 
     voteA(){
@@ -57,9 +58,11 @@ class Set extends React.Component {
         console.log(this.props.comment)
         this.setService.comment(this.props.user.username, this.props.set._id, this.props.comment)
     }
-    viewComments() {
-        console.log('show the comments')
-        console.log(this.props.set.comments)
+    allComments() {
+        console.log(this)
+        this.setService.getComments(this.props.set._id).then(res => {
+            this.props.queryComments(res.data);
+        })
     }
 
     componentDidMount() {
@@ -138,13 +141,20 @@ class Set extends React.Component {
                                         </tr>
                                         <tr>
                                             <td colSpan='2'>
-                                                <button className='btn btn-light' onClick={ this.viewComments }>View comments</button>
+                                                <button className='btn btn-light' onClick={ this.allComments }>View comments</button>
                                             </td>
                                         </tr>
+                                        {
+                                            // this.props.sets.comments.map ?
+                                            // this.props.sets.comments.map((eachComment) => {
+                                            //     return <Comment key={eachComment._id} comment={eachComment}></Comment>
+                                            // })
+                                            // : <tr></tr>
+                                        }
                                         <tr>
-                                        <td colSpan='2'>
-                                            <textarea rows='3' cols='100' id='comment' value={this.props.comment} onChange={ this.handleInput }></textarea>
-                                        </td>
+                                            <td colSpan='2'>
+                                                <textarea rows='3' cols='100' id='comment' value={this.props.comment} onChange={ this.handleInput }></textarea>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td colSpan='2'>
@@ -165,17 +175,18 @@ class Set extends React.Component {
 }
 function mapStateToProps(state) {
     console.log(state)
-    const {user, comment, accuracy} = state;
+    const {user, comment, accuracy, displayComments} = state;
     console.log(user)
     return { user: user,
              comment: comment,
-             accuracy: accuracy }
+             accuracy: accuracy,
+             comments: displayComments }
 }
-
 function mapDispatchToProps(dispatch) {
     return {
         updateAccuracy: (accuracy) => dispatch({type: 'updateAccuracy', accuracy: accuracy}),
-        makeComment: (comment) => dispatch({type: 'handleComment', comment: comment})
+        makeComment: (comment) => dispatch({type: 'handleComment', comment: comment}),
+        queryComments: (comments) => dispatch({type: 'queryComments', comments: comments})
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Set);
