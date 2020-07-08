@@ -147,3 +147,8 @@ def get_users_by_set(setid):
     except pymongo.errors.PyMongoError:
         _log.exception('get_users_by_set has failed on set_id %d', setid)
     return [User.from_dict(user) for user in user_list] if user_list else None
+
+def delete_user_by_id(_id: int):
+    query = {"_id":_id}
+    _db.users.find_one_and_delete(query)
+    return _db.users.find_one(query)
