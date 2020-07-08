@@ -14,7 +14,7 @@ class UserRow extends React.Component {
     }
 
     constructor(props) {
-        console.log("mounting user row")
+        //console.log("mounting user row")
         super(props)
         this.promoteModerator = this.promoteModerator.bind(this)
         this.demoteModerator = this.demoteModerator.bind(this)
@@ -39,7 +39,7 @@ class UserRow extends React.Component {
 
     /** componentDidMount records when construction occurs. */
     componentDidMount() {
-        console.log('Mounting User')
+        //console.log('Mounting User')
     }
 
     /** componentDidUpdate records when update occurs. */
@@ -59,22 +59,27 @@ class UserRow extends React.Component {
 
     render() {
         console.log('User Render: '+ this.props.user.username)
+        console.log(this.props.active_user.usertype)
         return (
             <>
                 <tr className={this.decorateRow()}>
                     <td>{this.props.user.username}</td>
                     <td>{this.props.user.usertype}</td>
                     <td>
-                        {
+                        {   
+                        this.props.active_user.usertype ==='admin'?
                             this.props.user.usertype !== "admin"?
-                                this.props.user.usertype === "voter" || this.props.user.usertype ==='' ?
+                                this.props.user.usertype !== 'moderator'?
                                 <button  className='btn btn-primary' onClick={this.promoteModerator}>Promote Moderator</button>
                                 :
                                 <button className='btn btn-warning' onClick={this.demoteModerator}>Demote Moderator</button>
                             :
                             null
+                        :
+                        null
                         }
                     </td>
+                    <td></td>
 
                 </tr>
             </>
@@ -83,8 +88,8 @@ class UserRow extends React.Component {
 }
 
 function mapStateToProps(state) {
-    const {role, displayUsers} = state;
-    return {active_user_role: role, users: displayUsers}
+    const {user, displayUsers} = state;
+    return {active_user: user , users: displayUsers}
 }
 
 function mapDispatchToProps(dispatch) {
