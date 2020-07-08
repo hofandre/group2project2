@@ -90,7 +90,7 @@ class UserRow extends React.Component {
                     <td>
                         {
                             this.props.active_user.usertype === 'moderator' || this.props.active_user.usertype === 'admin' ?
-                                this.props.user.usertype !== this.props.active_user.usertype?
+                                this.props.user.usertype !== this.props.active_user.usertype && this.props.user.usertype !== 'admin' ?
                                     <button className='btn btn-danger' onClick={this.deleteUser}>Delete User</button>
                                 :
                                     null
