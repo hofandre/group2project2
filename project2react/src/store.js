@@ -6,6 +6,7 @@ const initialState = {
     registerUser: '',
     password: '',
     registerPassword: '',
+    registerAge: 0,
     minStrength: 3,
     minLength: 7,
     confirm: '',
@@ -41,6 +42,8 @@ function truthReducer(state = initialState, action) {
             return Object.assign({}, state, {confirm: action.confirm})
         case 'updateRole':
             return Object.assign({}, state, {role: action.role})
+        case 'updateAge':
+            return Object.assign({}, state, {registerAge: action.age})
         case 'register':
             return Object.assign({}, state, {username: '', password: '', role: ''})
         case 'querySets':

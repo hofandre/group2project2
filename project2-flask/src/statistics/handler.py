@@ -19,17 +19,39 @@ def get_aggregate_stats():
     ''' Current stats: 1. Global accuracy across all users across all user types
                        2. Global accuracy across all voters
                        3. Global accuracy across all moderators'''
+    # Get accuracy for all users
     user_list = db.get_users()
-    _log.debug('# of users: %d', len(user_list))
     user_acc = stats.aggregate_user_accuracy(user_list)
+    
+    # Get accuracy for all voters
     user_list = db.get_users_by_usertype('voter')
-    _log.debug('# of voters: %d', len(user_list))
     voter_acc = stats.aggregate_user_accuracy(user_list)
+    
+    # Get accuracy for all moderators
     user_list = db.get_users_by_usertype('moderator')
-    _log.debug('# of moderators: %d', len(user_list))
     moderator_acc = stats.aggregate_user_accuracy(user_list)
+    
+    # Get accuracy for users with age between 13 and 17
+    user_list = db.get_users_by_age_range(13,18)
+    teen_acc = stats.aggregate_user_accuracy(user_list)
+    
+    # Get accuracy for young adults (18-34)
+    user_list = db.get_users_by_age_range(18,35)
+    adult_acc = stats.aggregate_user_accuracy(user_list)
+
+    # Get accuracy for adults aged 35 - 55
+    user_list = db.get_users_by_age_range(35, 56)
+    middle_acc = stats.aggregate_user_accuracy(user_list)
+
+    # Get accuracy for adults aged 56+
+    user_list = db.get_users_by_age_range(56, 1000)
+    elder_acc = stats.aggregate_user_accuracy(user_list)
     response = {'user_accuracy': user_acc,
                 'voter_accuracy': voter_acc,
-                'moderator_accuracy': moderator_acc}
+                'moderator_accuracy': moderator_acc,
+                'teen_accuracy': teen_acc,
+                'adult_accuracy': adult_acc,
+                'middle_aged_accuracy': middle_acc,
+                'elder_accuracy': elder_acc}
     return jsonify(response), 200
     

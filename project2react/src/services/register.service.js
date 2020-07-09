@@ -15,12 +15,12 @@ class RegisterService {
 		@param {string} role This is a React prop role.
 		@return {HTTP POST Request} A request to the server with new user credentials.
 	*/
-	register(username, password, role) {
-		console.log("register.service")
-		console.log(username)
-		console.log(password)
-		console.log(role)
-		return axios.post(this.URI, {'username': username, 'password':password, 'role': role})
+	register(username, password, role, age) {
+		// console.log("register.service")
+		// console.log(username)
+		// console.log(password)
+		// console.log(role)
+		return axios.post(this.URI, {'username': username, 'password':password, 'role': role, 'age': age})
 	}
 }
 

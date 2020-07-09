@@ -4,7 +4,7 @@ import StatService from '../services/statistics.service'
 
 
 class StatTable extends React.Component{
-    statService = new StatService;
+    statService = new StatService();
     constructor(props) {
         super(props);
     }
@@ -20,7 +20,7 @@ class StatTable extends React.Component{
                 <div className='container'>
                     <h3>Overall Site Statistics</h3>
                     <div className='container border'>
-                        <table className='table table-borderless'>
+                        <table className='table'>
                             <thead>
                                 <tr>
                                     <th>
@@ -30,8 +30,13 @@ class StatTable extends React.Component{
                             </thead>
                             <tbody>
                                 <tr>
+                                    <th>
+                                        User Accuracy by User Type
+                                    </th>
+                                </tr>
+                                <tr>
                                     <td>
-                                      <table className='table table-striped'>
+                                      <table className='table'>
                                           <thead>
                                               <tr>
                                                 <th>
@@ -48,17 +53,60 @@ class StatTable extends React.Component{
                                           <tbody>
                                               <tr>
                                                 <th>
-                                                    {(this.props.agg_stats.user_accuracy*100).toString() + '%'}
+                                                    {(this.props.agg_stats.user_accuracy*100).toFixed(1).toString() + '%'}
                                                 </th>
                                                 <th>
-                                                    {(this.props.agg_stats.voter_accuracy*100).toString() + '%'}
+                                                    {(this.props.agg_stats.voter_accuracy*100).toFixed(1).toString() + '%'}
                                                 </th>
                                                 <th>
-                                                    {(this.props.agg_stats.moderator_accuracy*100).toString() + '%'}
+                                                    {(this.props.agg_stats.moderator_accuracy*100).toFixed(1).toString() + '%'}
                                                 </th>
                                               </tr>
                                           </tbody>
                                       </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        User Accuracy by Age
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <table className='table'>
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        13-17
+                                                    </th>
+                                                    <th>
+                                                        18-34
+                                                    </th>
+                                                    <th>
+                                                        35-55
+                                                    </th>
+                                                    <th>
+                                                        56+
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <th>
+                                                        {(this.props.agg_stats.teen_accuracy*100).toFixed(1).toString() + '%'}
+                                                    </th>
+                                                    <th>
+                                                        {(this.props.agg_stats.adult_accuracy*100).toFixed(1).toString() + '%'}
+                                                    </th>
+                                                    <th>
+                                                        {(this.props.agg_stats.middle_aged_accuracy*100).toFixed(1).toString() + '%'}
+                                                    </th>
+                                                    <th>
+                                                        {(this.props.agg_stats.elder_accuracy*100).toFixed(1).toString() + '%'}
+                                                    </th>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </td>
                                 </tr>
                             </tbody>

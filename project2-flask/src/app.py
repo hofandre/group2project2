@@ -105,7 +105,8 @@ def register_user():
         password = request.get_json()['password']
         _log.debug(password)
         role = 'voter'
-        newUser = db.register(username, password, role)
+        age = request.get_json()['age']
+        newUser = db.register(username, password, role, age)
         if newUser == None:
             return jsonify('Database Error'), 500
         elif newUser == 'Duplicate Username Error':
