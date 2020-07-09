@@ -26,6 +26,14 @@ class Register extends React.Component {
       (resp) => {
         // this.props.register(this.props.username, this.props.password, this.props.role)
         alert('Registration Successful')
+      }).catch( (err) => {
+          console.log('within the catch on the register')
+          console.log(err.response)
+          if (err.response.status === 500) {
+              alert('ERROR: Please attempt registration later')
+          } else if (err.response.status === 400) {
+              alert('Username is taken, please choose another')
+          }
       })
   }
 

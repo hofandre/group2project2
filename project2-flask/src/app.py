@@ -106,6 +106,11 @@ def register_user():
         _log.debug(password)
         role = 'voter'
         newUser = db.register(username, password, role)
+        if newUser == None:
+            return jsonify('Database Error'), 500
+        elif newUser == 'Duplicate Username Error':
+            return jsonify(newUser), 400
+        else:
+            return jsonify(newUser), 201
     else:
         return {}, 400
-    return jsonify(newUser), 201

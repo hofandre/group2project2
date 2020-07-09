@@ -36,7 +36,14 @@ def register(username: str, password: str, role: str):
     query = {"_id": _id, "username": username, "password": password, "role": role}
     user = User(_id, username, password, role)
     _log.debug(query)
-    _db.users.insert_one(user.to_dict())
+    try:
+        _db.users.insert_one(user.to_dict())
+    except pymongo.errors.DuplicateKeyError:
+        _log.info('Duplicate key error detected in the database for username %s', username)
+        return 'Duplicate Username Error'
+    except pymongo.errors.PyMongoError:
+        _log.exception('register has failed in the db')
+        return None
     return User.from_dict(_db.users.find_one({'_id': _id}))
 
 
