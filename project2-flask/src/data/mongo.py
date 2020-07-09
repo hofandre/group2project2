@@ -52,6 +52,14 @@ def get_sets():
         _log.exception('get_sets has failed in the database')
     return [Set.from_dict(each_set) for each_set in set_list]
 
+def get_pending_sets():
+    ''' Gets all the pending sets from the collections'''
+    try:
+        set_list = _db.potential_sets.find()
+    except pymongo.errors.PyMongoError:
+        _log.exception('get_pending_sets has failed in the database')
+    return [Set.from_dict(each_set) for each_set in set_list]
+
 def get_set_by_id(_id: int):
     ''' Gets the set with the given id '''
     query = {'_id': _id}

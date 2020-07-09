@@ -8,6 +8,9 @@ class SetService {
     getSets() {
         return axios.get(this.URI);
     }
+    getPendingSets() {
+        return axios.get(this.URI + '/pending');
+    }
 
     getSetByID(set_id) {
         return axios.get(this.URI + '/' + set_id);

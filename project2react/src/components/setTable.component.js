@@ -1,5 +1,6 @@
 import React from 'react'
 import Set from './set.component'
+import PendingSet from './pendingSet.component'
 import './settable.css'
 import { connect } from 'react-redux';
 import SetService from '../services/set.service'
@@ -12,6 +13,7 @@ class SetTable extends React.Component {
         this.handleInput = this.handleInput.bind(this);
         this.searchSets = this.searchSets.bind(this);
         this.allSets = this.allSets.bind(this);
+        this.allPendingSets = this.allPendingSets.bind(this);
         this.handleTermChange = this.handleTermChange.bind(this);
         this.deleteSet = this.deleteSet.bind(this);
     }
@@ -118,6 +120,12 @@ class SetTable extends React.Component {
 
         })
     }
+    allPendingSets() {
+        console.log('grab all pending sets')
+        this.setService.getPendingSets().then(res => {
+            this.props.queryPendingSets(res.data);
+        })
+    }
     validate_id(set_id) {
         if(isNaN(set_id)) {
             return false
@@ -167,6 +175,13 @@ class SetTable extends React.Component {
                     onClick={ this.searchSets }>Search</button>
                     <button className='btn btn-primary'
                     onClick={ this.allSets }>View all sets</button>
+                    {
+                        this.props.user.usertype === 'admin' || this.props.user.usertype === 'moderator' ?
+                        // maybe a button for searching the pending sets as well
+                        <button className='btn btn-primary'
+                        onClick={ this.allPendingSets }>View all pending sets</button> :
+                        <></>
+                    }
                 </div>
                 <div className='container'>
                     <br></br>
@@ -193,7 +208,13 @@ class SetTable extends React.Component {
                                 })
                                 : <tr></tr>
                             }
-
+                            {
+                                this.props.pendingSets.map ?
+                                this.props.pendingSets.map((eachSet) => {
+                                    return <PendingSet key={eachSet._id} pendingSet={eachSet}></PendingSet>
+                                })
+                                : <tr></tr>
+                            }
                         </tbody>
                     </table>
                </div>
@@ -202,8 +223,9 @@ class SetTable extends React.Component {
     }
 }
 function mapStateToProps(state) {
-    const {displaySets, displaySetCriteria, displaySearchTerm, user, lastSearchMade} = state;
+    const {displaySets, displayPendingSets, displaySetCriteria, displaySearchTerm, user, lastSearchMade} = state;
     return { sets: displaySets,
+             pendingSets: displayPendingSets,
              setSearchCriteria: displaySetCriteria,
              setSearchTerm: displaySearchTerm,
              user: user,
@@ -212,6 +234,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         querySets: (sets) => dispatch({type: 'querySets', sets: sets}),
+        queryPendingSets: (pendingSets) => dispatch({type: 'queryPendingSets', pendingSets: pendingSets}),
         setSearch: (setSearchCriteria) => dispatch({type: 'setSearch', setSearchCriteria: setSearchCriteria }),
         setTerm: (searchTerm) => dispatch({type: 'searchTerm', setSearchTerm: searchTerm}),
         updateLastSearch: (searchDetails) => dispatch({type: 'updateSearch', searchMade: searchDetails})

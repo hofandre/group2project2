@@ -137,52 +137,51 @@ class Set extends React.Component {
                                     </td>
                                 </tr>
                                 <>
-                                {
-                                    this.props.user.usertype !== '' ?
-                                    <>
-                                        <tr>
-                                            <td><button className='btn btn-primary'
-                                                onClick={ this.voteA }>Vote a</button></td>
-                                            <td><button className='btn btn-primary'
-                                                onClick={ this.voteB }>Vote b</button></td>
-                                        </tr>
-                                        
-                                    </> :
-                                    <tr></tr>
-                                }
-                                {
-                                    <>
-                                        <tr>
+                                    {
+                                        this.props.user.usertype !== '' ?
+                                        <>
+                                            <tr>
+                                                <td><button className='btn btn-primary'
+                                                    onClick={ this.voteA }>Vote a</button></td>
+                                                <td><button className='btn btn-primary'
+                                                    onClick={ this.voteB }>Vote b</button></td>
+                                            </tr>
+                                            
+                                        </> :
+                                        <tr></tr>
+                                    }
+                                    {
+                                        <>
+                                            <tr>
+                                                <td colSpan='2'>
+                                                    <button className='btn btn-light' onClick={ this.allComments }>View comments</button>
+                                                </td>
+                                            </tr>
                                             <td colSpan='2'>
-                                                <button className='btn btn-light' onClick={ this.allComments }>View comments</button>
+                                                <table width='100%'>
+                                                    {
+                                                        (this.props.comments.length !== 0) && this.props.comments.map && this.props.set._id === this.props.comments[0].set_id ?
+                                                        this.props.comments.map((eachComment) => {
+                                                            console.log(eachComment)
+                                                            return <Comment key={eachComment.comment_id} comment={eachComment}></Comment>
+                                                        })
+                                                        : <tr></tr>
+                                                    }
+                                                </table>
                                             </td>
-                                        </tr>
-                                        <td colSpan='2'>
-                                            <table width='100%'>
-                                                {
-                                                    (this.props.comments.length !== 0) && this.props.comments.map && this.props.set._id === this.props.comments[0].set_id ?
-                                                    this.props.comments.map((eachComment) => {
-                                                        console.log(eachComment)
-                                                        return <Comment key={eachComment.comment_id} comment={eachComment}></Comment>
-                                                    })
-                                                    : <tr></tr>
-                                                }
-                                            </table>
-                                        </td>
-                                        <tr>
-                                            <td colSpan='2'>
-                                                <textarea rows='3' cols='100' id='comment' value={this.props.comment} onChange={ this.handleInput }></textarea>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colSpan='2'>
-                                                <button className='btn btn-dark' onClick={ this.makeComment }>Comment</button>
-                                            </td>
-                                        </tr>
-                                    </>
-                                    
-                                }
-                            </>
+                                            <tr>
+                                                <td colSpan='2'>
+                                                    <textarea rows='3' cols='100' id='comment' value={this.props.comment} onChange={ this.handleInput }></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colSpan='2'>
+                                                    <button className='btn btn-dark' onClick={ this.makeComment }>Comment</button>
+                                                </td>
+                                            </tr>
+                                        </>
+                                    }
+                                </>
                             </tbody>
                         </table>
                     </td>

@@ -74,3 +74,9 @@ def get_comments_by_set(setid):
     given_set = given_set.to_dict()
     comments = given_set['comments']
     return jsonify(comments), 200
+
+@set_page.route('/sets/pending', methods=['GET'])
+def get_pending_sets():
+    set_list = db.get_pending_sets()
+    set_list = [each_set.to_dict() for each_set in set_list]
+    return jsonify(set_list), 200
