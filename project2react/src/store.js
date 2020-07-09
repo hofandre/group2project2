@@ -10,8 +10,10 @@ const initialState = {
     minLength: 7,
     confirm: '',
     role: '',
+    comment: '',
     register: {username: '', password: '', usertype: ''},
     displaySets: {},
+    displayComments: {},
     displayUsers: {},
     accuracy: 0.0,
     displaySetCriteria: 0,
@@ -32,6 +34,8 @@ function truthReducer(state = initialState, action) {
             return Object.assign({}, state, {username: action.username})
         case 'handlePassword':
             return Object.assign({}, state, {password: action.password})
+        case 'handleComment':
+            return Object.assign({}, state, {comment: action.comment})
         case 'updateUsername':
             return Object.assign({}, state, {registerUser: action.username})
         case 'updatePassword':
@@ -44,6 +48,8 @@ function truthReducer(state = initialState, action) {
             return Object.assign({}, state, {username: '', password: '', role: ''})
         case 'querySets':
             return Object.assign({}, state, {displaySets: action.sets})
+        case 'queryComments':
+            return Object.assign({}, state, {displayComments: action.comments})
         case 'updateAccuracy':
             return Object.assign({}, state, {accuracy: action.accuracy})
         case 'setSearch':

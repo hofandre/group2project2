@@ -15,9 +15,7 @@ def calculate_set_accuracy(user_list, set_id):
                 if user.votes[i]:
                     correct_votes += 1
                 break
-    if total_votes == 0:
-        return 1
-    return float(correct_votes/total_votes)
+    return float(correct_votes/total_votes) if total_votes else 1
 
 def set_accuracy_helper(set_list):
     ''' Helper fn that calculates the accuracy for each set in a list '''
