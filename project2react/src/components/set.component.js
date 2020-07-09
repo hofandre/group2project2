@@ -58,6 +58,7 @@ class Set extends React.Component {
         console.log('comment button clicked');
         console.log(this.props.comment);
         this.setService.comment(this.props.user.username, this.props.set._id, this.props.comment).then(() => {
+            this.props.makeComment('');
             this.allComments();
         });
     }
@@ -135,8 +136,9 @@ class Set extends React.Component {
                                             alt={this.props.set.alt_texts[1]}></img>
                                     </td>
                                 </tr>
+                                <>
                                 {
-                                    this.props.user ?
+                                    this.props.user.usertype !== '' ?
                                     <>
                                         <tr>
                                             <td><button className='btn btn-primary'
@@ -144,6 +146,12 @@ class Set extends React.Component {
                                             <td><button className='btn btn-primary'
                                                 onClick={ this.voteB }>Vote b</button></td>
                                         </tr>
+                                        
+                                    </> :
+                                    <tr></tr>
+                                }
+                                {
+                                    <>
                                         <tr>
                                             <td colSpan='2'>
                                                 <button className='btn btn-light' onClick={ this.allComments }>View comments</button>
@@ -172,9 +180,9 @@ class Set extends React.Component {
                                             </td>
                                         </tr>
                                     </>
-                                    : <tr></tr>
+                                    
                                 }
-
+                            </>
                             </tbody>
                         </table>
                     </td>
