@@ -74,4 +74,3 @@ def get_comments_by_set(setid):
     given_set = given_set.to_dict()
     comments = given_set['comments']
     return jsonify(comments), 200
-

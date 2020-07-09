@@ -113,9 +113,9 @@ class Set extends React.Component {
                 </tr>
                 <tr>
                     <td>
-                    {
-                        this.displayAccuracy()
-                    }                        
+                        {
+                            this.displayAccuracy()
+                        }                        
                     </td>
                 </tr>
                 <tr>
