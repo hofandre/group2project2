@@ -64,9 +64,6 @@ class Set extends React.Component {
     allComments() {
         this.setService.getComments(this.props.set._id).then(res => {
             this.props.queryComments(res.data);
-            console.log(res.data);
-            console.log(this.props.set._id);
-            console.log(this.props.comments[0].set_id)
         })
     }
     makeComment() {
@@ -155,7 +152,7 @@ class Set extends React.Component {
                                         <td colSpan='2'>
                                             <table width='100%'>
                                                 {
-                                                    this.props.comments.map && this.props.set._id === this.props.comments[0].set_id ?
+                                                    (this.props.comments.length !== 0) && this.props.comments.map && this.props.set._id === this.props.comments[0].set_id ?
                                                     this.props.comments.map((eachComment) => {
                                                         console.log(eachComment)
                                                         return <Comment key={eachComment.comment_id} comment={eachComment}></Comment>
