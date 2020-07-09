@@ -161,3 +161,13 @@ def delete_set_by_id(set_id):
     except:
         _log.exception('delete_set_by_id has failed to delete set with id %d', set_id)
     return result.deleted_count == 1
+
+def get_users_by_usertype(usertype):
+    ''' Retrieves all users of a given usertype'''
+    query = {'usertype': usertype}
+    user_list = None
+    try:
+        user_list = _db.users.find(query)
+    except:
+        _log.exception('get_user_by_usertype failed on usertype %s', usertype)
+    return [User.from_dict(user) for user in user_list] if user_list else None

@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Route, BrowserRouter as Router, Link } from 'react-router-dom';
 import Login from './login.component'
 import Register from './register.component'
-
+import StatTable from './statistics.component'
+import { connect } from 'react-redux';
 import { Navbar, Nav } from 'react-bootstrap';
 import SetForm from './setTable.component';
 import UserTable from './usersList.component'
@@ -10,6 +11,10 @@ import UserTable from './usersList.component'
 
 
 class Routing extends Component {
+    constructor(props) {
+        super(props)
+    }
+    
     render() {
         return <Router>
             <div>
@@ -20,6 +25,12 @@ class Routing extends Component {
                             <Link to='/sets'>Sets</Link>
                             <Link to='/register'>Register</Link>
                             <Link to='/users'>Users</Link>
+                            {
+                                this.props.user.usertype === 'moderator' ||
+                                this.props.user.usertype === 'admin' ?
+                                <Link to='/stats'>Site Statistics</Link>
+                                : <></>
+                            }
                         </Nav>
                     </Navbar.Collapse>
                     <Login></Login>
@@ -27,9 +38,15 @@ class Routing extends Component {
                 <Route path='/sets' component={SetForm}/>
                 <Route path='/register' component={Register}/>
                 <Route path='/users' component={UserTable}/>
+                <Route path='/stats' component={StatTable}/>
             </div>
         </Router>
     }
 }
-
-export default Routing;
+function mapStateToProps(state) {
+    const {user} = state;
+    return {
+        user: user
+    }
+}
+export default connect(mapStateToProps)(Routing);

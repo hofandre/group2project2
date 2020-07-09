@@ -10,6 +10,7 @@ const initialState = {
     minLength: 7,
     confirm: '',
     role: '',
+    aggregateStats: {},
     register: {username: '', password: '', usertype: ''},
     displaySets: {},
     displayUsers: {},
@@ -54,6 +55,8 @@ function truthReducer(state = initialState, action) {
             return Object.assign({}, state, {lastSearchMade: action.searchMade})
         case 'queryUsers':
             return Object.assign({}, state, {displayUsers: action.users})
+        case 'queryAggregate':
+            return Object.assign({}, state, {aggregateStats: action.stats})
         default:
             return state;
     }
