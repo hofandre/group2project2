@@ -1,5 +1,6 @@
 import React from 'react';
 import SetService from '../services/set.service';
+import Comment from './comment.component'
 import { connect } from 'react-redux';
 
 class Set extends React.Component {
@@ -8,8 +9,12 @@ class Set extends React.Component {
         super(props);
         console.log('setComponent constructor');
         console.log(props);
+        this.handleInput = this.handleInput.bind(this);
         this.voteA = this.voteA.bind(this);
         this.voteB = this.voteB.bind(this);
+        this.comment = this.comment.bind(this);
+        this.allComments = this.allComments.bind(this);
+        this.makeComment = this.makeComment.bind(this);
     }
 
     voteA(){
@@ -44,6 +49,28 @@ class Set extends React.Component {
         })
         
     }
+
+    handleInput(e) {
+        console.log(this.props);
+        this.props.makeComment(e.target.value);
+    }
+    comment() {
+        console.log('comment button clicked');
+        console.log(this.props.comment);
+        this.setService.comment(this.props.user.username, this.props.set._id, this.props.comment).then(() => {
+            this.props.makeComment('');
+            this.allComments();
+        });
+    }
+    allComments() {
+        this.setService.getComments(this.props.set._id).then(res => {
+            this.props.queryComments(res.data);
+        })
+    }
+    makeComment() {
+        this.comment()
+    }
+
     componentDidMount() {
         console.log('Mounting Set')
     }
@@ -51,8 +78,6 @@ class Set extends React.Component {
     componentDidUpdate() {
         console.log('Updating Set')
     }
-
-
 
     displayAccuracy() {
         const accuracy = this.props.set.accuracy
@@ -111,18 +136,53 @@ class Set extends React.Component {
                                             alt={this.props.set.alt_texts[1]}></img>
                                     </td>
                                 </tr>
+                                <>
                                 {
-                                this.props.user.username ?
-                                    <tr>
-                                        <td><button className='btn btn-primary'
-                                            onClick={ this.voteA }>Vote a</button></td>
-                                        <td><button className='btn btn-primary'
-                                            onClick={ this.voteB }>Vote b</button></td>
-                                    </tr>
-
-                                : <tr></tr>
+                                    this.props.user.usertype !== '' ?
+                                    <>
+                                        <tr>
+                                            <td><button className='btn btn-primary'
+                                                onClick={ this.voteA }>Vote a</button></td>
+                                            <td><button className='btn btn-primary'
+                                                onClick={ this.voteB }>Vote b</button></td>
+                                        </tr>
+                                        
+                                    </> :
+                                    <tr></tr>
                                 }
-                                
+                                {
+                                    <>
+                                        <tr>
+                                            <td colSpan='2'>
+                                                <button className='btn btn-light' onClick={ this.allComments }>View comments</button>
+                                            </td>
+                                        </tr>
+                                        <td colSpan='2'>
+                                            <table width='100%'>
+                                                {
+                                                    (this.props.comments.length !== 0) && this.props.comments.map && this.props.set._id === this.props.comments[0].set_id ?
+                                                    this.props.comments.map((eachComment) => {
+                                                        console.log(eachComment)
+                                                        return <Comment key={eachComment.comment_id} comment={eachComment}></Comment>
+                                                    })
+                                                    : <tr></tr>
+                                                }
+                                            </table>
+                                        </td>
+                                        <tr>
+                                            <td colSpan='2'>
+                                                <textarea rows='3' cols='100' id='comment' value={this.props.comment} onChange={ this.handleInput }></textarea>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colSpan='2'>
+                                                <button className='btn btn-dark' onClick={ this.makeComment }>Comment</button>
+                                            </td>
+                                        </tr>
+                                    </>
+                                    
+                                }
+                            </>
                             </tbody>
                         </table>
                     </td>
@@ -133,14 +193,18 @@ class Set extends React.Component {
 }
 function mapStateToProps(state) {
     console.log(state)
-    const {user, accuracy} = state;
+    const {user, comment, accuracy, displayComments} = state;
+    console.log(user)
     return { user: user,
-            accuracy: accuracy}
+             comment: comment,
+             accuracy: accuracy,
+             comments: displayComments }
 }
-
 function mapDispatchToProps(dispatch) {
     return {
-        updateAccuracy: (accuracy) => dispatch({type: 'updateAccuracy', accuracy: accuracy})
+        updateAccuracy: (accuracy) => dispatch({type: 'updateAccuracy', accuracy: accuracy}),
+        makeComment: (comment) => dispatch({type: 'handleComment', comment: comment}),
+        queryComments: (comments) => dispatch({type: 'queryComments', comments: comments})
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Set);

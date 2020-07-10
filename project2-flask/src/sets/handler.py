@@ -55,13 +55,24 @@ def set_by_id(setid):
     else:
         return jsonify('Bad Request'), 400
 
-
-@set_page.route('/sets/<int:setid>/<username>', methods=['POST'])
+@set_page.route('/sets/<int:setid>/<username>/vote', methods=['POST'])
 def update_user_accuracy(setid, username):
     _log.debug(request.get_json())
     verification = db.check_answer(setid, request.get_json()['vote'])
     accuracy = db.update_voting_record(username, setid, verification)
     return jsonify(accuracy), 201
-
+        
+@set_page.route('/sets/<int:setid>/<username>/comment', methods=['POST'])
+def make_a_comment(setid, username):
+    _log.debug(request.get_json())
+    db.append_comment_to_set(username, setid, request.get_json()['comment'])
+    return jsonify('comment made it to the server'), 201
+    
+@set_page.route('/sets/<int:setid>/comments', methods=['GET'])
+def get_comments_by_set(setid):
+    given_set = db.get_set_by_id(setid)
+    given_set = given_set.to_dict()
+    comments = given_set['comments']
+    return jsonify(comments), 200
 
 
