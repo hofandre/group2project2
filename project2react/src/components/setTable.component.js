@@ -273,6 +273,7 @@ class SetTable extends React.Component {
         )
     }
 }
+
 function mapStateToProps(state) {
     const {displaySets, displayPendingSets, displaySetCriteria, displaySearchTerm, user, lastSearchMade} = state;
     return { sets: displaySets,
@@ -293,4 +294,5 @@ function mapDispatchToProps(dispatch) {
         updateLastSearch: (searchDetails) => dispatch({type: 'updateSearch', searchMade: searchDetails})
     }
 }
+
 export default connect(mapStateToProps, mapDispatchToProps)(SetTable);
