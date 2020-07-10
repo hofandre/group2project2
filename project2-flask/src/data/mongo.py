@@ -47,7 +47,6 @@ def register(username: str, password: str, role: str, age: int):
         return None
     return User.from_dict(_db.users.find_one({'_id': _id}))
 
-
 def get_user_by_id(db_id: int):
     '''Returns a user by their id'''
     return User.from_dict(_db.users.find_one({'_id': db_id}))
@@ -59,6 +58,20 @@ def get_sets():
     except pymongo.errors.PyMongoError:
         _log.exception('get_sets has failed in the database')
     return [Set.from_dict(each_set) for each_set in set_list]
+
+def submit_set(query: dict):
+    new_set = None
+    _id = _db.counter.find_one_and_update({'_id': 'SET_COUNT'},
+                                         {'$inc': {'count': 1}},
+                                         return_document=pymongo.ReturnDocument.AFTER)['count']
+    query["_id"] = _id
+    _log.debug(query)
+    try:
+        _db.potential_sets.insert_one(query)
+        new_set = Set.from_dict(_db.potential_sets.find_one({"_id": _id}))
+    except pymongo.errors.PyMongoError:
+        _log.exception('set_set has failed in the database')
+    return new_set
 
 def get_pending_sets():
     ''' Gets all the pending sets from the collections'''
