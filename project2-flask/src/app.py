@@ -115,9 +115,11 @@ def add_deck():
             deck_id = db.find_deck_id()
             title = request.get_json()["title"]
             sets = []
+            _log.info("REQUEST")
+            _log.info(request.get_json()["sets"])
             for set_id in request.get_json()["sets"]:
-                _log.info(bool(db.get_set_by_id(set_id)))
-                if bool(db.get_set_by_id(set_id)):
+                _log.info(bool(db.get_set_by_id(int(set_id))))
+                if bool(db.get_set_by_id(int(set_id))):
                     sets.append(set_id)
                 else:
                     return "One or more bad set ids, no deck created", 400

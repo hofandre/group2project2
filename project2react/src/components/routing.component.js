@@ -18,6 +18,7 @@ class Routing extends Component {
                     <Nav.Link href="/sets">Sets</Nav.Link>
                     <Nav.Link href="/register">Register</Nav.Link>
                     <Nav.Link href='/users'>Users</Nav.Link>
+                    <Nav.Link href="/decks">Decks</Nav.Link>
                     </Nav>
                     <Login></Login>
                 </Navbar>
