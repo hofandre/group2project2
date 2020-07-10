@@ -19,7 +19,8 @@ const initialState = {
     displaySetCriteria: 0,
     displaySearchTerm: 'id',
     displaySetAccuracy: {},
-    lastSearchMade: {type: '', param: ''}
+    lastSearchMade: {type: '', param: ''},
+    deckSets: {},
 };
 
 function truthReducer(state = initialState, action) {

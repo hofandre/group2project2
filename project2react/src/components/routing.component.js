@@ -5,6 +5,7 @@ import Register from './register.component';
 import { Navbar, Nav } from 'react-bootstrap';
 import SetForm from './setTable.component';
 import UserTable from './usersList.component';
+import DeckForm from './deckForm.component';
 
 
 class Routing extends Component {
@@ -25,6 +26,7 @@ class Routing extends Component {
                 <Route path='/sets' component={SetForm}/>
                 <Route path='/register' component={Register}/>
                 <Route path='/users' component={UserTable}/>
+                <Route path='/decks' component={DeckForm}/>
         </Router>
     }
 }
