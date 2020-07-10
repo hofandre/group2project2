@@ -19,14 +19,6 @@ class SetTable extends React.Component {
         this.approveSet = this.approveSet.bind(this);
         this.denySet = this.denySet.bind(this);
     }
-    /** componentDidMount records when construction occurs. */
-    componentDidMount() {
-        console.log('setTable mounted')
-    }
-    /** componentDidUpdate records when update occurs. */
-    componentDidUpdate() {
-        console.log('Updating Sets')
-    }
 
     deleteSet(event) {
         const setID = event.target.id.split('_')[1]
@@ -48,7 +40,6 @@ class SetTable extends React.Component {
 
     approveSet(event) {
         const setID = event.target.id.split('_')[1]
-        // event.persist(event)
         this.setService.approvePendingSet(setID).then(() => {
             this.setService.deletePendingSet(setID).then( res => {
                 this.reloadSets()
@@ -106,12 +97,10 @@ class SetTable extends React.Component {
             }).catch(res => {
                 this.props.querySets({});
                 alert(`The set id you have entered is out of bounds, please try a smaller number.`)
-
             })
         } else {
             alert(`The id you've entered is invalid.\nValid ids begin at 1`)
         }
-
     }
 
     keywordSearch() {
@@ -119,12 +108,9 @@ class SetTable extends React.Component {
         console.log(this.props.setSearchCriteria)
         if (this.validate_keyword(this.props.setSearchCriteria)) {
             this.setService.getSetsByKeyword(this.props.setSearchCriteria).then(res => {
-                if (Array.isArray(res.data))
-                {
+                if (Array.isArray(res.data)) {
                     this.props.querySets(res.data);
-
-                }
-                else {
+                } else {
                     const set_list = [res.data]
                     this.props.querySets(set_list);
                 }
@@ -132,7 +118,6 @@ class SetTable extends React.Component {
             }).catch(res => {
                 this.props.querySets({});
                 alert(`The keyword you've entered does not match any sets.`)
-
             })
         } else {
             alert(`Keywords cannot be empty, please try again.`)
@@ -181,7 +166,6 @@ class SetTable extends React.Component {
     handleInput(event) {
         this.props.setSearch(event.target.value)
     }
-
     handleTermChange (event) {
         this.props.setTerm(event.target.value)
     }
@@ -276,12 +260,14 @@ class SetTable extends React.Component {
 
 function mapStateToProps(state) {
     const {displaySets, displayPendingSets, displaySetCriteria, displaySearchTerm, user, lastSearchMade} = state;
-    return { sets: displaySets,
-             pendingSets: displayPendingSets,
-             setSearchCriteria: displaySetCriteria,
-             setSearchTerm: displaySearchTerm,
-             user: user,
-             lastSearch: lastSearchMade}
+    return { 
+        sets: displaySets,
+        pendingSets: displayPendingSets,
+        setSearchCriteria: displaySetCriteria,
+        setSearchTerm: displaySearchTerm,
+        user: user,
+        lastSearch: lastSearchMade 
+    }
 }
 function mapDispatchToProps(dispatch) {
     return {
