@@ -74,5 +74,15 @@ def get_comments_by_set(setid):
     given_set = given_set.to_dict()
     comments = given_set['comments']
     return jsonify(comments), 200
+    
+@set_page.route('/sets/<int:set_id>/<int:comment_id>', methods=['DELETE'])
+def delete_a_comment(set_id, comment_id):
+    _log.debug('Handler: deleting comment')
+    _log.debug(request.get_json())
+    comments = db.delete_comment(set_id, comment_id)#deletes one comment
+    db.update_comments(set_id, comments)
+    #return jsonify(comments), 200 #returns all coments in a set once a comment is deleted
+    return jsonify(comments), 200
+
 
 

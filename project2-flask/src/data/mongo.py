@@ -198,3 +198,18 @@ def get_users_by_age_range(start_age, end_age):
     except pymongo.errors.PyMongoError:
         _log.exception('get_users_by_age_range has failed on range %d to %d', start_age, end_age)
     return [User.from_dict(user) for user in user_list] if user_list else None
+def delete_comment(set_id: int, comment_id: int):
+    _log.debug('Mongo :Deleting comment')
+    id_query = {"_id":set_id}
+    retrieved_set = _db.sets.find_one(id_query)
+    comments = retrieved_set['comments']
+    comment = comments[comment_id]
+    comments.remove(comment)
+    index = 0
+    for comment in comments:
+        comment['comment_id'] = index
+        index = index + 1
+    return comments
+
+def update_comments(set_id, comments):
+    _db.sets.find_one_and_update({"_id":set_id}, {"$set" : {"comments": comments}})

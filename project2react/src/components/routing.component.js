@@ -6,8 +6,7 @@ import StatTable from './statistics.component'
 import { connect } from 'react-redux';
 import { Navbar, Nav } from 'react-bootstrap';
 import SetForm from './setTable.component';
-import UserTable from './usersList.component'
-
+import UserTable from './usersList.component';
 
 
 class Routing extends Component {
@@ -17,29 +16,28 @@ class Routing extends Component {
     
     render() {
         return <Router>
-            <div>
-                <Navbar id='navBar' bg='light' expand='lg' sticky='top'>
-                    <Navbar.Toggle aria-controls='basic-navbar-nav'/>
-                    <Navbar.Collapse id='basic-navbar-nav'>
-                        <Nav className='mr-auto'>
-                            <Link to='/sets'>Sets</Link>
-                            <Link to='/register'>Register</Link>
-                            <Link to='/users'>Users</Link>
-                            {
-                                this.props.user.usertype === 'moderator' ||
-                                this.props.user.usertype === 'admin' ?
-                                <Link to='/stats'>Site Statistics</Link>
-                                : <></>
-                            }
-                        </Nav>
-                    </Navbar.Collapse>
+            <>
+                <Navbar bg="dark" variant="dark">
+                    <Navbar.Brand href="/">Home</Navbar.Brand>
+                    <Nav className="mr-auto">
+                    <Nav.Link href="/sets">Sets</Nav.Link>
+                    <Nav.Link href="/register">Register</Nav.Link>
+                    <Nav.Link href='/users'>Users</Nav.Link>
+                    {
+                        this.props.user.usertype === 'moderator' ||
+                        this.props.user.usertype === 'admin' ?
+                        <Nav.Link href='/stats'>Site Statistics</Nav.Link>
+                        : <></>
+                    }
+                    </Nav>
                     <Login></Login>
                 </Navbar>
+                </>
+
                 <Route path='/sets' component={SetForm}/>
                 <Route path='/register' component={Register}/>
                 <Route path='/users' component={UserTable}/>
                 <Route path='/stats' component={StatTable}/>
-            </div>
         </Router>
     }
 }
