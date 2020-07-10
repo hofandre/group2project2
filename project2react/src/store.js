@@ -32,7 +32,8 @@ const initialState = {
     displaySetCriteria: 0,
     displaySearchTerm: 'id',
     displaySetAccuracy: {},
-    lastSearchMade: {type: '', param: ''}
+    lastSearchMade: {type: '', param: ''},
+    deckSets: []
 };
 
 function truthReducer(state = initialState, action) {
@@ -109,6 +110,8 @@ function truthReducer(state = initialState, action) {
             return Object.assign({}, state, {aggregateStats: action.stats})
         case 'setComments':
             return Object.assign({}, state, {comment: action.comment})
+        case 'addSetToDeck':
+            return Object.assign({}, state, {deckSets: action.sets})
         default:
             return state;
     }

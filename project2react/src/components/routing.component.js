@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import { Navbar, Nav } from 'react-bootstrap';
 import SetForm from './setTable.component';
 import UserTable from './usersList.component';
+import DeckForm from './deckForm.component';
 
 
 class Routing extends Component {
@@ -24,6 +25,8 @@ class Routing extends Component {
                     <Nav className="mr-auto">
                     <Nav.Link href="/sets">Sets</Nav.Link>
                     <Nav.Link href="/register">Register</Nav.Link>
+                    <Nav.Link href='/users'>Users</Nav.Link>
+                    <Nav.Link href="/decks">Decks</Nav.Link>
                     <Nav.Link href='/upload'>Upload</Nav.Link>
                     {
                         this.props.user.usertype === 'moderator' ||
@@ -42,6 +45,7 @@ class Routing extends Component {
                 <Route path='/register' component={Register}/>
                 <Route path='/upload' component={Upload}/>
                 <Route path='/users' component={UserTable}/>
+                <Route path='/decks' component={DeckForm}/>
                 <Route path='/stats' component={StatTable}/>
             </Router>
     }

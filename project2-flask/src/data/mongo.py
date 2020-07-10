@@ -6,6 +6,7 @@ import os
 
 # Internal Imports
 from src.sets.model import Set
+from src.decks.model import Deck, DeckEncoder
 from src.data.logger import get_logger
 from src.users.model import User
 
@@ -201,6 +202,18 @@ def delete_set_by_id(set_id):
         _log.exception('delete_set_by_id has failed to delete set with id %d', set_id)
     return result.deleted_count == 1
 
+def find_deck_id():
+    for i in range(100000):
+        if not _db.decks.find_one({"_id":i}):
+            return i
+    return None
+
+def add_deck(db_id:int, title: str, set_list: list):
+    if not _db.decks.find_one({"_id": db_id}):
+        _db.decks.insert_one(Deck(db_id, title, set_list).to_dict())
+        return Deck(db_id, title, set_list).to_dict()
+    else:
+        return {}
 def add_pending_set_to_sets(set_id):
     '''queries a set from pending sets and adds it to sets'''
     query = {'_id': set_id}
