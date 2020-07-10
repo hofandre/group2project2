@@ -246,7 +246,7 @@ class SetTable extends React.Component {
                                 : <tr></tr>
                             }
                             {
-                                this.props.pendingSets.map ?
+                                this.props.pendingSets.map && (this.props.user.usertype === 'admin' || this.props.user.usertype === 'moderator')?
                                 this.props.pendingSets.map((eachSet) => {
                                     return (
                                         <>
