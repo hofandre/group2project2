@@ -50,7 +50,15 @@ class SetTable extends React.Component {
         const setID = event.target.id.split('_')[1]
         // event.persist(event)
         this.setService.approvePendingSet(setID).then(() => {
-            this.setService.deletePendingSet(setID)
+            this.setService.deletePendingSet(setID).then( res => {
+                this.reloadSets()
+                return
+            }).catch((res) => {
+                console.log('delete set catch called')
+                console.log(res)
+                alert('Set has failed to delete, please check the database')
+            }   
+            )
         });
     }
     denySet(event) {
@@ -84,6 +92,8 @@ class SetTable extends React.Component {
             this.props.setTerm('keyword')
             this.props.setSearch(this.props.lastSearch.param)
             return this.keywordSearch()
+        } else if (this.props.lastSearch.type === 'ALLPEND') {
+            return this.allPendingSets()
         }
     }
 
@@ -142,14 +152,14 @@ class SetTable extends React.Component {
         this.setService.getSets().then(res => {
             // this.updateAccuracies(res.data)
             this.props.querySets(res.data);
-            this.props.updateLastSearch({type: 'ALL', param: ''})
-
+            this.props.updateLastSearch({type: 'ALL', param: ''});
         })
     }
     allPendingSets() {
         console.log('grab all pending sets')
         this.setService.getPendingSets().then(res => {
             this.props.queryPendingSets(res.data);
+            this.props.updateLastSearch({type: 'ALLPEND', param: ''});
         })
     }
     validate_id(set_id) {
