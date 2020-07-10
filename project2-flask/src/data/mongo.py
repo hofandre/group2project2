@@ -52,6 +52,14 @@ def get_sets():
         _log.exception('get_sets has failed in the database')
     return [Set.from_dict(each_set) for each_set in set_list]
 
+def get_pending_sets():
+    ''' Gets all the pending sets from the collections'''
+    try:
+        set_list = _db.potential_sets.find()
+    except pymongo.errors.PyMongoError:
+        _log.exception('get_pending_sets has failed in the database')
+    return [Set.from_dict(each_set) for each_set in set_list]
+
 def get_set_by_id(_id: int):
     ''' Gets the set with the given id '''
     query = {'_id': _id}
@@ -114,6 +122,7 @@ def update_voting_record(username: str, set_id: int, correct: bool):
     return accuracy
 
 def append_comment_to_set(username: str, set_id: int, comment: str):
+    '''appends a comment to the comment array on a set'''
     _log.debug('going to add comment to database')
     query = {'_id': set_id}
     given_set = get_set_by_id(set_id)
@@ -172,6 +181,18 @@ def delete_set_by_id(set_id):
         _log.exception('delete_set_by_id has failed to delete set with id %d', set_id)
     return result.deleted_count == 1
 
+def add_pending_set_to_sets(set_id):
+    '''queries a set from pending sets and adds it to sets'''
+    query = {'_id': set_id}
+    new_set = _db.potential_sets.find_one(query)
+    _log.debug(new_set)
+    _db.sets.insert_one(new_set)
+
+def delete_pending_set(set_id):
+    '''deletes a pending set'''
+    query = {'_id': set_id}
+    _db.potential_sets.delete_one(query)
+    
 def delete_comment(set_id: int, comment_id: int):
     _log.debug('Mongo :Deleting comment')
     id_query = {"_id":set_id}
