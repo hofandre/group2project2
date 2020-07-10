@@ -65,7 +65,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        register: (username, password, role) => dispatch({ type: 'register', username: username, password: password, role: role })
+        register: (username, password, role) => dispatch({ type: 'register', username: username, password: password })
     }
 }
 

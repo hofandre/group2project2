@@ -1,8 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import zxcvbn from 'zxcvbn';
-
 import FormField from './formfield.component.js';
 
 class PasswordField extends Component {
@@ -64,8 +62,8 @@ class PasswordField extends Component {
     // const { type, validator, onChange, children, value, ...restProps } = this.props;
     // const { password, strength } = this.props;
     // const passwordLength = this.props.password.length - 1;
-    // const passwordStrong = strength >= this.props.minStrength;
-    // const passwordLong = passwordLength > this.props.thresholdLength;
+    const passwordStrong = strength >= this.props.minStrength;
+    const passwordLong = passwordLength > this.props.thresholdLength;
 
     // // dynamically set the password length counter class
     // const counterClass = ['badge badge-pill', passwordLong ? passwordStrong ? 'badge-success' : 'badge-warning' : 'badge-danger'].join(' ').trim();
@@ -76,17 +74,8 @@ class PasswordField extends Component {
     return (
       <Fragment>
         <div className="position-relative">
-          {/** Pass the validation and stateChanged functions as props to the form field **/}
-          <FormField type="password" onChange={ this.hasChanged } value={ this.props.registerPassword } {...restProps}>
-            {/** Render the password strength meter **/}
-            {/** <div className={strengthClass}>
-              <div className="strength-meter-fill" data-strength={strength}></div>
-            </div>*/}
-          </FormField>
-          {/**<div className="position-absolute password-count mx-3">
-            {/** Render the password length counter indicator }
-            <span className={counterClass}>{ passwordLength ? passwordLong ? `${this.props.thresholdLength}+` : passwordLength : '' }</span>
-          </div>*/}
+          {/** Pass the stateChanged function and value as props to the form field **/}
+          <FormField type="password" onChange={ this.hasChanged } value={ this.props.registerPassword } {...restProps}></FormField>
         </div>
       </Fragment>
     );

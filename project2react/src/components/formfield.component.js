@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import zxcvbn from 'zxcvbn';
 
 class FormField extends Component {
 
@@ -12,30 +13,59 @@ class FormField extends Component {
 
   // state change watch functions for each field
   hasChanged(e) {
+    e.preventDefault();
     const value = e.target.value;
     const field = e.target.id;
     console.log(value);
     console.log(field);
-    e.preventDefault();
     switch(field) {
       case 'username': {
-        const regex = /^[a-zA-Z0-9]+$/;
-        if (!regex.test(value)) throw new Error('Username is invalid');
-        console.log(value);
+        const regex = /^[!-z]+$/;
+        if (!regex.test(value)) alert('Username is invalid');
         this.props.setUsername(value);
         break;
       }
       case 'password': {
+        if (!zxcvbn(value)) alert('Password is invalid');
         this.props.setPassword(value);
         break;
       }
       case 'confirm': {
+        const password = document.getElementById('password');
+        const confirm = document.getElementById('confirm');
+        if (!zxcvbn(value)) alert('Password is invalid');
+        if (password === confirm) alert('Passwords do not match.');
         this.props.setConfirm(value);
         break;
       }
       case 'role': {
         this.props.setRole(value);
         break;
+      }
+      case 'title': {
+        this.props.setTitle(value);
+        break;
+      }
+      case 'file_one': {
+        this.props.setFileOne(e.target.files[0]);
+        this.props.setFileNameOne(value);
+        break;
+      }
+      case 'file_two': {
+        this.props.setFileTwo(e.target.files[0]);
+        this.props.setFileNameTwo(value);
+        break;
+      }
+      case 'alt_text_one': {
+        this.props.setAltTextOne(value);
+        break;
+      }
+      case 'alt_text_two': {
+        this.props.setAltTextTwo(value);
+        break;
+      }
+      case 'keywords': {
+        this.props.setKeywords(value);
       }
       case 'age': {
         this.props.setAge(value);
@@ -45,33 +75,12 @@ class FormField extends Component {
         break;
       }
     }
-    // // destructure props - assign default dummy functions to validator and onStateChanged props
-    // const { label, required = false, validator = f => f, onStateChanged = f => f } = this.props;
-    // const isEmpty = value.length === 0;
-    // const requiredMissing = this.state.dirty && required && isEmpty;
-    //
-    // let errors = [];
-    //
-    // if (requiredMissing) {
-    //   // if required and is empty, add required error to state
-    //   errors = [ ...errors, `${label} is required` ];
-    // } else if ('function' === typeof validator) {
-    //   try {
-    //     validator(value);
-    //   } catch (e) {
-    //     // if validator throws error, add validation error to state
-    //     errors = [ ...errors, e.message ];
-    //   }
-    // }
   }
 
   render() {
     const { value } = this.props;
     const { type, label, fieldId, placeholder, children } = this.props;
-
-    // const hasErrors = errors.length > 0;
-    // const controlClass = ['form-control', dirty ? hasErrors ? 'is-invalid' : 'is-valid' : '' ].join(' ').trim();
-
+    const { error } = this.props;
     return (
       <Fragment>
         <div className="form-group px-3 pb-2">
@@ -80,7 +89,7 @@ class FormField extends Component {
           </div>
           {/** Render the children nodes passed to component **/}
           {children}
-          <input type={type} id={fieldId} placeholder={placeholder} value={value} onChange={this.hasChanged} />
+          <span><input type={type} id={fieldId} placeholder={placeholder} value={value} onChange={this.hasChanged} />{error}</span>
         </div>
       </Fragment>
     );
@@ -88,10 +97,11 @@ class FormField extends Component {
 }
 
 FormField.propTypes = {
-  type: PropTypes.oneOf(["text", "password"]).isRequired,
+  type: PropTypes.oneOf(["text", "password", "file"]).isRequired,
   label: PropTypes.string.isRequired,
   fieldId: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
+  error: PropTypes.string,
   required: PropTypes.bool,
   children: PropTypes.node,
   validator: PropTypes.func,
@@ -99,12 +109,21 @@ FormField.propTypes = {
 };
 
 function mapStateToProps(state) {
-  const { registerUser, registerPassword, confirm, role, registerAge } = state;
+  const { registerUser, registerPassword, confirm, role, title, file_one, file_two, file_name_one, file_name_two, alt_text_one, alt_text_two, keywords, error, registerAge } = state;
   return {
     username: registerUser,
     password: registerPassword,
     confirm: confirm,
     role: role,
+    title: title,
+    file_one: file_one,
+    file_two: file_two,
+    file_name_one: file_name_one,
+    file_name_two: file_name_two,
+    alt_text_one: alt_text_one,
+    alt_text_two: alt_text_two,
+    keywords: keywords,
+    error: error,
     age: registerAge
   }
 }
@@ -115,6 +134,15 @@ function mapDispatchToProps(dispatch) {
     setPassword: (password) => dispatch({type: 'updatePassword', password: password}),
     setConfirm: (confirm) => dispatch({type: 'updateConfirm', confirm: confirm }),
     setRole: (role) => dispatch({type: 'updateRole', role: role}),
+    setTitle: (title) => dispatch({type: 'updateTitle', title: title}),
+    setFileOne: (file_one) => dispatch({type: 'updateFileOne', file_one: file_one}),
+    setFileTwo: (file_two) => dispatch({type: 'updateFileTwo', file_two: file_two}),
+    setFileNameOne: (file_name_one) => dispatch({type: 'updateFileNameOne', file_name_one: file_name_one}),
+    setFileNameTwo: (file_name_two) => dispatch({type: 'updateFileNameTwo', file_name_two: file_name_two}),
+    setAltTextOne: (alt_text_one) => dispatch({type: 'updateAltTextOne', alt_text_one: alt_text_one}),
+    setAltTextTwo: (alt_text_two) => dispatch({type: 'updateAltTextTwo', alt_text_two: alt_text_two}),
+    setKeywords: (keywords) => dispatch({type: 'updateKeywords', keywords: keywords}),
+    setError: (error) => dispatch({type: 'updateError', error: error}),
     setAge: (age) => dispatch({type: 'updateAge', age: age})
   }
 }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import FormField from './formfield.component.js';
+import SelectRoleField from './selectrolefield.component.js';
 
 class JoinForm extends Component {
 
@@ -17,19 +18,6 @@ class JoinForm extends Component {
   fieldStateChanged = field => state => this.setState({ [field]: state.errors.length === 0 });
 
   render() {
-    // const formValidated = this.usernameChanged() && this.passwordChanged && this.confirmChanged;
-
-    // validation function for the fullname
-    // ensures that fullname contains at least two names separated with a space
-    // const validateUsername = value => {
-    //
-    // };
-
-    // const validateMatchingPasswords = state => {
-    //   const password = this.state.password
-    //   const confirm = this.state.confirm
-    // };
-
     return (
       <div className='container'> 
         <div className="form-container d-table-cell position-relative align-center">
