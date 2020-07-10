@@ -185,3 +185,18 @@ def add_deck(db_id:int, title: str, set_list: list):
         return Deck(db_id, title, set_list).to_dict()
     else:
         return {}
+def delete_comment(set_id: int, comment_id: int):
+    _log.debug('Mongo :Deleting comment')
+    id_query = {"_id":set_id}
+    retrieved_set = _db.sets.find_one(id_query)
+    comments = retrieved_set['comments']
+    comment = comments[comment_id]
+    comments.remove(comment)
+    index = 0
+    for comment in comments:
+        comment['comment_id'] = index
+        index = index + 1
+    return comments
+
+def update_comments(set_id, comments):
+    _db.sets.find_one_and_update({"_id":set_id}, {"$set" : {"comments": comments}})
