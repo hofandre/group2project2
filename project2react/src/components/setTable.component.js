@@ -151,6 +151,7 @@ class SetTable extends React.Component {
     allSets() {
         this.setService.getSets().then(res => {
             // this.updateAccuracies(res.data)
+            this.props.unqueryPendingSets();
             this.props.querySets(res.data);
             this.props.updateLastSearch({type: 'ALL', param: ''});
         })
@@ -158,6 +159,7 @@ class SetTable extends React.Component {
     allPendingSets() {
         console.log('grab all pending sets')
         this.setService.getPendingSets().then(res => {
+            this.props.unquerySets();
             this.props.queryPendingSets(res.data);
             this.props.updateLastSearch({type: 'ALLPEND', param: ''});
         })
@@ -283,7 +285,9 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         querySets: (sets) => dispatch({type: 'querySets', sets: sets}),
+        unquerySets: () => dispatch({type: 'unquerySets', sets: null}),
         queryPendingSets: (pendingSets) => dispatch({type: 'queryPendingSets', pendingSets: pendingSets}),
+        unqueryPendingSets: () => dispatch({type: 'unqueryPendingSets', pendingSets: null}),
         setSearch: (setSearchCriteria) => dispatch({type: 'setSearch', setSearchCriteria: setSearchCriteria }),
         setTerm: (searchTerm) => dispatch({type: 'searchTerm', setSearchTerm: searchTerm}),
         updateLastSearch: (searchDetails) => dispatch({type: 'updateSearch', searchMade: searchDetails})

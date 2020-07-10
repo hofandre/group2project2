@@ -49,8 +49,12 @@ function truthReducer(state = initialState, action) {
             return Object.assign({}, state, {username: '', password: '', role: ''})
         case 'querySets':
             return Object.assign({}, state, {displaySets: action.sets})
+        case 'unquerySets':
+            return Object.assign({}, state, {displaySets: {}})
         case 'queryPendingSets':
             return Object.assign({}, state, {displayPendingSets: action.pendingSets})
+        case 'unqueryPendingSets':
+            return Object.assign({}, state, {displayPendingSets: {}})
         case 'queryComments':
             return Object.assign({}, state, {displayComments: action.comments})
         case 'updateAccuracy':
