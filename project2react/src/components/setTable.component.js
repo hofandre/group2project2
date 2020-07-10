@@ -16,6 +16,8 @@ class SetTable extends React.Component {
         this.allPendingSets = this.allPendingSets.bind(this);
         this.handleTermChange = this.handleTermChange.bind(this);
         this.deleteSet = this.deleteSet.bind(this);
+        this.approveSet = this.approveSet.bind(this);
+        this.denySet = this.denySet.bind(this);
     }
     /** componentDidMount records when construction occurs. */
     componentDidMount() {
@@ -36,7 +38,31 @@ class SetTable extends React.Component {
                 this.reloadSets()
                 return
             }).catch((res) => {
-                
+                console.log('delete set catch called')
+                console.log(res)
+                alert('Set has failed to delete, please check the database')
+            }   
+            )
+        }
+    }
+
+    approveSet(event) {
+        const setID = event.target.id.split('_')[1]
+        // event.persist(event)
+        this.setService.approvePendingSet(setID).then(() => {
+            this.setService.deletePendingSet(setID)
+        });
+    }
+    denySet(event) {
+        const setID = event.target.id.split('_')[1]
+        console.log(setID)
+        let choice = window.confirm('Are you sure you want to delete a set? This cannot be undone.')
+        console.log(choice)
+        if (choice) {
+            this.setService.deletePendingSet(setID).then( res => {
+                this.reloadSets()
+                return
+            }).catch((res) => {
                 console.log('delete set catch called')
                 console.log(res)
                 alert('Set has failed to delete, please check the database')
@@ -191,19 +217,18 @@ class SetTable extends React.Component {
                                 this.props.sets.map ?
                                 this.props.sets.map((eachSet) => {
                                     return (
-                                    this.props.user.usertype === 'admin' ?
-                                    <tr>
-                                        <td>
-                                            <button className='btn btn-danger' 
-                                            id={'del_'+eachSet._id}
-                                            onClick={this.deleteSet }>Delete this set</button>
-                                        </td>
-                                        <td>
-                                            <Set key={eachSet._id} set={eachSet}></Set>
-                                        </td>
-                                    </tr>
-                                    : <Set key={eachSet._id} set={eachSet}></Set>
-                                    
+                                        this.props.user.usertype === 'admin' ?
+                                        <tr>
+                                            <td>
+                                                <button className='btn btn-danger' 
+                                                id={'del_'+eachSet._id}
+                                                onClick={ this.deleteSet }>Delete this set</button>
+                                            </td>
+                                            <td>
+                                                <Set key={eachSet._id} set={eachSet}></Set>
+                                            </td>
+                                        </tr>
+                                        : <Set key={eachSet._id} set={eachSet}></Set>
                                     )
                                 })
                                 : <tr></tr>
@@ -211,7 +236,21 @@ class SetTable extends React.Component {
                             {
                                 this.props.pendingSets.map ?
                                 this.props.pendingSets.map((eachSet) => {
-                                    return <PendingSet key={eachSet._id} pendingSet={eachSet}></PendingSet>
+                                    return (
+                                        <>
+                                            <tr>
+                                                <td style={{width: '15%'}}>
+                                                    <button className='btn btn-success' id={'app_'+eachSet._id} onClick={ this.approveSet }>Approve set</button>
+                                                </td>
+                                                <td style={{width: '15%'}}>
+                                                    <button className='btn btn-danger' id={'del_'+eachSet._id} onClick={ this.denySet }>Deny set</button>
+                                                </td>
+                                                <td style={{width: '70%'}}>
+                                                    <PendingSet key={eachSet._id} pendingSet={eachSet}></PendingSet>
+                                                </td>
+                                            </tr>
+                                        </>
+                                    )
                                 })
                                 : <tr></tr>
                             }

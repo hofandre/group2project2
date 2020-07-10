@@ -185,6 +185,7 @@ def add_pending_set_to_sets(set_id):
     '''queries a set from pending sets and adds it to sets'''
     query = {'_id': set_id}
     new_set = _db.potential_sets.find_one(query)
+    _log.debug(new_set)
     _db.sets.insert_one(new_set)
 
 def delete_pending_set(set_id):

@@ -1,22 +1,10 @@
 import React from 'react';
 import SetService from '../services/set.service';
-import { connect } from 'react-redux';
 
 class PendingSet extends React.Component {
     setService = new SetService();
     constructor(props){
         super(props);
-        this.approveSet = this.approveSet.bind(this);
-        this.denySet = this.denySet.bind(this);
-    }
-
-    approveSet() {
-        this.setService.approvePendingSet(this.props.pendingSet._id).then(() => {
-            this.setService.deletePendingSet(this.props.pendingSet._id);
-        });
-    }
-    denySet() {
-        this.setService.deletePendingSet(this.props.pendingSet._id);
     }
 
     render() {
@@ -53,14 +41,6 @@ class PendingSet extends React.Component {
                                         // </>
                                     }
                                 </tr>
-                                <tr>
-                                    <td>
-                                        <button className='btn btn-success' onClick={ this.approveSet }>Approve set</button>
-                                    </td>
-                                    <td>
-                                        <button className='btn btn-danger' onClick={ this.denySet }>Deny set</button>
-                                    </td>
-                                </tr>
                             </tbody>
                         </table>
                     </td>
@@ -69,11 +49,5 @@ class PendingSet extends React.Component {
         )
     }
 }
-function mapDispatchToProps(dispatch) {
-    return {
-        // updateAccuracy: (accuracy) => dispatch({type: 'updateAccuracy', accuracy: accuracy}),
-        // queryComments: (comments) => dispatch({type: 'queryComments', comments: comments})
-    }
-}
 
-export default connect(mapDispatchToProps)(PendingSet);
+export default (PendingSet);

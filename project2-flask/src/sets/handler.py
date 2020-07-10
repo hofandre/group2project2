@@ -32,7 +32,8 @@ def set_collection():
             return jsonify(set_list), 200
     elif request.method == 'POST':
         _log.debug(request.get_json())
-        db.add_pending_set_to_sets(request.get_json()['set_id'])
+        db.add_pending_set_to_sets(int(request.get_json()['set_id']))
+        _log.debug('made it to here')
         return jsonify('set moved to sets'), 201
 
 @set_page.route('/sets/<int:setid>', methods=['GET', 'DELETE'])
