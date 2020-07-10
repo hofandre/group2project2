@@ -7,6 +7,7 @@ from flask_cors import CORS
 from src.data.logger import get_logger
 from src.sets.model import SetEncoder
 from src.sets.handler import set_page
+from src.statistics.handler import stat_page
 from src.users.model import User
 import src.data.mongo as db
 import werkzeug
@@ -17,6 +18,8 @@ app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 app.json_encoder = SetEncoder
 app.register_blueprint(set_page)
+app.register_blueprint(stat_page)
+
 
 @app.route('/')
 def test_html():
@@ -102,9 +105,17 @@ def register_user():
         password = request.get_json()['password']
         _log.debug(password)
         role = 'voter'
-        newUser = db.register(username, password, role)
+        age = request.get_json()['age']
+        newUser = db.register(username, password, role, age)
+        if newUser == None:
+            return jsonify('Database Error'), 500
+        elif newUser == 'Duplicate Username Error':
+            return jsonify(newUser), 400
+        else:
+            return jsonify(newUser), 201
     else:
         return {}, 400
+<<<<<<< HEAD
     return jsonify(newUser), 201
 
 
@@ -128,3 +139,5 @@ def add_deck():
             _log.error(e)
             return {}, 400
     return {}, 501
+=======
+>>>>>>> 841752ffa20a8f1d45111b50473858d8cc0776bc

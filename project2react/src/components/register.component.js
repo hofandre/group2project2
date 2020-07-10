@@ -20,13 +20,30 @@ class Register extends React.Component {
       console.log('Updating Set');
   }
 
+  validateAge(age) {
+    return age > 12
+  }
+
   register() {
     console.log(this.props);
-    this.registerService.register(this.props.username, this.props.password, this.props.role).then(
-      (resp) => {
-        // this.props.register(this.props.username, this.props.password, this.props.role)
-        alert('Registration Successful')
-      })
+    if (this.validateAge(this.props.age)) {
+        this.registerService.register(this.props.username, this.props.password, this.props.role, this.props.age).then(
+            (resp) => {
+              // this.props.register(this.props.username, this.props.password, this.props.role)
+              alert('Registration Successful')
+            }).catch( (err) => {
+                console.log('within the catch on the register')
+                console.log(err.response)
+                if (err.response.status === 500) {
+                    alert('ERROR: Please attempt registration later')
+                } else if (err.response.status === 400) {
+                    alert('Username is taken, please choose another')
+                }
+            })
+    } else {
+        alert('ERROR: must be 13+ to join this site.')
+    }
+    
   }
 
   render() {
@@ -42,8 +59,8 @@ class Register extends React.Component {
 
 function mapStateToProps(state) {
     console.log(state)
-    const{ registerUser, registerPassword, role } = state;
-    return { username: registerUser, password: registerPassword, role: role }
+    const{ registerUser, registerPassword, role, registerAge } = state;
+    return { username: registerUser, password: registerPassword, role: role, age: registerAge }
 }
 
 function mapDispatchToProps(dispatch) {

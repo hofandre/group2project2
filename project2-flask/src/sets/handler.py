@@ -89,7 +89,6 @@ def delete_a_comment(set_id, comment_id):
     #return jsonify(comments), 200 #returns all coments in a set once a comment is deleted
     return jsonify(comments), 200
 
-
 @set_page.route('/sets/pending', methods=['GET', 'DELETE'])
 def retrieve_pending_sets():
     set_list = db.get_pending_sets()
