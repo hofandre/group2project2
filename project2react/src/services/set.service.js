@@ -44,6 +44,10 @@ class SetService {
     deleteSetByID(setID) {
         return axios.delete(this.URI + '/' + setID, {withCredentials: true})
     }
+    deleteComment(set_id, comment_id){
+        console.log('Axios delete: ' + set_id + ',' +comment_id)
+        return axios.delete(this.URI + '/' + set_id+ "/" + comment_id, {withCredentials: true})
+    }
 }
 
 export default SetService;

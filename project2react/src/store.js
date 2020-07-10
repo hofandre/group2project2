@@ -63,6 +63,8 @@ function truthReducer(state = initialState, action) {
             return Object.assign({}, state, {lastSearchMade: action.searchMade})
         case 'queryUsers':
             return Object.assign({}, state, {displayUsers: action.users})
+        case 'setComments':
+            return Object.assign({}, state, {comment: action.comment})
         default:
             return state;
     }
