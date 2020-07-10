@@ -27,3 +27,13 @@ def set_accuracy_helper(set_list):
         new_sets.append(_set)
     return new_sets
                     
+def aggregate_user_accuracy(user_list):
+    ''' Calculates the average user accuracy across every user in the list '''
+    correct_votes = 0
+    total_votes = 0
+    for user in user_list:
+        correct_votes += user.correct_votes
+        total_votes += len(user.votes)
+    if total_votes == 0:
+        return 0
+    return round(float(correct_votes/total_votes), 3)

@@ -19,7 +19,7 @@ class FormField extends Component {
     e.preventDefault();
     switch(field) {
       case 'username': {
-        const regex = /^[a-z]+$/;
+        const regex = /^[a-zA-Z0-9]+$/;
         if (!regex.test(value)) throw new Error('Username is invalid');
         console.log(value);
         this.props.setUsername(value);
@@ -35,6 +35,10 @@ class FormField extends Component {
       }
       case 'role': {
         this.props.setRole(value);
+        break;
+      }
+      case 'age': {
+        this.props.setAge(value);
         break;
       }
       default: {
@@ -95,12 +99,13 @@ FormField.propTypes = {
 };
 
 function mapStateToProps(state) {
-  const { registerUser, registerPassword, confirm, role } = state;
+  const { registerUser, registerPassword, confirm, role, registerAge } = state;
   return {
     username: registerUser,
     password: registerPassword,
     confirm: confirm,
-    role: role
+    role: role,
+    age: registerAge
   }
 }
 
@@ -109,7 +114,8 @@ function mapDispatchToProps(dispatch) {
     setUsername: (username) => dispatch({type: 'updateUsername', username: username }),
     setPassword: (password) => dispatch({type: 'updatePassword', password: password}),
     setConfirm: (confirm) => dispatch({type: 'updateConfirm', confirm: confirm }),
-    setRole: (role) => dispatch({type: 'updateRole', role: role})
+    setRole: (role) => dispatch({type: 'updateRole', role: role}),
+    setAge: (age) => dispatch({type: 'updateAge', age: age})
   }
 }
 
