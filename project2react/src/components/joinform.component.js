@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import FormField from './formfield.component.js';
-import SelectField from './selectfield.component.js';
+import SelectRoleField from './selectrolefield.component.js';
 
 class JoinForm extends Component {
 
@@ -21,16 +21,13 @@ class JoinForm extends Component {
       <div className="form-container d-table-cell position-relative align-middle">
           <div className="py-5 border-gray border-top border-bottom">
             {/** Render the fullname form field. **/}
-            <FormField type="text" fieldid="username" label="Username" placeholder="Enter Username" onChange={this.usernameChanged} required />
+            <FormField type="text" fieldId="username" label="Username" placeholder="Enter Username" required />
 
             {/** Render the password field component. **/}
-            <FormField type="password" fieldid="password" label="Password" placeholder="Enter Password" onChange={this.passwordChanged} thresholdLength={7} minStrength={3} required />
+            <FormField type="password" fieldId="password" label="Password" placeholder="Enter Password" thresholdLength={7} minStrength={3} required />
 
             {/** Render the confirm password field component. */}
-            <FormField type="password" fieldid="confirm" label="Password" placeholder="Confirm Password" onChange={this.confirmChanged} thresholdLength={7} minStrength={3} required />
-
-            {/** Render the drop down field for the user role. */}
-            <SelectField type="select" fieldid="role" label="Role" placeholder="Enter Role" required />
+            <FormField type="password" fieldId="confirm" label="Password" placeholder="Confirm Password" thresholdLength={7} minStrength={3} required />
           </div>
       </div>
     );

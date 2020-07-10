@@ -22,7 +22,7 @@ class Register extends React.Component {
 
   register() {
     console.log(this.props);
-    this.registerService.register(this.props.username, this.props.password, this.props.role).then(
+    this.registerService.register(this.props.username, this.props.password).then(
       (resp) => {
         // this.props.register(this.props.username, this.props.password, this.props.role)
         alert('Registration Successful')
@@ -42,13 +42,13 @@ class Register extends React.Component {
 
 function mapStateToProps(state) {
     console.log(state)
-    const{ registerUser, registerPassword, role } = state;
-    return { username: registerUser, password: registerPassword, role: role }
+    const{ registerUser, registerPassword } = state;
+    return { username: registerUser, password: registerPassword }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        register: (username, password, role) => dispatch({ type: 'register', username: username, password: password, role: role })
+        register: (username, password, role) => dispatch({ type: 'register', username: username, password: password })
     }
 }
 

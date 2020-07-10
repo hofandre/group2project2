@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Route, BrowserRouter as Router, Link } from 'react-router-dom';
 import Login from './login.component'
 import Register from './register.component'
+import Upload from './upload.component'
 
 import { Navbar, Nav } from 'react-bootstrap';
 import SetForm from './setTable.component';
@@ -19,12 +20,14 @@ class Routing extends Component {
                         <Nav className='mr-auto'>
                             <Link to='/sets'>Sets</Link>
                             <Link to='/register'>Register</Link>
+                            <Link to='/upload'>Upload</Link>
                         </Nav>
                     </Navbar.Collapse>
                     <Login></Login>
                 </Navbar>
                 <Route path='/sets' component={SetForm}/>
                 <Route path='/register' component={Register}/>
+                <Route path='/upload' component={Upload}/>
             </div>
         </Router>
     }

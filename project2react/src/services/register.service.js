@@ -17,10 +17,7 @@ class RegisterService {
 	*/
 	register(username, password, role) {
 		console.log("register.service")
-		console.log(username)
-		console.log(password)
-		console.log(role)
-		return axios.post(this.URI, {'username': username, 'password':password, 'role': role})
+		return axios.post(this.URI, {'username': username, 'password':password})
 	}
 }
 

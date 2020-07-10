@@ -2,6 +2,15 @@ import { createStore } from 'redux';
 
 const initialState = {
     user: null,
+    file_one: null,
+    file_two: null,
+    keywords: [],
+    file: '',
+    title: '',
+    file_name_one: '',
+    file_name_two: '',
+    alt_text_one: '',
+    alt_text_two: '',
     username: '',
     registerUser: '',
     password: '',
@@ -13,6 +22,7 @@ const initialState = {
     error: '',
     register: {username: '', password: '', role: ''},
     displaySets: {},
+    correct_option: 0,
     accuracy: 0.0,
     displaySetCriteria: 0,
     displaySearchTerm: 'id'
@@ -38,10 +48,32 @@ function truthReducer(state = initialState, action) {
             return Object.assign({}, state, {confirm: action.confirm})
         case 'updateRole':
             return Object.assign({}, state, {role: action.role})
+        case 'updateFile':
+            return Object.assign({}, state, {file: action.file})
+        case 'updateTitle':
+            return Object.assign({}, state, {title: action.title})
+        case 'updateCorrectOption':
+            return Object.assign({}, state, {correct_option: action.correct_option})
+        case 'updateFileOne':
+            return Object.assign({}, state, {file_one: action.file_one})
+        case 'updateFileTwo':
+            return Object.assign({}, state, {file_two: action.file_two})
+        case 'updateFileNameOne':
+            return Object.assign({}, state, {file_name_one: action.file_name_one})
+        case 'updateFileNameTwo':
+            return Object.assign({}, state, {file_name_two: action.file_name_two})
+        case 'updateAltTextOne':
+            return Object.assign({}, state, {alt_text_one: action.alt_text_one})
+        case 'updateAltTextTwo':
+            return Object.assign({}, state, {alt_text_two: action.alt_text_two})
+        case 'updateKeywords':
+            return Object.assign({}, state, {keywords: action.keywords})
         case 'updateError':
             return Object.assign({}, state, {error: action.error})
         case 'register':
             return Object.assign({}, state, {username: '', password: '', role: ''})
+        case 'upload_set':
+            return Object.assign({}, state, {file_one: null, file_two: null, correct_option: 0, title: '', file_name_one: '', file_name_two: '', alt_text_one: '', alt_text_two: '', keywords: []})
         case 'querySets':
             return Object.assign({}, state, {displaySets: action.sets})
         case 'updateAccuracy':

@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
 import FormField from './formfield.component.js';
 
 class PasswordField extends Component {
@@ -76,16 +75,7 @@ class PasswordField extends Component {
       <Fragment>
         <div className="position-relative">
           {/** Pass the stateChanged function and value as props to the form field **/}
-          <FormField type="password" onChange={ this.hasChanged } value={ this.props.registerPassword } {...restProps}>
-            {/** Render the password strength meter **/}
-            {/** <div className={strengthClass}>
-              <div className="strength-meter-fill" data-strength={strength}></div>
-            </div>*/}
-          </FormField>
-          {/**<div className="position-absolute password-count mx-3">
-            {/** Render the password length counter indicator }
-            <span className={counterClass}>{ passwordLength ? passwordLong ? `${this.props.thresholdLength}+` : passwordLength : '' }</span>
-          </div>*/}
+          <FormField type="password" onChange={ this.hasChanged } value={ this.props.registerPassword } {...restProps}></FormField>
         </div>
       </Fragment>
     );
