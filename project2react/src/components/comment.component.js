@@ -45,7 +45,6 @@ class Comment extends React.Component {
                 textAlign: "left"}}>
                 { this.props.comment.comment }
             </Card.Text>
-
             { 
                 this.props.user.usertype === 'admin' || this.props.user.usertype === 'moderator' ?
                 <Button variant="outline-danger"
@@ -54,7 +53,6 @@ class Comment extends React.Component {
                 </Button> :
                 null
             }
-
             </Card.Body>
             </Card>
         </>

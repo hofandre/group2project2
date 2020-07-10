@@ -27,16 +27,23 @@ def login(username: str, password: str):
          return User.from_dict(response)
     return None
 
-def register(username: str, password: str, role: str):
+def register(username: str, password: str, role: str, age: int):
     ''' Creates a new user.'''
     _id = _db.counter.find_one_and_update({'_id': 'USER_COUNT'},
                                           {'$inc': {'count': 1}},
                                           return_document=pymongo.ReturnDocument.AFTER)['count']
     _log.debug(_id)
     query = {"_id": _id, "username": username, "password": password, "role": role}
-    user = User(_id, username, password, role)
+    user = User(_id, username, password, role, int(age))
     _log.debug(query)
-    _db.users.insert_one(user.to_dict())
+    try:
+        _db.users.insert_one(user.to_dict())
+    except pymongo.errors.DuplicateKeyError:
+        _log.info('Duplicate key error detected in the database for username %s', username)
+        return 'Duplicate Username Error'
+    except pymongo.errors.PyMongoError:
+        _log.exception('register has failed in the db')
+        return None
     return User.from_dict(_db.users.find_one({'_id': _id}))
 
 
@@ -177,7 +184,7 @@ def delete_set_by_id(set_id):
     query = {'_id': set_id}
     try:
         result = _db.sets.delete_one(query)
-    except:
+    except pymongo.errors.PyMongoError:
         _log.exception('delete_set_by_id has failed to delete set with id %d', set_id)
     return result.deleted_count == 1
 
@@ -192,6 +199,26 @@ def delete_pending_set(set_id):
     '''deletes a pending set'''
     query = {'_id': set_id}
     _db.potential_sets.delete_one(query)
+    
+def get_users_by_usertype(usertype):
+    ''' Retrieves all users of a given usertype'''
+    query = {'usertype': usertype}
+    user_list = None
+    try:
+        user_list = _db.users.find(query)
+    except pymongo.errors.PyMongoError:
+        _log.exception('get_user_by_usertype failed on usertype %s', usertype)
+    return [User.from_dict(user) for user in user_list] if user_list else None
+
+def get_users_by_age_range(start_age, end_age):
+    ''' Retrieves all users within the age range given. Start inclusive, End exclusive '''
+    query = {'$and': [{ 'age': {'$gte': start_age}}, {'age': {'$lt': end_age}}]}
+    user_list = []
+    try:
+        user_list = _db.users.find(query)
+    except pymongo.errors.PyMongoError:
+        _log.exception('get_users_by_age_range has failed on range %d to %d', start_age, end_age)
+    return [User.from_dict(user) for user in user_list] if user_list else None
     
 def delete_comment(set_id: int, comment_id: int):
     _log.debug('Mongo :Deleting comment')
