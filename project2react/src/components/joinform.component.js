@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import FormField from './formfield.component.js';
-import SelectRoleField from './selectrolefield.component.js';
 
 class JoinForm extends Component {
 
@@ -19,7 +18,7 @@ class JoinForm extends Component {
 
   render() {
     return (
-      <div className='container'> 
+      <div className='container'>
         <div className="form-container d-table-cell position-relative align-center">
           <form action="/" method="POST" noValidate>
 
@@ -39,15 +38,8 @@ class JoinForm extends Component {
               {/** Render the confirm password field component using thresholdLength of 7 and minStrength of 3 */}
               <FormField type="password" fieldId="confirm" label="Password" placeholder="Confirm Password" onStateChanged={this.confirmChanged} thresholdLength={7} minStrength={3} required />
 
-
+              {/** Render the age field component */}
               <FormField type="number" fieldId="age" label="Age" placeholder="Enter your Age" onStateChanged={this.confirmChanged} required />
-              {/** Render the drop down field for the role of the user. */}
-              {/* <label htmlFor='userAge'>Age</label>
-              <br></br>
-              <input type='number'
-              id='userAge'
-              value={this.props.registerAge}
-              onChange={this.handleAge}></input> */}
             </div>
           </form>
         </div>
