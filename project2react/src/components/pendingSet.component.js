@@ -11,10 +11,12 @@ class PendingSet extends React.Component {
     }
 
     approveSet() {
-        console.log('approve this set')
+        this.setService.approvePendingSet(this.props.pendingSet._id).then(() => {
+            this.setService.deletePendingSet(this.props.pendingSet._id);
+        });
     }
     denySet() {
-        console.log('deny this set')
+        this.setService.deletePendingSet(this.props.pendingSet._id);
     }
 
     render() {

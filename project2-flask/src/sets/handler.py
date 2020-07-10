@@ -13,7 +13,7 @@ _log = get_logger(__name__)
 
 set_page = Blueprint('set_page', __name__, static_folder='../static')
 
-@set_page.route('/sets', methods=['GET'])
+@set_page.route('/sets', methods=['GET', 'POST'])
 def set_collection():
     # GET METHOD:
     if request.method == 'GET':
@@ -30,6 +30,10 @@ def set_collection():
         else:
             set_list = stats.set_accuracy_helper(db.get_sets())
             return jsonify(set_list), 200
+    elif request.method == 'POST':
+        _log.debug(request.get_json())
+        db.add_pending_set_to_sets(request.get_json()['set_id'])
+        return jsonify('set moved to sets'), 201
 
 @set_page.route('/sets/<int:setid>', methods=['GET', 'DELETE'])
 def set_by_id(setid):
@@ -75,8 +79,13 @@ def get_comments_by_set(setid):
     comments = given_set['comments']
     return jsonify(comments), 200
 
-@set_page.route('/sets/pending', methods=['GET'])
-def get_pending_sets():
+@set_page.route('/sets/pending', methods=['GET', 'DELETE'])
+def retrieve_pending_sets():
     set_list = db.get_pending_sets()
     set_list = [each_set.to_dict() for each_set in set_list]
     return jsonify(set_list), 200
+
+@set_page.route('/sets/pending/<int:setid>', methods=['DELETE'])
+def delete_pending_set(setid):
+    db.delete_pending_set(setid)
+    return jsonify('deleted the set'), 200

@@ -122,6 +122,7 @@ def update_voting_record(username: str, set_id: int, correct: bool):
     return accuracy
 
 def append_comment_to_set(username: str, set_id: int, comment: str):
+    '''appends a comment to the comment array on a set'''
     _log.debug('going to add comment to database')
     query = {'_id': set_id}
     given_set = get_set_by_id(set_id)
@@ -179,3 +180,14 @@ def delete_set_by_id(set_id):
     except:
         _log.exception('delete_set_by_id has failed to delete set with id %d', set_id)
     return result.deleted_count == 1
+
+def add_pending_set_to_sets(set_id):
+    '''queries a set from pending sets and adds it to sets'''
+    query = {'_id': set_id}
+    new_set = _db.potential_sets.find_one(query)
+    _db.sets.insert_one(new_set)
+
+def delete_pending_set(set_id):
+    '''deletes a pending set'''
+    query = {'_id': set_id}
+    _db.potential_sets.delete_one(query)
