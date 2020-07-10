@@ -66,6 +66,9 @@ class FormField extends Component {
       }
       case 'keywords': {
         this.props.setKeywords(value);
+      }
+      case 'age': {
+        this.props.setAge(value);
         break;
       }
       default: {
@@ -106,7 +109,7 @@ FormField.propTypes = {
 };
 
 function mapStateToProps(state) {
-  const { registerUser, registerPassword, confirm, role, title, file_one, file_two, file_name_one, file_name_two, alt_text_one, alt_text_two, keywords, error } = state;
+  const { registerUser, registerPassword, confirm, role, title, file_one, file_two, file_name_one, file_name_two, alt_text_one, alt_text_two, keywords, error, registerAge } = state;
   return {
     username: registerUser,
     password: registerPassword,
@@ -120,7 +123,8 @@ function mapStateToProps(state) {
     alt_text_one: alt_text_one,
     alt_text_two: alt_text_two,
     keywords: keywords,
-    error: error
+    error: error,
+    age: registerAge
   }
 }
 
@@ -138,7 +142,8 @@ function mapDispatchToProps(dispatch) {
     setAltTextOne: (alt_text_one) => dispatch({type: 'updateAltTextOne', alt_text_one: alt_text_one}),
     setAltTextTwo: (alt_text_two) => dispatch({type: 'updateAltTextTwo', alt_text_two: alt_text_two}),
     setKeywords: (keywords) => dispatch({type: 'updateKeywords', keywords: keywords}),
-    setError: (error) => dispatch({type: 'updateError', error: error})
+    setError: (error) => dispatch({type: 'updateError', error: error}),
+    setAge: (age) => dispatch({type: 'updateAge', age: age})
   }
 }
 

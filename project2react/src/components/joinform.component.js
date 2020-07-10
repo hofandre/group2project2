@@ -10,6 +10,7 @@ class JoinForm extends Component {
       super(props);
       console.log('JoinForm component constructor.');
       console.log(props);
+      // this.handleAge = this.handleAge.bind(this);
   }
 
   // higher-order function that returns a state change watch function
@@ -18,17 +19,38 @@ class JoinForm extends Component {
 
   render() {
     return (
-      <div className="form-container d-table-cell position-relative align-middle">
-          <div className="py-5 border-gray border-top border-bottom">
-            {/** Render the fullname form field. **/}
-            <FormField type="text" fieldId="username" label="Username" placeholder="Enter Username" required />
+      <div className='container'> 
+        <div className="form-container d-table-cell position-relative align-center">
+          <form action="/" method="POST" noValidate>
 
-            {/** Render the password field component. **/}
-            <FormField type="password" fieldId="password" label="Password" placeholder="Enter Password" thresholdLength={7} minStrength={3} required />
+            {/* <div className="d-flex flex-row justify-content-between align-items-center px-3 mb-5"> */}
+              {/* <legend className="form-label mb-0">Support Team</legend> */}
+              {/** Show the form button only if all fields are valid **/}
+              {/* { <button type="button" className="btn btn-primary text-uppercase px-3 py-2">Join</button> } */}
+            {/* </div> */}
 
-            {/** Render the confirm password field component. */}
-            <FormField type="password" fieldId="confirm" label="Password" placeholder="Confirm Password" thresholdLength={7} minStrength={3} required />
-          </div>
+            <div className="py-5 border-gray border-top border-bottom">
+              {/** Render the fullname form field passing the name validation fn **/}
+              <FormField type="text" fieldId="username" label="Username" placeholder="Enter Username" onChange={this.usernameChanged} required />
+
+              {/** Render the password field component using thresholdLength of 7 and minStrength of 3 **/}
+              <FormField type="password" fieldId="password" label="Password" placeholder="Enter Password" onChange={this.passwordChanged} thresholdLength={7} minStrength={3} required />
+
+              {/** Render the confirm password field component using thresholdLength of 7 and minStrength of 3 */}
+              <FormField type="password" fieldId="confirm" label="Password" placeholder="Confirm Password" onStateChanged={this.confirmChanged} thresholdLength={7} minStrength={3} required />
+
+
+              <FormField type="number" fieldId="age" label="Age" placeholder="Enter your Age" onStateChanged={this.confirmChanged} required />
+              {/** Render the drop down field for the role of the user. */}
+              {/* <label htmlFor='userAge'>Age</label>
+              <br></br>
+              <input type='number'
+              id='userAge'
+              value={this.props.registerAge}
+              onChange={this.handleAge}></input> */}
+            </div>
+          </form>
+        </div>
       </div>
     );
   }

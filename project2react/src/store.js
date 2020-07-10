@@ -1,7 +1,6 @@
 import { createStore } from 'redux';
 
 const initialState = {
-    user: null,
     file_one: null,
     file_two: null,
     keywords: [],
@@ -11,21 +10,29 @@ const initialState = {
     file_name_two: '',
     alt_text_one: '',
     alt_text_two: '',
+    user: {username:'', password:'', usertype:''},
     username: '',
     registerUser: '',
     password: '',
     registerPassword: '',
+    registerAge: 0,
     minStrength: 3,
     minLength: 7,
     confirm: '',
     role: '',
-    error: '',
-    register: {username: '', password: '', role: ''},
+    aggregateStats: {},
+    comment: '',
+    register: {username: '', password: '', usertype: ''},
     displaySets: {},
+    displayPendingSets: {},
+    displayComments: {},
+    displayUsers: {},
     correct_option: 0,
     accuracy: 0.0,
     displaySetCriteria: 0,
-    displaySearchTerm: 'id'
+    displaySearchTerm: 'id',
+    displaySetAccuracy: {},
+    lastSearchMade: {type: '', param: ''}
 };
 
 function truthReducer(state = initialState, action) {
@@ -40,6 +47,8 @@ function truthReducer(state = initialState, action) {
             return Object.assign({}, state, {username: action.username})
         case 'handlePassword':
             return Object.assign({}, state, {password: action.password})
+        case 'handleComment':
+            return Object.assign({}, state, {comment: action.comment})
         case 'updateUsername':
             return Object.assign({}, state, {registerUser: action.username})
         case 'updatePassword':
@@ -70,18 +79,36 @@ function truthReducer(state = initialState, action) {
             return Object.assign({}, state, {keywords: action.keywords})
         case 'updateError':
             return Object.assign({}, state, {error: action.error})
+        case 'updateAge':
+            return Object.assign({}, state, {registerAge: action.age})
         case 'register':
             return Object.assign({}, state, {username: '', password: '', role: ''})
         case 'upload_set':
             return Object.assign({}, state, {file_one: null, file_two: null, correct_option: 0, title: '', file_name_one: '', file_name_two: '', alt_text_one: '', alt_text_two: '', keywords: []})
         case 'querySets':
             return Object.assign({}, state, {displaySets: action.sets})
+        case 'unquerySets':
+            return Object.assign({}, state, {displaySets: {}})
+        case 'queryPendingSets':
+            return Object.assign({}, state, {displayPendingSets: action.pendingSets})
+        case 'unqueryPendingSets':
+            return Object.assign({}, state, {displayPendingSets: {}})
+        case 'queryComments':
+            return Object.assign({}, state, {displayComments: action.comments})
         case 'updateAccuracy':
-                return Object.assign({}, state, {accuracy: action.accuracy})
+            return Object.assign({}, state, {accuracy: action.accuracy})
         case 'setSearch':
             return Object.assign({}, state, {displaySetCriteria: action.setSearchCriteria})
         case 'searchTerm':
             return Object.assign({}, state, {displaySearchTerm: action.setSearchTerm})
+        case 'updateSearch':
+            return Object.assign({}, state, {lastSearchMade: action.searchMade})
+        case 'queryUsers':
+            return Object.assign({}, state, {displayUsers: action.users})
+        case 'queryAggregate':
+            return Object.assign({}, state, {aggregateStats: action.stats})
+        case 'setComments':
+            return Object.assign({}, state, {comment: action.comment})
         default:
             return state;
     }

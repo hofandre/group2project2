@@ -9,12 +9,16 @@ _secret_key = '10101567unique'
 
 class User():
     '''parent class for all users'''
-    def __init__(self, _id=-1, username='', password='', usertype=''):
+    def __init__(self, _id=-1, username='', password='', usertype='voter', age=-1):
         self._id = _id
         self.username = username
         self.password = password
         self.usertype = usertype
+        self.age = age
         self.accuracy = 1
+        self.votes = []
+        self.voted_sets = []
+        self.correct_votes = 0
     def to_dict(self):
         '''returns a dict representation of the object'''
         return self.__dict__
