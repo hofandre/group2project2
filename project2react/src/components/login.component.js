@@ -102,7 +102,7 @@ class Login extends Component {
         console.log(this.props.accuracy)
         return (
             <>
-                <Nav bsStyle="default" style={{width: "550px"}}>
+                <Nav bsstyle="default" style={{width: "550px"}}>
                     <Col>
                         <Form />
                             <Navbar.Text >
