@@ -54,7 +54,7 @@ class DeckForm extends Component {
         return (
             <>
             {
-            this.props.user.usertype ==='admin' || this.props.user.usertype === 'moderator'?
+            (this.props.user.usertype ==='admin' || this.props.user.usertype === 'moderator')?
                 <div>
                     <h1>Create a Deck of Sets</h1>
                         <label>Title</label><br></br>
@@ -84,7 +84,7 @@ class DeckForm extends Component {
                         {
                             this.props.displaySets.map((eachSet) => {
                                 return (
-                                    this.props.user.usertype === 'admin' ?
+                                    this.props.user.usertype === 'admin' || this.props.user.usertype === 'moderator'?
                                     <tr key={eachSet._id}>
                                         <td>
                                             <span>{eachSet._id}</span>

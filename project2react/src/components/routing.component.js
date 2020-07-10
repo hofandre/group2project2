@@ -23,10 +23,8 @@ class Routing extends Component {
                     <Nav className="mr-auto">
                     <Nav.Link href="/sets">Sets</Nav.Link>
                     <Nav.Link href="/register">Register</Nav.Link>
-<<<<<<< HEAD
                     <Nav.Link href='/users'>Users</Nav.Link>
                     <Nav.Link href="/decks">Decks</Nav.Link>
-=======
                     {
                         this.props.user.usertype === 'moderator' ||
                         this.props.user.usertype === 'admin' ?
@@ -36,7 +34,6 @@ class Routing extends Component {
                         </>
                         : <></>
                     }
->>>>>>> 841752ffa20a8f1d45111b50473858d8cc0776bc
                     </Nav>
                     <Login></Login>
                 </Navbar>
@@ -44,11 +41,8 @@ class Routing extends Component {
                 <Route path='/sets' component={SetForm}/>
                 <Route path='/register' component={Register}/>
                 <Route path='/users' component={UserTable}/>
-<<<<<<< HEAD
                 <Route path='/decks' component={DeckForm}/>
-=======
                 <Route path='/stats' component={StatTable}/>
->>>>>>> 841752ffa20a8f1d45111b50473858d8cc0776bc
         </Router>
     }
 }

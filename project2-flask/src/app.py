@@ -115,7 +115,6 @@ def register_user():
             return jsonify(newUser), 201
     else:
         return {}, 400
-<<<<<<< HEAD
     return jsonify(newUser), 201
 
 
@@ -139,5 +138,3 @@ def add_deck():
             _log.error(e)
             return {}, 400
     return {}, 501
-=======
->>>>>>> 841752ffa20a8f1d45111b50473858d8cc0776bc
