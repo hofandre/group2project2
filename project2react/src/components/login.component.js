@@ -80,6 +80,7 @@ class Login extends Component {
                         <Col>
                         <Form.Control 
                             id="password"
+                            type="password"
                             placeholder="Password"
                             value={this.props.password} 
                             onChange={ this.handleInput }
@@ -103,26 +104,25 @@ class Login extends Component {
         return (
             <>
                 <Nav bsstyle="default" style={{width: "550px"}}>
-                    <Col>
-                        <Form />
+                        <Col>
                             <Navbar.Text >
                                 Welcome {this.props.user.role}: {this.props.user.username}  
                             </Navbar.Text>
                         
-                    </Col>
-                    <Col>
-                        <Form  />
-                            <Navbar.Text>
+                        
+                        </Col>
+                        <Col>
+                            <Navbar.Text type="password">
                                 Accuracy: {this.props.accuracy.toFixed(2)}
                             </Navbar.Text>
                         
-                    </Col>
-                    <Col>
-                        <Button
-                            onClick={ this.logout }  
-                            className="btn btn-danger">
-                            Logout
-                        </Button>
+                        </Col>
+                        <Col>
+                            <Button
+                                onClick={ this.logout }  
+                                className="btn btn-danger">
+                                Logout
+                            </Button>
                     </Col>
                 </Nav>
             </>
