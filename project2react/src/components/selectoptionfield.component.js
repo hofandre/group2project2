@@ -23,7 +23,6 @@ class SelectOptionField extends Component {
   }
 
   render() {
-    var { value } = this.props;
     return (
     <>
       {/** Pass the stateChanged function and value as props to the form field **/}

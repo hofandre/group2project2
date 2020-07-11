@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
-import { Route, BrowserRouter as Router, Link } from 'react-router-dom';
+import { Route, BrowserRouter as Router } from 'react-router-dom';
 import Login from './login.component'
 import Register from './register.component'
 import Upload from './upload.component'
-
 import StatTable from './statistics.component'
 import { connect } from 'react-redux';
 import { Navbar, Nav } from 'react-bootstrap';
 import SetForm from './setTable.component';
 import UserTable from './usersList.component';
 import DeckForm from './deckForm.component';
-
 
 class Routing extends Component {
     constructor(props) {
@@ -25,7 +23,6 @@ class Routing extends Component {
                     <Nav className="mr-auto">
                     <Nav.Link href="/sets">Sets</Nav.Link>
                     <Nav.Link href="/register">Register</Nav.Link>
-                    <Nav.Link href='/users'>Users</Nav.Link>
                     <Nav.Link href="/decks">Decks</Nav.Link>
                     <Nav.Link href='/upload'>Upload</Nav.Link>
                     {

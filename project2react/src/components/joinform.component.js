@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import FormField from './formfield.component.js';
-import SelectRoleField from './selectrolefield.component.js';
 
 class JoinForm extends Component {
 

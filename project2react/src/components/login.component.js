@@ -14,7 +14,6 @@ class Login extends Component {
     }
     userService = new UserService();
     
-
     componentDidMount() {
          this.userService.checkLogin().then(
              (resp) => {
@@ -48,7 +47,6 @@ class Login extends Component {
             this.login();
         }
     }
-
 
     handleInput(e) {
         console.log(this.props)

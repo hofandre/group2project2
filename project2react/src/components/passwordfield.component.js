@@ -17,7 +17,6 @@ class PasswordField extends Component {
     console.log('Mounting PasswordField');
   }
 
-
   // set default minStrength to 3 if not a number or not specified
   // minStrength must be a a number between 0 - 4
 
