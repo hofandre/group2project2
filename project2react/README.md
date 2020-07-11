@@ -1,3 +1,9 @@
+# NPM Requirements
+Jest
+npm install --save-dev jest babel-jest
+Enzyme
+npm install --save-dev enzyme enzyme-adapter-react-16 enzyme-to-json
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
