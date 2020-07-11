@@ -20,8 +20,12 @@ class DeckForm extends Component {
         console.log("Attempting to add deck")
         var title = document.getElementById('deck-title').value
         if (title) {
-        this.deckService.addDeck(title, this.props.deckSets).then(
+        this.deckService.addDeck(title, this.props.deckSets).then( (resp) => {
             this.clearScreen()
+            const response = 'Deck Created!\nDeck ID: ' + resp.data._id.toString()
+            alert(response)
+        }
+            
         )
         } else {
             alert("Deck Needs a Title")
@@ -70,7 +74,7 @@ class DeckForm extends Component {
                                 null
                             }
                         </div>
-                        <button onClick={this.addDeck}>Submit</button>
+                        <button className='btn btn-primary' onClick={this.addDeck}>Submit</button>
  
                 {
                     this.props.displaySets.map ?
