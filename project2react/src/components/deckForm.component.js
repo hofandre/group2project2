@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Form, Button} from 'react-bootstrap';
-import { useRouteMatch } from 'react-router';
 import DeckService from '../services/deck.service';
-import Set from '../components/set.component';
 import SetService from '../services/set.service';
 
 class DeckForm extends Component {
@@ -71,7 +68,7 @@ class DeckForm extends Component {
                             }
                         </div>
                         <button onClick={this.addDeck}>Submit</button>
- 
+
                 {
                     this.props.displaySets.map ?
                     <div className="container">
@@ -103,12 +100,12 @@ class DeckForm extends Component {
                         }
                         </table>
                     </div>
-                    : 
+                    :
                     null
                 }
                 </div>
             : null
-            }  
+            }
 
             </>
         )
