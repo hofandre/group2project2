@@ -88,6 +88,25 @@ class SetTable extends React.Component {
         }
     }
 
+    deckSearch() {
+        if (this.validate_id(this.props.setSearchCriteria)) {
+            this.setService.getSetsByDeck(this.props.setSearchCriteria).then((res) => {
+                if (Array.isArray(res.data)) {
+                    this.props.querySets(res.data);
+                } else {
+                    const set_list = [res.data]
+                    this.props.querySets(set_list);
+                }
+                this.props.updateLastSearch({type: 'deck_id', param: this.props.setSearchCriteria})
+            }).catch(res => {
+                this.props.querySets({});
+                alert(`The deck ID you've entered does not match any deck.`)
+            })
+        } else {
+            alert('Deck IDs start at one')
+        }
+    }
+
     idSearch() {
         if (this.validate_id(this.props.setSearchCriteria)) {
             this.setService.getSetByID(this.props.setSearchCriteria).then(res => {
@@ -130,9 +149,12 @@ class SetTable extends React.Component {
             this.idSearch()
         } else if (this.props.setSearchTerm === 'keyword') {
             this.keywordSearch()
+        } else if (this.props.setSearchTerm === 'deck_id') {
+            this.deckSearch()
         }
 
     }
+
     allSets() {
         this.setService.getSets().then(res => {
             // this.updateAccuracies(res.data)
@@ -190,6 +212,7 @@ class SetTable extends React.Component {
                         >
                             <option value='id'>Set ID</option>
                             <option value='keyword'>Keyword</option>
+                            <option value='deck_id'>Deck ID</option>
                         </select>
                     </div>
                     <br></br>
