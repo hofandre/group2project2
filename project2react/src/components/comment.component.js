@@ -45,16 +45,20 @@ class Comment extends React.Component {
                 textAlign: "left"}}>
                 { this.props.comment.comment }
             </Card.Text>
+<<<<<<< HEAD
 
             { this.props.user.usertype === 'voter' || this.props.user.usertype === ''?
                 null
                 : 
+=======
+            { 
+                this.props.user.usertype === 'admin' || this.props.user.usertype === 'moderator' ?
                 <Button variant="outline-danger"
                     onClick={this.deleteComment}
                     >Delete Comment
-                </Button>
+                </Button> :
+                null
             }
-
             </Card.Body>
             </Card>
         </>

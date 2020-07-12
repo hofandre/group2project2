@@ -8,6 +8,18 @@ class SetService {
     getSets() {
         return axios.get(this.URI);
     }
+    getPendingSets() {
+        return axios.get(this.URI + '/pending');
+    }
+
+    approvePendingSet(set_id) {
+        console.log('send a request to approve')
+        return axios.post(this.URI, {'set_id': set_id}, {withCredentials: true})
+    }
+    deletePendingSet(set_id) {
+        console.log('send a request to delete')
+        return axios.delete(this.URI + '/pending/' + set_id, {withCredentials: true});
+    }
 
     getSetByID(set_id) {
         return axios.get(this.URI + '/' + set_id);
@@ -19,6 +31,10 @@ class SetService {
     
     getSetsByKeyword(keyword) {
         return axios.get(this.URI + '?keyword=' + keyword);
+    }
+
+    getSetsByDeck(deck_id) {
+        return axios.get(this.URI + '?deck=' + deck_id);
     }
 
     comment(username, set_id, comment) {

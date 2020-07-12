@@ -8,7 +8,7 @@ _log = get_logger(__name__)
 
 class Set:
     ''' Class definition for the Set model '''
-    def __init__(self, set_id=-1, correct_option=-1, title='', paths=None, alt_texts=None):
+    def __init__(self, set_id=-1, correct_option=-1, title='', paths=None, alt_texts=None, keywords=None):
         self._id = set_id
         self.correct_option = correct_option
         self.title = title
@@ -54,12 +54,12 @@ class Set:
         return [keyword.lower() for keyword in self.keywords]
     def to_dict(self):
         ''' Returns a dictionary representation of itself'''
-        dict_rep = dict(self.__dict__)
+        dict_rep = self.__dict__
         return dict_rep
     @classmethod
-    def from_dict(self, input_dict):
+    def from_dict(cls, input_dict):
         ''' Creates an instance of the set given a dictionary representation of the set'''
-        new_set = Set()
+        new_set = cls()
         new_set.__dict__.update(input_dict)
         return new_set
 
@@ -67,4 +67,3 @@ class SetEncoder(json.JSONEncoder):
     ''' Serializes the sets into json format'''
     def default(self, o):
         return o.to_dict()
-        

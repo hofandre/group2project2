@@ -7,6 +7,7 @@ from flask_cors import CORS
 from src.data.logger import get_logger
 from src.sets.model import SetEncoder
 from src.sets.handler import set_page
+from src.statistics.handler import stat_page
 from src.users.model import User
 import src.data.mongo as db
 import werkzeug
@@ -17,6 +18,8 @@ app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 app.json_encoder = SetEncoder
 app.register_blueprint(set_page)
+app.register_blueprint(stat_page)
+
 
 @app.route('/')
 def test_html():
@@ -102,7 +105,36 @@ def register_user():
         password = request.get_json()['password']
         _log.debug(password)
         role = 'voter'
-        newUser = db.register(username, password, role)
+        age = request.get_json()['age']
+        newUser = db.register(username, password, role, age)
+        if newUser == None:
+            return jsonify('Database Error'), 500
+        elif newUser == 'Duplicate Username Error':
+            return jsonify(newUser), 400
+        else:
+            return jsonify(newUser), 201
     else:
         return {}, 400
     return jsonify(newUser), 201
+
+
+@app.route("/decks", methods=["POST"])
+def add_deck():
+    if request.method == "POST":
+        try:
+            deck_id = db.find_deck_id()
+            title = request.get_json()["title"]
+            sets = []
+            _log.info("REQUEST")
+            _log.info(request.get_json()["sets"])
+            for set_id in request.get_json()["sets"]:
+                _log.info(bool(db.get_set_by_id(int(set_id))))
+                if bool(db.get_set_by_id(int(set_id))):
+                    sets.append(set_id)
+                else:
+                    return "One or more bad set ids, no deck created", 400
+            return db.add_deck(deck_id, title, sets), 201
+        except Exception as e:
+            _log.error(e)
+            return {}, 400
+    return {}, 501
