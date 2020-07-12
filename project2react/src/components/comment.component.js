@@ -46,7 +46,7 @@ class Comment extends React.Component {
                 { this.props.comment.comment }
             </Card.Text>
 
-            { this.props.user.usertype == 'voter' ?
+            { this.props.user.usertype === 'voter' || this.props.user.usertype === ''?
                 null
                 : 
                 <Button variant="outline-danger"
