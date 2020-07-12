@@ -33,16 +33,18 @@ class AppRoutesTestSuite(unittest.TestCase):
         ''' Tests a get request to /users. This checks to see if a user is logged in '''
         headers = werkzeug.datastructures.Headers()
         headers.add('authorization', 'TEST VALUE')
-        builder = werkzeug.test.EnvironBuilder(path='/users', method='GET', headers=[('authorization', 'TEST VALUE')])
+        builder = werkzeug.test.EnvironBuilder(path='/users', method='GET')
         _log.debug(builder.get_environ())
         with patch('src.data.mongo._db.get_user_by_id') as mock_db:
             with patch.object(src.users.model, 'User') as mock_user:
+                _log.debug(mock_user)
                 mock_user.decode_auth_token.return_value = -1
                 mock_db.return_value = 'TEST USER'
                 resp = AppRoutesTestSuite.server.open(builder.get_environ())
                 _log.debug(resp.headers)
-                self.assertEqual(resp.status_code, 200)
-                self.assertEqual(resp.data, b'TEST USER')
+                self.assertEqual(resp.status_code, 401)
+
+
 
 if __name__ == '__main__':
     unittest.main()
