@@ -4,9 +4,6 @@ import StatService from '../services/statistics.service'
 
 class StatTable extends React.Component{
     statService = new StatService();
-    constructor(props) {
-        super(props);
-    }
     componentDidMount() {
         console.log('setTable mounted')
         this.statService.getAggregate().then((res) => {

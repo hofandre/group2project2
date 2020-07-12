@@ -3,9 +3,6 @@ import SetService from '../services/set.service';
 
 class PendingSet extends React.Component {
     setService = new SetService();
-    constructor(props){
-        super(props);
-    }
 
     render() {
         return(
@@ -32,10 +29,10 @@ class PendingSet extends React.Component {
                                     {
                                         // requires the png to exist in the img folder
                                         <>
-                                        <td><img src={require(`../img/${this.props.pendingSet.paths[0]}`)} 
+                                        <td><img src={require(`../img/${this.props.pendingSet.paths[0]}`)}
                                                 alt={this.props.pendingSet.alt_texts[0]}></img>
                                         </td>
-                                        <td><img src={require(`../img/${this.props.pendingSet.paths[1]}`)} 
+                                        <td><img src={require(`../img/${this.props.pendingSet.paths[1]}`)}
                                                 alt={this.props.pendingSet.alt_texts[1]}></img>
                                         </td>
                                         </>

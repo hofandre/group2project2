@@ -66,6 +66,7 @@ class FormField extends Component {
       }
       case 'keywords': {
         this.props.setKeywords(value);
+        break;
       }
       case 'age': {
         this.props.setAge(value);

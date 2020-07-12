@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, BrowserRouter as Router, Link } from 'react-router-dom';
+import { Route, BrowserRouter as Router } from 'react-router-dom';
 import Login from './login.component'
 import Register from './register.component'
 import Upload from './upload.component'
@@ -13,10 +13,7 @@ import DeckForm from './deckForm.component';
 
 
 class Routing extends Component {
-    constructor(props) {
-        super(props)
-    }
-    
+
     render() {
         return <Router>
             <>
