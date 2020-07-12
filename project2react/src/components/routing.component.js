@@ -11,10 +11,7 @@ import UserTable from './usersList.component';
 import DeckForm from './deckForm.component';
 
 class Routing extends Component {
-    constructor(props) {
-        super(props)
-    }
-    
+
     render() {
         return <Router>
             <>

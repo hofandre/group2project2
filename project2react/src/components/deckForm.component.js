@@ -68,7 +68,7 @@ class DeckForm extends Component {
                             }
                         </div>
                         <button onClick={this.addDeck}>Submit</button>
- 
+
                 {
                     this.props.displaySets.map ?
                     <div className="container">
@@ -100,12 +100,12 @@ class DeckForm extends Component {
                         }
                         </table>
                     </div>
-                    : 
+                    :
                     null
                 }
                 </div>
             : null
-            }  
+            }
             </>
         )
     }

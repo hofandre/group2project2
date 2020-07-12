@@ -54,7 +54,7 @@ class Login extends Component {
         this.props.dispatch( {
                 type: 'handleUsername',
                 username: e.target.value,
-            } ) 
+            } )
         } else if (e.target.id === "password") {
             this.props.dispatch( {
                 type: 'handlePassword',
@@ -69,24 +69,24 @@ class Login extends Component {
                 <Form>
                     <Form.Row>
                         <Col>
-                        <Form.Control 
+                        <Form.Control
                             id="username"
                             placeholder="Username"
-                            value={this.props.username} 
+                            value={this.props.username}
                             onChange={ this.handleInput } />
                         </Col>
                         <Col>
-                        <Form.Control 
+                        <Form.Control
                             id="password"
                             type="password"
                             placeholder="Password"
-                            value={this.props.password} 
+                            value={this.props.password}
                             onChange={ this.handleInput }
                              />
                         </Col>
                         <Col>
                         <Button
-                            onClick={ this.login }  
+                            onClick={ this.login }
                             className="btn btn-primary">
                             Login
                         </Button>
@@ -104,20 +104,20 @@ class Login extends Component {
                 <Nav bsstyle="default" style={{width: "550px"}}>
                         <Col>
                             <Navbar.Text >
-                                Welcome {this.props.user.role}: {this.props.user.username}  
+                                Welcome {this.props.user.role}: {this.props.user.username}
                             </Navbar.Text>
-                        
-                        
+
+
                         </Col>
                         <Col>
                             <Navbar.Text type="password">
                                 Accuracy: {this.props.accuracy.toFixed(2)}
                             </Navbar.Text>
-                        
+
                         </Col>
                         <Col>
                             <Button
-                                onClick={ this.logout }  
+                                onClick={ this.logout }
                                 className="btn btn-danger">
                                 Logout
                             </Button>
