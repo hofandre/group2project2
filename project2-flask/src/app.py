@@ -120,3 +120,26 @@ def register_user():
             return jsonify(newUser), 201
     else:
         return {}, 400
+    return jsonify(newUser), 201
+
+
+@app.route("/decks", methods=["POST"])
+def add_deck():
+    if request.method == "POST":
+        try:
+            deck_id = db.find_deck_id()
+            title = request.get_json()["title"]
+            sets = []
+            _log.info("REQUEST")
+            _log.info(request.get_json()["sets"])
+            for set_id in request.get_json()["sets"]:
+                _log.info(bool(db.get_set_by_id(int(set_id))))
+                if bool(db.get_set_by_id(int(set_id))):
+                    sets.append(set_id)
+                else:
+                    return "One or more bad set ids, no deck created", 400
+            return db.add_deck(deck_id, title, sets), 201
+        except Exception as e:
+            _log.error(e)
+            return {}, 400
+    return {}, 501

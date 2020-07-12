@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import UserService from '../services/user.service'
 import { connect } from 'react-redux';
+import { Form, Button, Col, Nav, Navbar} from 'react-bootstrap';
 
 class Login extends Component {
 
@@ -12,15 +13,6 @@ class Login extends Component {
         this.logout = this.logout.bind(this);
     }
     userService = new UserService();
-    
-
-    componentDidMount() {
-         this.userService.checkLogin().then(
-             (resp) => {
-                 this.props.dispatch( { type: 'login', user: resp.data })
-             }
-         )
-    }
 
     login() {
         this.userService.login(this.props.username, this.props.password).then(
@@ -55,7 +47,7 @@ class Login extends Component {
         this.props.dispatch( {
                 type: 'handleUsername',
                 username: e.target.value,
-            } ) 
+            } )
         } else if (e.target.id === "password") {
             this.props.dispatch( {
                 type: 'handlePassword',
@@ -67,18 +59,33 @@ class Login extends Component {
     getLoginForm() {
         return (
             <>
-                <ul className = 'nav'>
-                    <li className = 'nav-item'>Username: <input type="text"
-                        id="username"
-                        value={this.props.username} 
-                        onChange={ this.handleInput } ></input></li>
-                    <li className = 'nav-item'>Password: <input type="password"
-                        id="password"
-                        value={this.props.password} 
-                        onChange={ this.handleInput } ></input></li>
-                    <li className = 'nav-item'><button className='btn btn-primary'
-                        onClick={ this.login }>Login</button></li>
-                </ul>
+                <Form>
+                    <Form.Row>
+                        <Col>
+                        <Form.Control
+                            id="username"
+                            placeholder="Username"
+                            value={this.props.username}
+                            onChange={ this.handleInput } />
+                        </Col>
+                        <Col>
+                        <Form.Control
+                            id="password"
+                            type="password"
+                            placeholder="Password"
+                            value={this.props.password}
+                            onChange={ this.handleInput }
+                             />
+                        </Col>
+                        <Col>
+                        <Button
+                            onClick={ this.login }
+                            className="btn btn-primary">
+                            Login
+                        </Button>
+                        </Col>
+                    </Form.Row>
+                    </Form>
             </>
         )
     }
@@ -87,18 +94,28 @@ class Login extends Component {
         console.log(this.props.accuracy)
         return (
             <>
-                <ul className = 'nav'>
-                    <li className = 'nav-item'>
-                        Welcome {this.props.user.role}: {this.props.user.username}
-                    </li>
-                    <br></br>
-                    <li className = 'nav-item' 
-                        id='accuracyElement'>
-                        | Accuracy: {this.props.accuracy.toFixed(2)}
-                    </li>
-                    <li className = 'nav-item'><button className='btn btn-danger'
-                        onClick={ this.logout }>Logout</button></li>
-                </ul>
+                <Nav bsstyle="default" style={{width: "550px"}}>
+                        <Col>
+                            <Navbar.Text >
+                                Welcome {this.props.user.role}: {this.props.user.username}
+                            </Navbar.Text>
+
+
+                        </Col>
+                        <Col>
+                            <Navbar.Text type="password">
+                                Accuracy: {this.props.accuracy.toFixed(2)}
+                            </Navbar.Text>
+
+                        </Col>
+                        <Col>
+                            <Button
+                                onClick={ this.logout }
+                                className="btn btn-danger">
+                                Logout
+                            </Button>
+                    </Col>
+                </Nav>
             </>
         )
     }
