@@ -1,3 +1,8 @@
 # run with: npm install -r requirements.txt
 isemail
 zxcvbn
+jest
+babel-jest
+enzyme
+enzyme-adapter-react-16
+enzyme-to-json
