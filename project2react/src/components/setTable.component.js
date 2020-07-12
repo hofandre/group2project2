@@ -236,29 +236,14 @@ class SetTable extends React.Component {
                                 this.props.sets.map ?
                                 this.props.sets.map((eachSet) => {
                                     return (
-<<<<<<< HEAD
-                                        this.props.user.usertype === 'admin' ?
-                            
-                                        <tr>
-
-                                            <Set key={eachSet._id} set={eachSet}></Set>
-                                            <button className='btn btn-danger' 
-                                            id={'del_'+eachSet._id}
-                                            onClick={this.deleteSet }>Delete this set</button>
-                                        </tr>
-                                    :   <tr>
-                                            <Set key={eachSet._id} set={eachSet}></Set>
-                                        </tr> 
-=======
                                         this.props.user.usertype === 'admin' ?
                                         <tr>
                                             <td>
+                                                <Set key={eachSet._id} set={eachSet}></Set>
                                                 <button className='btn btn-danger' 
                                                 id={'del_'+eachSet._id}
                                                 onClick={ this.deleteSet }>Delete this set</button>
-                                            </td>
-                                            <td>
-                                                <Set key={eachSet._id} set={eachSet}></Set>
+                                            
                                             </td>
                                         </tr>
                                         : <Set key={eachSet._id} set={eachSet}></Set>
@@ -283,7 +268,6 @@ class SetTable extends React.Component {
                                                 </td>
                                             </tr>
                                         </>
->>>>>>> efda72407413f1ffdf459723ae34b40a4137c64d
                                     )
                                 })
                                 : <tr></tr>
