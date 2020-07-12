@@ -14,6 +14,14 @@ class Login extends Component {
     }
     userService = new UserService();
 
+    componentDidMount() {
+         this.userService.checkLogin().then(
+             (resp) => {
+                 this.props.dispatch( { type: 'login', user: resp.data })
+             }
+         )
+    }
+
     login() {
         this.userService.login(this.props.username, this.props.password).then(
             (resp) => {
