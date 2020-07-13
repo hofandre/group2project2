@@ -7,7 +7,7 @@ const initialState = {
   alt_text_two: '',
   comment: '',
   confirm: '',
-  correct_option: 0,
+  correct_option: 1,
   deckSets: [],
   displayComments: {},
   displayPendingSets: {},
