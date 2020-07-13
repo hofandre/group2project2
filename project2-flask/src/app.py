@@ -64,10 +64,6 @@ def logout():
         return empty, 204
     elif request.method == 'GET':
         auth_token = request.cookies.get('authorization')
-        _log.debug(len(request.cookies))
-        for item in request.cookies.items():
-            _log.debug(item)
-        _log.debug('auth token: %s', auth_token)
         if auth_token:
             _log.debug(auth_token)
             _log.debug(User)
