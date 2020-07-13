@@ -37,7 +37,6 @@ def register(username: str, password: str, role: str, age: int):
     query = {"_id": _id, "username": username, "password": password, "role": role}
     user = User(_id, username, password, role, int(age))
     _log.debug(query)
-    _log.debug(_db.users.insert_one)
     try:
         _db.users.insert_one(user.to_dict())
     except pymongo.errors.DuplicateKeyError:
