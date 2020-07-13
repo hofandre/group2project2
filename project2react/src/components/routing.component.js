@@ -10,6 +10,7 @@ import { Navbar, Nav } from 'react-bootstrap';
 import SetForm from './setTable.component';
 import UserTable from './usersList.component';
 import DeckForm from './deckForm.component';
+import Index from './home.component';
 
 
 class Routing extends Component {
@@ -18,7 +19,7 @@ class Routing extends Component {
         return <Router>
             <>
                 <Navbar bg="dark" variant="dark">
-                    <Navbar.Brand href="/">Home</Navbar.Brand>
+                    <Navbar.Brand href="/home">Home</Navbar.Brand>
                     <Nav className="mr-auto">
                     <Nav.Link href="/sets">Sets</Nav.Link>
                     <Nav.Link href="/register">Register</Nav.Link>
@@ -38,6 +39,7 @@ class Routing extends Component {
                     <Login></Login>
                 </Navbar>
             </>
+                <Route path='/home' component={Index}/>
                 <Route path='/sets' component={SetForm}/>
                 <Route path='/register' component={Register}/>
                 <Route path='/upload' component={Upload}/>

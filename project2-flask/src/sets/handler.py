@@ -28,6 +28,17 @@ def set_collection():
             if request.args.get('keyword'):
                 keyword = request.args.get('keyword')
                 set_list = db.get_sets_by_keyword(keyword)
+            elif request.args.get('deck'):
+                deck_id = int(request.args.get('deck'))
+                _log.debug('Deck ID: %d', deck_id)
+                deck = None
+                deck = db.get_deck_by_id(deck_id)
+                if deck:
+                    set_id_list = deck['set_ids']
+                    if set_id_list:
+                        set_list = []
+                        for _id in set_id_list:
+                            set_list.append(db.get_set_by_id(int(_id)))
             if set_list:
                 set_list = stats.set_accuracy_helper(set_list)
                 return jsonify(set_list), 200

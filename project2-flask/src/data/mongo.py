@@ -214,6 +214,17 @@ def add_deck(db_id:int, title: str, set_list: list):
         return Deck(db_id, title, set_list).to_dict()
     else:
         return {}
+
+def get_deck_by_id(db_id: int):
+    ''' Gets the deck by its id'''
+    query = {'_id': db_id}
+    deck = None
+    try:
+        deck = _db.decks.find_one(query)
+    except pymongo.errors.PyMongoError:
+        _log.exception('get_deck_by_id has failed on id: %d', db_id)
+    return deck if deck else None
+
 def add_pending_set_to_sets(set_id):
     '''queries a set from pending sets and adds it to sets'''
     query = {'_id': set_id}

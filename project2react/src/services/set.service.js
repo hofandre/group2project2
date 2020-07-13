@@ -33,6 +33,10 @@ class SetService {
         return axios.get(this.URI + '?keyword=' + keyword);
     }
 
+    getSetsByDeck(deck_id) {
+        return axios.get(this.URI + '?deck=' + deck_id);
+    }
+
     comment(username, set_id, comment) {
         console.log('going to send an http request')
         return axios.post(this.URI + "/" + set_id + "/" + username + '/comment', {'comment': comment}, {withCredentials: true})

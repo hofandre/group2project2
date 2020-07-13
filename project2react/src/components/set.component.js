@@ -108,6 +108,7 @@ class Set extends React.Component {
         console.log(this.props.set)
         return (
             <>
+            <div >
                 <tr>
                     <th>{this.props.set.title}</th>
                 </tr>
@@ -186,6 +187,7 @@ class Set extends React.Component {
                         </table>
                     </td>
                 </tr>
+            </div>
             </>
         )
     }
