@@ -28,7 +28,7 @@ class User extends React.Component {
 		@return {JSX} Returns an HTML template for the user.
 	*/
 	render() {
-		console.log('User render(): '+this.props.user.name)
+		console.log('User render(): '+this.username)
 		return (
 			<>
 				<h3>{User.username}</h3>

@@ -239,12 +239,11 @@ class SetTable extends React.Component {
                                         this.props.user.usertype === 'admin' ?
                                         <tr>
                                             <td>
+                                                <Set key={eachSet._id} set={eachSet}></Set>
                                                 <button className='btn btn-danger' 
                                                 id={'del_'+eachSet._id}
                                                 onClick={ this.deleteSet }>Delete this set</button>
-                                            </td>
-                                            <td>
-                                                <Set key={eachSet._id} set={eachSet}></Set>
+                                            
                                             </td>
                                         </tr>
                                         : <Set key={eachSet._id} set={eachSet}></Set>

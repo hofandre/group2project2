@@ -97,7 +97,7 @@ def upload_set():
         paths = [file_name_one, file_name_two]
         keywords = keyword_list.split()
         alt_texts = [alt_text_one, alt_text_two]
-        query = {'correct_option': correct_option, 'title': title,
+        query = {'correct_option': int(correct_option), 'title': title,
                  'paths': paths, 'keywords': keywords, 'alt_texts': alt_texts,
                  'comments': [], 'deck_tags': []}
         new_set = db.submit_set(query)
